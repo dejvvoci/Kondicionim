@@ -1,0 +1,70 @@
+@use 'mixins' as *;
+
+.filters {
+  display: grid;
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-5);
+}
+
+.filter__label {
+  display: block;
+  margin-bottom: var(--sp-2);
+  font-family: var(--font-heading);
+  font-weight: 500;
+  color: var(--c-base);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 var(--sp-4);
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-badge);
+  background: var(--c-white);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--c-base);
+  text-decoration: none;
+
+  &:hover {
+    border-color: var(--c-teal);
+  }
+
+  &[aria-current='true'] {
+    border-color: var(--c-base);
+    background: var(--c-base);
+    color: var(--c-white);
+  }
+}
+
+.count {
+  margin-bottom: var(--sp-4);
+  font-size: var(--fs-sm);
+  color: var(--c-text-muted);
+}
+
+.grid {
+  display: grid;
+  gap: var(--sp-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include md {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include lg {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

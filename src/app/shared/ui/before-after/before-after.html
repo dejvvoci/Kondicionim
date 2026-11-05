@@ -1,0 +1,41 @@
+<figure class="ba" [style.aspect-ratio]="ratio()">
+  <img
+    class="ba__img"
+    [ngSrc]="after().src"
+    [alt]="after().alt"
+    [width]="after().width"
+    [height]="after().height"
+    [priority]="priority()"
+    [sizes]="sizes()"
+  />
+  <div class="ba__before" [style.clip-path]="clip()">
+    <img
+      class="ba__img"
+      [ngSrc]="before().src"
+      [alt]="before().alt"
+      [width]="before().width"
+      [height]="before().height"
+      [priority]="priority()"
+      [sizes]="sizes()"
+    />
+  </div>
+
+  <span class="ba__tag ba__tag--before" aria-hidden="true">{{ t.before }}</span>
+  <span class="ba__tag ba__tag--after" aria-hidden="true">{{ t.after }}</span>
+
+  <div class="ba__divider" [style.left.%]="position()" aria-hidden="true">
+    <span class="ba__handle">‹ ›</span>
+  </div>
+
+  <input
+    class="ba__range"
+    type="range"
+    min="0"
+    max="100"
+    step="1"
+    [value]="position()"
+    [attr.aria-label]="t.label + (label() ? ': ' + label() : '')"
+    [attr.aria-valuetext]="valueText()"
+    (input)="onInput($event)"
+  />
+</figure>

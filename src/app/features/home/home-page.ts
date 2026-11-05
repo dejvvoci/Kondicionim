@@ -9,8 +9,9 @@ import { activeCities } from '../../data/cities';
 import { homeFaq } from '../../data/faq';
 import { HOME } from '../../data/home';
 import { PROCESS } from '../../data/process';
+import { featuredProjects } from '../../data/projects';
 import { STANDARDS } from '../../data/standards';
-import { STATS, TRUST_BADGES, visibleStats } from '../../data/stats';
+import { TRUST_BADGES } from '../../data/stats';
 import { UI_TEXT } from '../../i18n';
 import { AccordionItem } from '../../shared/ui/accordion/accordion-item';
 import { Accordion } from '../../shared/ui/accordion/accordion';
@@ -21,6 +22,8 @@ import { Photo } from '../../shared/ui/photo/photo';
 import { ALBANIA_MAP_SIZE } from '../../shared/ui/map-albania/albania-map-size.generated';
 import { MapAlbania } from '../../shared/ui/map-albania/map-albania';
 import { Section } from '../../shared/ui/section/section';
+import { Stats } from '../../shared/ui/stats/stats';
+import { ProjectCard } from '../projects/project-card';
 import { ServiceGrid } from '../services/service-grid';
 
 @Component({
@@ -36,7 +39,9 @@ import { ServiceGrid } from '../services/service-grid';
     MapAlbania,
     Photo,
     Section,
+    Stats,
     ServiceGrid,
+    ProjectCard,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './home-page.html',
@@ -51,12 +56,11 @@ export class HomePage {
   protected readonly phoneHref = BUSINESS.phone ? telHref(BUSINESS.phone) : null;
   protected readonly heroPhoto = HERO_PHOTO;
   protected readonly badges = TRUST_BADGES;
-  /** Në development shfaqen edhe shifrat që mungojnë (si TODO), në prodhim vetëm ato me vlerë. */
-  protected readonly stats = isDevMode() ? STATS : visibleStats();
   protected readonly cities = activeCities();
   protected readonly mapRatio = `${ALBANIA_MAP_SIZE.width} / ${ALBANIA_MAP_SIZE.height}`;
   protected readonly standards = STANDARDS.filter((s) => s.featured);
   protected readonly process = PROCESS;
+  protected readonly projects = featuredProjects();
   protected readonly brands = BRANDS;
   protected readonly faq = homeFaq();
 

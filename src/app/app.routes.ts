@@ -1,5 +1,5 @@
 import { ResolveFn, Routes } from '@angular/router';
-import type { RouteSeo } from './core/seo/seo';
+import { type RouteSeo, truncate } from './core/seo/seo';
 
 const NOT_FOUND_SEO: RouteSeo = { title: 'Faqja nuk u gjet', description: '', noindex: true };
 
@@ -12,15 +12,22 @@ const serviceSeo: ResolveFn<RouteSeo> = async (route) => {
   return serviceBySlug(route.paramMap.get('slug') ?? '')?.seo ?? NOT_FOUND_SEO;
 };
 
-const placeholder = () =>
-  import('./features/placeholder/placeholder-page').then((m) => m.PlaceholderPage);
+const projectSeo: ResolveFn<RouteSeo> = async (route) => {
+  const { projectBySlug } = await import('./data/projects');
+  const p = projectBySlug(route.paramMap.get('slug') ?? '');
+  return p ? { title: p.title, description: truncate(p.summary) } : NOT_FOUND_SEO;
+};
+
+const articleSeo: ResolveFn<RouteSeo> = async (route) => {
+  const { ARTICLES } = await import('./data/articles.generated');
+  const a = ARTICLES.find((x) => x.slug === route.paramMap.get('slug'));
+  return a ? { title: a.title, description: a.description } : NOT_FOUND_SEO;
+};
 
 const notFound = {
   loadComponent: () => import('./features/not-found/not-found-page').then((m) => m.NotFoundPage),
   data: { seo: NOT_FOUND_SEO },
 };
-
-const page = (h1: string, seo: RouteSeo) => ({ h1, seo });
 
 /** Angular e zëvendëson me false në build-in e prodhimit, ndaj kodi i mëposhtëm hiqet krejt. */
 declare const ngDevMode: boolean | undefined;
@@ -91,56 +98,79 @@ export const routes: Routes = [
   },
   {
     path: 'rreth-ustait',
-    loadComponent: placeholder,
-    data: page('Rreth ustait', {
-      title: 'Rreth ustait',
-      description: 'Përvoja, certifikatat dhe markat me të cilat punon ustai ynë i kondicionimit.',
-    }),
+    loadComponent: () => import('./features/about/about-page').then((m) => m.AboutPage),
+    data: {
+      seo: {
+        title: 'Rreth ustait',
+        description:
+          'Përvoja, certifikatat dhe markat me të cilat punon ustai ynë i kondicionimit, me foto nga puna.',
+      } satisfies RouteSeo,
+    },
   },
   {
     path: 'projektet',
-    loadComponent: placeholder,
-    data: page('Projektet', {
-      title: 'Projektet: para dhe pas montimit',
-      description:
-        'Projekte reale montimi kondicionerësh në shtëpi, vila, zyra dhe hotele, me foto para dhe pas dhe detaje teknike.',
-    }),
+    loadComponent: () => import('./features/projects/projects-page').then((m) => m.ProjectsPage),
+    data: {
+      seo: {
+        title: 'Projektet: para dhe pas montimit',
+        description:
+          'Projekte reale montimi kondicionerësh në shtëpi, vila, zyra dhe hotele, me foto para dhe pas dhe detaje teknike.',
+      } satisfies RouteSeo,
+    },
+  },
+  {
+    path: 'projektet/:slug',
+    loadComponent: () => import('./features/projects/project-page').then((m) => m.ProjectPage),
+    resolve: { seo: projectSeo },
   },
   {
     path: 'cmimet-dhe-garancia',
-    loadComponent: placeholder,
-    data: page('Çmimet dhe garancia', {
-      title: 'Çmimet dhe garancia',
-      description:
-        'Çmime orientuese për montim, pastrim dhe diagnostikim, çfarë përfshin montimi standard dhe çfarë mbulon garancia mbi punën.',
-    }),
+    loadComponent: () => import('./features/prices/prices-page').then((m) => m.PricesPage),
+    data: {
+      seo: {
+        title: 'Çmimet dhe garancia',
+        description:
+          'Çmime orientuese për montim, pastrim dhe diagnostikim, çfarë përfshin montimi standard dhe çfarë mbulon garancia mbi punën.',
+      } satisfies RouteSeo,
+    },
   },
   {
     path: 'pyetje-te-shpeshta',
-    loadComponent: placeholder,
-    data: page('Pyetje të shpeshta', {
-      title: 'Pyetje të shpeshta për kondicionerët',
-      description:
-        'Përgjigje të shkurtra për montimin, mirëmbajtjen, defektet dhe zgjedhjen e kondicionerit.',
-    }),
+    loadComponent: () => import('./features/faq/faq-page').then((m) => m.FaqPage),
+    data: {
+      seo: {
+        title: 'Pyetje të shpeshta për kondicionerët',
+        description:
+          'Përgjigje të shkurtra për montimin, mirëmbajtjen, defektet dhe zgjedhjen e kondicionerit, të grupuara sipas shërbimit.',
+      } satisfies RouteSeo,
+    },
   },
   {
     path: 'keshilla',
-    loadComponent: placeholder,
-    data: page('Këshilla', {
-      title: 'Këshilla për kondicionerin',
-      description:
-        'Pse pikon kondicioneri, pse nuk ftoh, sa shpesh pastrohet dhe çfarë do të thonë kodet e gabimeve: këshilla nga ustai.',
-    }),
+    loadComponent: () => import('./features/blog/blog-page').then((m) => m.BlogPage),
+    data: {
+      seo: {
+        title: 'Këshilla për kondicionerin',
+        description:
+          'Pse pikon kondicioneri, pse nuk ftoh, sa shpesh pastrohet dhe çfarë do të thonë kodet e gabimeve: këshilla nga ustai.',
+      } satisfies RouteSeo,
+    },
+  },
+  {
+    path: 'keshilla/:slug',
+    loadComponent: () => import('./features/blog/article-page').then((m) => m.ArticlePage),
+    resolve: { seo: articleSeo },
   },
   {
     path: 'privatesia',
-    loadComponent: placeholder,
-    data: page('Politika e privatësisë', {
-      title: 'Politika e privatësisë',
-      description:
-        'Si i trajtojmë të dhënat: analitika pa cookies, vendndodhja vetëm me pëlqimin tuaj dhe kontakti përmes WhatsApp.',
-    }),
+    loadComponent: () => import('./features/privacy/privacy-page').then((m) => m.PrivacyPage),
+    data: {
+      seo: {
+        title: 'Politika e privatësisë',
+        description:
+          'Si i trajtojmë të dhënat: analitika pa cookies, vendndodhja vetëm me pëlqimin tuaj dhe kontakti përmes WhatsApp.',
+      } satisfies RouteSeo,
+    },
   },
   ...devRoutes,
   // Prerenderohet si 404.html (scripts/postbuild.ts) për hostimin statik.

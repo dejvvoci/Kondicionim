@@ -20,6 +20,7 @@ export const ICONS = {
   'arrow-right': ['M5 12l14 0', 'M13 18l6 -6', 'M13 6l6 6'],
   'chevron-down': ['M6 9l6 6l6 -6'],
   check: ['M5 12l5 5l10 -10'],
+  'player-play': ['M7 4v16l13 -8l-13 -8'],
   'shield-check': [
     'M11.46 20.846a12 12 0 0 1 -7.96 -14.846a12 12 0 0 0 8.5 -3a12 12 0 0 0 8.5 3a12 12 0 0 1 -.09 7.06',
     'M15 19l2 2l4 -4',

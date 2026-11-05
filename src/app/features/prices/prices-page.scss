@@ -1,0 +1,91 @@
+@use 'mixins' as *;
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-card);
+  background: var(--c-white);
+}
+
+.prices {
+  width: 100%;
+  min-width: 520px;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: var(--sp-3) var(--sp-4);
+    border-bottom: 1px solid var(--c-border);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  thead th {
+    font-family: var(--font-heading);
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    color: var(--c-text-muted);
+  }
+
+  tbody th {
+    font-weight: 600;
+  }
+
+  tbody tr:last-child > * {
+    border-bottom: 0;
+  }
+}
+
+.prices__amount {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--c-base);
+}
+
+.note {
+  margin: var(--sp-4) 0 0;
+  font-size: var(--fs-sm);
+  color: var(--c-text-muted);
+}
+
+.lists,
+.warranty {
+  display: grid;
+  gap: var(--sp-6);
+
+  @include md {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  h2 {
+    font-size: var(--fs-h3);
+  }
+
+  h3 {
+    font-size: var(--fs-lg);
+  }
+}
+
+.warranty__duration {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  color: var(--c-teal);
+
+  @include md {
+    grid-column: 1 / -1;
+  }
+
+  span {
+    display: block;
+    font-size: var(--fs-sm);
+    color: var(--c-text-muted);
+  }
+
+  strong {
+    font-family: var(--font-heading);
+    font-size: var(--fs-h2);
+    color: var(--c-base);
+  }
+}

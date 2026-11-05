@@ -12,6 +12,7 @@ import { telHref } from '../../core/contact/phone';
 import { WhatsAppFlow } from '../../core/contact/whatsapp-flow.service';
 import { BUSINESS } from '../../data/business';
 import { formatPrice, pricesFor } from '../../data/prices';
+import { projectsForService } from '../../data/projects';
 import { SERVICES, serviceBySlug } from '../../data/services';
 import { UI_TEXT } from '../../i18n';
 import { AccordionItem } from '../../shared/ui/accordion/accordion-item';
@@ -22,6 +23,7 @@ import { Icon } from '../../shared/ui/icon/icon';
 import { Photo } from '../../shared/ui/photo/photo';
 import { Section } from '../../shared/ui/section/section';
 import { NotFoundPage } from '../not-found/not-found-page';
+import { ProjectCard } from '../projects/project-card';
 import { ServiceGrid } from './service-grid';
 
 /** /sherbimet/:slug: një template i vetëm, i ushqyer nga services.ts. */
@@ -39,6 +41,7 @@ import { ServiceGrid } from './service-grid';
     Section,
     ServiceGrid,
     NotFoundPage,
+    ProjectCard,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './service-page.html',
@@ -58,6 +61,7 @@ export class ServicePage {
   protected readonly prices = computed(() =>
     pricesFor(this.slug()).map((p) => ({ ...p, amount: formatPrice(p.from ?? 0, p.currency) })),
   );
+  protected readonly projects = computed(() => projectsForService(this.slug()).slice(0, 3));
   protected readonly crumbs = computed<Crumb[]>(() => [
     { label: UI_TEXT.breadcrumbs.home, path: '/' },
     { label: UI_TEXT.breadcrumbs.services, path: '/sherbimet' },
