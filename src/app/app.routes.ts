@@ -1,3 +1,4 @@
+import { isDevMode } from '@angular/core';
 import { Routes } from '@angular/router';
 import type { RouteSeo } from './core/seo/seo';
 
@@ -10,6 +11,18 @@ const notFound = {
 };
 
 const page = (h1: string, seo: RouteSeo) => ({ h1, seo });
+
+/** Rrugë vetëm për development: nuk prerenderohen dhe nuk dalin në prodhim. */
+const devRoutes: Routes = isDevMode()
+  ? [
+      {
+        path: 'stili',
+        loadComponent: () =>
+          import('./features/style-guide/style-guide-page').then((m) => m.StyleGuidePage),
+        data: { seo: { title: 'Stili', description: '', noindex: true } satisfies RouteSeo },
+      },
+    ]
+  : [];
 
 export const routes: Routes = [
   {
@@ -102,6 +115,7 @@ export const routes: Routes = [
         'Si i trajtojmë të dhënat: analitika pa cookies, vendndodhja vetëm me pëlqimin tuaj dhe kontakti përmes WhatsApp.',
     }),
   },
+  ...devRoutes,
   // Prerenderohet si 404.html (scripts/postbuild.ts) për hostimin statik.
   {
     path: '404',

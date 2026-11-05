@@ -1,0 +1,107 @@
+<div class="container intro">
+  <span class="eyebrow">Vetëm development</span>
+  <h1>Stili dhe komponentët</h1>
+  <p class="lead">Teksti këtu është shembull. Kjo faqe nuk përfshihet në build-in e prodhimit.</p>
+</div>
+
+<ui-section eyebrow="Tokens" title="Ngjyrat">
+  <ul class="swatches">
+    @for (c of colors; track c) {
+      <li class="swatch">
+        <span class="swatch__color" [style.background]="'var(--c-' + c + ')'"></span>
+        <code>--c-{{ c }}</code>
+      </li>
+    }
+  </ul>
+</ui-section>
+
+<ui-section tone="soft" eyebrow="Tipografia" title="Titull H2 me Poppins 600">
+  <h3>Titull H3</h3>
+  <p class="lead">Teksti hyrës (lead), Open Sans 18px.</p>
+  <p>
+    Teksti i zakonshëm, Open Sans 400 16px me line-height 1.6. Shkronjat shqipe: ë, Ë, ç, Ç.
+    <a href="#">Lidhje në tekst</a>.
+  </p>
+</ui-section>
+
+<ui-section eyebrow="Butonat" title="ui-button">
+  <div class="row">
+    <button ui-button variant="primary">Kërko ofertë falas</button>
+    <button ui-button variant="secondary">Shiko shërbimet</button>
+  </div>
+  <div class="row">
+    <button ui-button variant="outline">Llogarit BTU</button>
+    <a ui-button variant="link" href="#">Si punojmë</a>
+  </div>
+  <div class="row">
+    <button ui-button variant="primary" size="lg">Primary lg</button>
+    <button ui-button variant="outline" size="lg">Outline lg</button>
+  </div>
+</ui-section>
+
+<ui-section tone="base" eyebrow="Mbi sfond të errët" title="outline-light">
+  <div class="row">
+    <button ui-button variant="primary">Telefono</button>
+    <button ui-button variant="outline-light">WhatsApp</button>
+  </div>
+</ui-section>
+
+<ui-section eyebrow="Besueshmëria" title="ui-badge">
+  <div class="row">
+    <ui-badge icon="shield-check">Garanci 2 vjet</ui-badge>
+    <ui-badge icon="certificate">Teknik i certifikuar</ui-badge>
+    <ui-badge icon="home-check">Inspektim falas</ui-badge>
+    <ui-badge icon="clock" tone="soft">Përgjigje brenda ditës</ui-badge>
+  </div>
+</ui-section>
+
+<ui-section
+  tone="soft"
+  eyebrow="Shërbimet"
+  title="ui-card"
+  lead="Karta me link: e gjithë karta është e klikueshme."
+>
+  <div class="grid">
+    <ui-card title="Montim split" icon="air-conditioning" link="/sherbimet">
+      <p>Përshkrim i shkurtër shembull për kartën e shërbimit.</p>
+    </ui-card>
+    <ui-card title="Diagnostikim dhe riparim" icon="tool" link="/sherbimet">
+      <p>Përshkrim i shkurtër shembull, pak më i gjatë për të parë si rreshtohen kartat.</p>
+    </ui-card>
+    <ui-card title="Kartë pa link" icon="certificate">
+      <p>Kartë informative pa link.</p>
+    </ui-card>
+  </div>
+</ui-section>
+
+<ui-section eyebrow="FAQ" title="ui-accordion" [narrow]="true">
+  <ui-accordion>
+    <ui-accordion-item title="Pyetje shembull e parë?" group="demo">
+      <p>Përgjigje shembull. Hapet me Enter ose Space.</p>
+    </ui-accordion-item>
+    <ui-accordion-item title="Pyetje shembull e dytë?" group="demo">
+      <p>Me <code>group</code> të njëjtë, vetëm një element qëndron i hapur.</p>
+    </ui-accordion-item>
+    <ui-accordion-item title="Pyetje shembull e tretë?" group="demo">
+      <p>Përmbajtja është në HTML-në e prerenderuar.</p>
+    </ui-accordion-item>
+  </ui-accordion>
+</ui-section>
+
+<ui-section tone="soft" eyebrow="Dialog" title="ui-sheet">
+  <p>Bottom sheet nën 768px, modal mbi të. Esc, klik jashtë ose butoni ✕ e mbyllin.</p>
+  <div class="row">
+    <button ui-button variant="secondary" (click)="sheetOpen.set(true)">Hap sheet-in demo</button>
+    <button ui-button variant="outline" (click)="flow.open({ source: 'cta' })">
+      Hap rrjedhën WhatsApp
+    </button>
+  </div>
+  <ui-sheet title="Sheet demo" [(open)]="sheetOpen">
+    <p>Përmbajtje shembull. Fokusi qëndron brenda derisa të mbyllet.</p>
+    <button ui-button variant="primary" (click)="sheetOpen.set(false)">Në rregull</button>
+  </ui-sheet>
+</ui-section>
+
+<ui-section eyebrow="Celular" title="Shiriti i kontaktit">
+  <p>Shfaqet poshtë ekranit vetëm nën 768px. Ngushto dritaren për ta parë.</p>
+</ui-section>

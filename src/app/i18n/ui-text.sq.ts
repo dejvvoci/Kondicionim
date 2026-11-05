@@ -5,6 +5,10 @@
 export const UI_TEXT = {
   lang: 'sq',
   skipToContent: 'Kalo te përmbajtja',
+  common: {
+    more: 'Më shumë',
+    close: 'Mbyll',
+  },
   nav: {
     label: 'Navigimi kryesor',
     openMenu: 'Hap menunë',
@@ -14,6 +18,11 @@ export const UI_TEXT = {
   contact: {
     call: 'Telefono',
     whatsapp: 'WhatsApp',
+    offer: 'Ofertë',
+    barLabel: 'Kontakt i shpejtë',
+    sheetTitle: 'Na shkruani në WhatsApp',
+    sheetPending: 'Formulari i shkurtër për shërbimin dhe qytetin shtohet këtu.',
+    openWhatsapp: 'Hap WhatsApp',
   },
   footer: {
     contact: 'Kontakti',

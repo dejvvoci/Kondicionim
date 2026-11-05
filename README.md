@@ -35,6 +35,23 @@ public/          # fontet, favicon, robots.txt, _headers (Cloudflare)
 scripts/         # check-content.ts, postbuild.ts
 ```
 
+## Komponentët UI
+
+Katalogu i të gjithë komponentëve shfaqet te **http://localhost:4200/stili** (vetëm me `npm start`,
+nuk përfshihet në build-in e prodhimit).
+
+| Komponenti                           | Përdorimi                                                                            |
+| ------------------------------------ | ------------------------------------------------------------------------------------ |
+| `a[ui-button]`, `button[ui-button]`  | `variant`: primary, secondary, outline, link, outline-light; `size`: md, lg          |
+| `ui-badge`                           | badge besueshmërie: `icon`, `tone` (white, soft)                                     |
+| `ui-card`                            | `title`, `icon`, `link` (e gjithë karta e klikueshme), `level` (2/3)                 |
+| `ui-section`                         | `eyebrow`, `title`, `lead`, `tone` (white, soft, base), `center`, `narrow`, `anchor` |
+| `ui-accordion` + `ui-accordion-item` | mbi `<details>/<summary>`; `group` = vetëm një i hapur                               |
+| `ui-sheet`                           | bottom sheet (celular) / modal (desktop) mbi `<dialog>`; `[(open)]`, `title`         |
+| `ui-icon`                            | ikonat Tabler në `icons.ts`                                                          |
+
+Rrjedha WhatsApp hapet nga çdo komponent me `inject(WhatsAppFlow).open({ source, service? })`.
+
 ## Përditësimi i përmbajtjes
 
 Të gjitha tekstet dhe të dhënat që ndryshojnë janë në `src/app/data/`. Nuk preken komponentët.
