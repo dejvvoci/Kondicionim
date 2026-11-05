@@ -1,0 +1,55 @@
+@use 'mixins' as *;
+
+// Fushat e formave (rrjedha WhatsApp, kalkulatori BTU).
+.field {
+  display: grid;
+  gap: var(--sp-2);
+}
+
+.field__label {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  color: var(--c-base);
+}
+
+.field__optional {
+  font-family: var(--font-body);
+  font-size: var(--fs-sm);
+  font-weight: 400;
+  color: var(--c-text-muted);
+}
+
+.field__help {
+  font-size: var(--fs-sm);
+  color: var(--c-text-muted);
+}
+
+.input {
+  width: 100%;
+  min-height: var(--tap-min);
+  padding: var(--sp-2) var(--sp-3);
+  border: 1.5px solid var(--c-text-muted);
+  border-radius: var(--radius-btn);
+  background: var(--c-white);
+  font-size: var(--fs-base); // 16px: iOS nuk zmadhon faqen në fokus
+  color: var(--c-text);
+
+  &:focus-visible {
+    @include focus-ring;
+    outline-offset: 0;
+    border-color: var(--c-focus);
+  }
+}
+
+select.input {
+  appearance: none;
+  padding-right: 2.5rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230E3B43' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6l6 -6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1.25rem;
+}
+
+textarea.input {
+  resize: vertical;
+}

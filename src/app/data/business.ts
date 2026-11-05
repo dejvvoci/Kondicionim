@@ -1,4 +1,4 @@
-import type { Business } from './types';
+import type { Business, Photo } from './types';
 
 export const BUSINESS: Business = {
   name: null, // TODO: emri i biznesit
@@ -18,3 +18,19 @@ export const BUSINESS: Business = {
 };
 
 export const businessName = (): string => BUSINESS.name ?? BUSINESS.fallbackName;
+
+/** Foto e ustait në punë për seksionin kryesor (elementi LCP). Asnjë foto stock. */
+export const HERO_PHOTO: Photo | null = null; // TODO: foto reale e ustait në punë, p.sh. { src: '/images/usta-montim-tirane.avif', alt: '...', width: 1200, height: 900 }
+
+/**
+ * Mesazhi i parambushur i WhatsApp. Çdo rresht me {fushë} hiqet nëse fusha është bosh.
+ * Fushat: sherbimi, qyteti, adresa, lat, lng, shenime.
+ */
+export const WHATSAPP_TEMPLATE: readonly string[] = [
+  'Përshëndetje! Ju kontaktoj nga faqja juaj për të marrë një ofertë ose një vlerësim.',
+  'Shërbimi: {sherbimi}',
+  'Qyteti: {qyteti}',
+  'Zona/adresa: {adresa}',
+  'Vendndodhja: https://maps.google.com/?q={lat},{lng}',
+  'Shënime: {shenime}',
+];

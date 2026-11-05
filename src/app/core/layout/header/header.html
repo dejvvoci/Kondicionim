@@ -27,7 +27,13 @@
 
     <div class="header__actions">
       @if (phoneHref) {
-        <a ui-button variant="primary" class="header__call" [href]="phoneHref">
+        <a
+          ui-button
+          variant="primary"
+          class="header__call"
+          [href]="phoneHref"
+          appTrackPhone="header"
+        >
           <ui-icon name="phone" [size]="20" />
           <span>{{ phoneLabel }}</span>
         </a>

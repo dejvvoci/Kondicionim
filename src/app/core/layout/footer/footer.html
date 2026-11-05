@@ -7,23 +7,22 @@
         <ul class="footer__list">
           @if (phoneHref) {
             <li>
-              <a class="footer__link footer__link--icon" [href]="phoneHref">
+              <a class="footer__link footer__link--icon" [href]="phoneHref" appTrackPhone="footer">
                 <ui-icon name="phone" [size]="18" />{{ phoneLabel }}
               </a>
             </li>
           } @else if (showTodo) {
             <li><span class="todo">TODO: telefoni</span></li>
           }
-          @if (whatsappHref) {
+          @if (hasWhatsApp) {
             <li>
-              <a
+              <button
+                type="button"
                 class="footer__link footer__link--icon"
-                [href]="whatsappHref"
-                target="_blank"
-                rel="noopener"
+                (click)="openWhatsApp()"
               >
                 <ui-icon name="brand-whatsapp" [size]="18" />{{ t.contact.whatsapp }}
-              </a>
+              </button>
             </li>
           } @else if (showTodo) {
             <li><span class="todo">TODO: WhatsApp</span></li>

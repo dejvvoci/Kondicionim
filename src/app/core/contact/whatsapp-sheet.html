@@ -1,0 +1,144 @@
+<ui-sheet [title]="t.sheetTitle" [open]="flow.isOpen()" (openChange)="onOpenChange($event)">
+  <p class="intro">{{ t.sheetIntro }}</p>
+
+  @if (!number && showTodo) {
+    <p class="todo-note">
+      <span class="todo">{{ t.missingNumber }}</span>
+    </p>
+  }
+
+  <div class="form">
+    <div class="field">
+      <label class="field__label" for="wa-service">{{ t.service }}</label>
+      <select id="wa-service" class="input" (change)="service.set(value($event))">
+        <option value="">–</option>
+        <option [value]="OFFER" [selected]="service() === OFFER">{{ t.serviceOffer }}</option>
+        @for (s of services; track s.slug) {
+          <option [value]="s.slug" [selected]="service() === s.slug">{{ s.title }}</option>
+        }
+        <option [value]="OTHER" [selected]="service() === OTHER">{{ t.serviceOther }}</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="wa-city">{{ t.city }}</label>
+      <select id="wa-city" class="input" (change)="city.set(value($event))">
+        <option value="">–</option>
+        @for (c of cities; track c.slug) {
+          <option [value]="c.slug" [selected]="city() === c.slug">{{ c.name }}</option>
+        }
+        <option [value]="OTHER" [selected]="city() === OTHER">{{ t.cityOther }}</option>
+      </select>
+    </div>
+
+    @if (city() === OTHER) {
+      <div class="field">
+        <label class="field__label" for="wa-city-other">{{ t.cityOtherName }}</label>
+        <input
+          id="wa-city-other"
+          class="input"
+          type="text"
+          autocomplete="address-level2"
+          [value]="cityOther()"
+          (input)="cityOther.set(value($event))"
+        />
+      </div>
+    }
+
+    <div class="field">
+      <label class="field__label" for="wa-address">
+        {{ t.address }} <span class="field__optional">{{ t.optional }}</span>
+      </label>
+      <input
+        id="wa-address"
+        class="input"
+        type="text"
+        autocomplete="street-address"
+        [value]="address()"
+        (input)="address.set(value($event))"
+      />
+    </div>
+
+    <div class="field location">
+      @switch (location().status) {
+        @case ('ok') {
+          <p class="location__ok">
+            <ui-icon name="map-pin" [size]="20" />
+            <span>{{ t.locationAdded }}</span>
+            <a [href]="mapsLink()" target="_blank" rel="noopener">{{ t.locationView }}</a>
+            <button type="button" class="location__remove" (click)="removeLocation()">
+              {{ t.locationRemove }}
+            </button>
+          </p>
+        }
+        @default {
+          <button
+            ui-button
+            type="button"
+            variant="outline"
+            [disabled]="location().status === 'loading'"
+            (click)="addLocation()"
+          >
+            <ui-icon name="current-location" [size]="20" />
+            {{ location().status === 'loading' ? t.locationLoading : t.location }}
+          </button>
+        }
+      }
+      <div class="location__status" aria-live="polite">
+        @if (location(); as loc) {
+          @if (loc.status === 'error') {
+            <p class="location__error">
+              {{ loc.error === 'denied' ? t.locationDenied : t.locationUnavailable }}
+            </p>
+          } @else if (loc.status !== 'ok') {
+            <p class="field__help">{{ t.optional }} {{ t.locationHelp }}</p>
+          }
+        }
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="wa-notes">
+        {{ t.notes }} <span class="field__optional">{{ t.optional }}</span>
+      </label>
+      <textarea
+        id="wa-notes"
+        class="input"
+        rows="2"
+        [placeholder]="t.notesPlaceholder"
+        [value]="notes()"
+        (input)="notes.set(value($event))"
+      ></textarea>
+    </div>
+  </div>
+
+  <div class="actions">
+    @if (sendUrl(); as url) {
+      <a
+        ui-button
+        variant="primary"
+        size="lg"
+        class="actions__send"
+        [href]="url"
+        target="_blank"
+        rel="noopener"
+        (click)="onSend(true)"
+      >
+        <ui-icon name="brand-whatsapp" [size]="22" />
+        {{ t.send }}
+      </a>
+    }
+    <p class="actions__hint">{{ t.photoHint }}</p>
+    @if (skipUrl) {
+      <a
+        class="actions__skip"
+        [href]="skipUrl"
+        target="_blank"
+        rel="noopener"
+        (click)="onSend(false)"
+      >
+        {{ t.skip }}
+      </a>
+    }
+  </div>
+</ui-sheet>

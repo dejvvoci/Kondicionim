@@ -1,0 +1,201 @@
+@use 'mixins' as *;
+
+// Hero
+.hero {
+  padding-block: var(--sp-6) var(--sp-7);
+  background: var(--c-bg-soft);
+
+  @include lg {
+    padding-block: var(--sp-8);
+  }
+}
+
+.hero__inner {
+  display: grid;
+  gap: var(--sp-6);
+  align-items: center;
+
+  @include lg {
+    grid-template-columns: 1.1fr 1fr;
+    gap: var(--sp-7);
+  }
+
+  &--solo {
+    grid-template-columns: minmax(0, 820px);
+  }
+}
+
+.hero__subtitle {
+  margin-bottom: var(--sp-5);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-3);
+
+  > [ui-button] {
+    flex: 1 1 160px;
+
+    @include md {
+      flex: 0 0 auto;
+    }
+  }
+}
+
+.hero__micro {
+  margin: var(--sp-3) 0 var(--sp-5);
+  font-size: var(--fs-sm);
+  color: var(--c-text-muted);
+}
+
+.hero__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hero__photo {
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+
+// Shifrat
+.stats {
+  border-bottom: 1px solid var(--c-border);
+}
+
+.stats__list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-5) var(--sp-4);
+  margin-block: 0;
+  padding-block: var(--sp-6);
+
+  @include md {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.stats__item {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--sp-1);
+
+  dt {
+    color: var(--c-text-muted);
+  }
+
+  dd {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: var(--fs-h2);
+    font-weight: 600;
+    line-height: 1.1;
+    color: var(--c-base);
+  }
+}
+
+// Qytetet
+.cities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cities__item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-4);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-badge);
+  font-family: var(--font-heading);
+  font-weight: 500;
+  color: var(--c-base);
+
+  ui-icon {
+    color: var(--c-teal);
+  }
+}
+
+// Standardet dhe procesi
+.standards,
+.process {
+  display: grid;
+  gap: var(--sp-5);
+  margin: 0 0 var(--sp-5);
+  padding: 0;
+  list-style: none;
+
+  @include md {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  h3 {
+    margin-bottom: var(--sp-2);
+    font-size: var(--fs-lg);
+  }
+
+  p {
+    margin: 0;
+    color: var(--c-text-muted);
+  }
+}
+
+.process {
+  @include lg {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.standards__icon,
+.process__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: var(--sp-3);
+  border-radius: 10px;
+  background: var(--c-white);
+  color: var(--c-teal);
+}
+
+.process__icon {
+  background: var(--c-bg-soft);
+}
+
+.process__num {
+  color: var(--c-teal-text);
+}
+
+.brands {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3) var(--sp-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-heading);
+  font-size: var(--fs-lg);
+  font-weight: 600;
+  color: var(--c-text-muted);
+}
+
+.more {
+  margin-top: var(--sp-2);
+}
+
+.final-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+}
