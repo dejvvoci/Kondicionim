@@ -1,0 +1,183 @@
+<!-- 1. Hero -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="container hero__inner" [class.hero__inner--solo]="!heroPhoto && !showTodo">
+    <div class="hero__text">
+      <h1 id="hero-title">{{ home.hero.title }}</h1>
+      <p class="lead hero__subtitle">{{ home.hero.subtitle }}</p>
+
+      <div class="hero__actions">
+        @if (phoneHref) {
+          <a ui-button variant="primary" size="lg" [href]="phoneHref" appTrackPhone="hero">
+            <ui-icon name="phone" [size]="22" />{{ t.call }}
+          </a>
+        } @else if (showTodo) {
+          <span class="todo">TODO: telefoni</span>
+        }
+        @if (flow.available) {
+          <button
+            ui-button
+            variant="secondary"
+            size="lg"
+            type="button"
+            (click)="openWhatsApp('hero')"
+          >
+            <ui-icon name="brand-whatsapp" [size]="22" />{{ t.whatsapp }}
+          </button>
+        }
+      </div>
+      <p class="hero__micro">{{ t.microcopy }}</p>
+
+      @if (badges.length) {
+        <ul class="hero__badges">
+          @for (b of badges; track b.label) {
+            <li>
+              <ui-badge [icon]="b.icon">{{ b.label }}</ui-badge>
+            </li>
+          }
+        </ul>
+      } @else if (showTodo) {
+        <p><span class="todo">TODO: badge-t e besueshmërisë (stats.ts)</span></p>
+      }
+    </div>
+
+    @if (heroPhoto || showTodo) {
+      <ui-photo
+        class="hero__photo"
+        [photo]="heroPhoto"
+        [priority]="true"
+        sizes="(min-width: 1024px) 560px, 100vw"
+        label="Ustai në punë (jo foto stock)"
+      />
+    }
+  </div>
+</section>
+
+<!-- 2. Shifrat e besueshmërisë -->
+@if (stats.length) {
+  <section class="stats" aria-label="Shifrat">
+    <dl class="container stats__list">
+      @for (s of stats; track s.label) {
+        <div class="stats__item">
+          <dt>{{ s.label }}</dt>
+          <dd>
+            @if (s.value) {
+              {{ s.value }}
+            } @else {
+              <span class="todo">TODO</span>
+            }
+          </dd>
+        </div>
+      }
+    </dl>
+  </section>
+}
+
+<!-- 3. Shërbimet -->
+<ui-section
+  tone="soft"
+  [eyebrow]="home.services.eyebrow"
+  [title]="home.services.title"
+  [lead]="home.services.lead"
+  anchor="sherbimet"
+>
+  <app-service-grid />
+</ui-section>
+
+<!-- 4. Zona e mbulimit (harta interaktive shtohet në fazën 5) -->
+<ui-section
+  [eyebrow]="home.coverage.eyebrow"
+  [title]="home.coverage.title"
+  [lead]="home.coverage.lead"
+>
+  <ul class="cities">
+    @for (c of cities; track c.slug) {
+      <li class="cities__item"><ui-icon name="map-pin" [size]="20" />{{ c.name }}</li>
+    }
+  </ul>
+</ui-section>
+
+<!-- 5. Standardet e montimit -->
+<ui-section
+  tone="soft"
+  [eyebrow]="home.standards.eyebrow"
+  [title]="home.standards.title"
+  [lead]="home.standards.lead"
+>
+  <ul class="standards">
+    @for (s of standards; track s.slug) {
+      <li class="standards__item">
+        <span class="standards__icon"><ui-icon [name]="s.icon" /></span>
+        <h3>{{ s.title }}</h3>
+        <p>{{ s.text }}</p>
+      </li>
+    }
+  </ul>
+  <a ui-button variant="link" routerLink="/standardet-e-montimit" class="more">
+    {{ home.standards.link }}
+  </a>
+</ui-section>
+
+<!-- 6. Procesi i punës -->
+<ui-section [eyebrow]="home.process.eyebrow" [title]="home.process.title">
+  <ol class="process">
+    @for (step of process; track step.title; let i = $index) {
+      <li class="process__step">
+        <span class="process__icon"><ui-icon [name]="step.icon" /></span>
+        <h3>
+          <span class="process__num">{{ i + 1 }}.</span> {{ step.title }}
+        </h3>
+        <p>{{ step.text }}</p>
+      </li>
+    }
+  </ol>
+</ui-section>
+
+<!-- 7. Projekte të zgjedhura (faza 6: slider para/pas) -->
+@if (showTodo) {
+  <ui-section tone="soft" [eyebrow]="home.projects.eyebrow" [title]="home.projects.title">
+    <p><span class="todo">TODO: 3 projekte me foto para/pas (projects.ts, faza 6)</span></p>
+  </ui-section>
+}
+
+<!-- 8. Markat -->
+@if (brands.length) {
+  <ui-section [eyebrow]="home.brands.eyebrow" [title]="home.brands.title">
+    <ul class="brands">
+      @for (b of brands; track b.name) {
+        <li>{{ b.name }}</li>
+      }
+    </ul>
+  </ui-section>
+} @else if (showTodo) {
+  <ui-section [eyebrow]="home.brands.eyebrow" [title]="home.brands.title">
+    <p><span class="todo">TODO: markat (brands.ts)</span></p>
+  </ui-section>
+}
+
+<!-- 9. FAQ e shkurtër -->
+<ui-section tone="soft" [eyebrow]="home.faq.eyebrow" [title]="home.faq.title" [narrow]="true">
+  <ui-accordion>
+    @for (f of faq; track f.q) {
+      <ui-accordion-item [title]="f.q" group="faq-home">
+        <p>{{ f.a }}</p>
+      </ui-accordion-item>
+    }
+  </ui-accordion>
+  <a ui-button variant="link" routerLink="/pyetje-te-shpeshta" class="more">{{ home.faq.link }}</a>
+</ui-section>
+
+<!-- 10. CTA finale -->
+<ui-section tone="base" [title]="home.finalCta.title" [lead]="home.finalCta.lead">
+  <div class="final-actions">
+    @if (flow.available) {
+      <button ui-button variant="primary" size="lg" type="button" (click)="openWhatsApp('cta')">
+        <ui-icon name="brand-whatsapp" [size]="22" />{{ t.whatsapp }}
+      </button>
+    }
+    @if (phoneHref) {
+      <a ui-button variant="outline-light" size="lg" [href]="phoneHref" appTrackPhone="cta">
+        <ui-icon name="phone" [size]="22" />{{ t.call }}
+      </a>
+    }
+  </div>
+</ui-section>

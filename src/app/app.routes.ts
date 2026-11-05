@@ -28,12 +28,14 @@ export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    loadComponent: placeholder,
-    data: page('Montim, riparim dhe mirëmbajtje për të gjitha sistemet e kondicionimit', {
-      title: 'Montim dhe riparim kondicioneri',
-      description:
-        'Montim, riparim dhe mirëmbajtje për të gjitha sistemet e kondicionimit: split, multi-split, kanal, VRF/VRV dhe pompa nxehtësie në Tiranë, Durrës e më gjerë.',
-    }),
+    loadComponent: () => import('./features/home/home-page').then((m) => m.HomePage),
+    data: {
+      seo: {
+        title: 'Montim dhe riparim kondicioneri',
+        description:
+          'Montim, riparim dhe mirëmbajtje për të gjitha sistemet e kondicionimit: split, multi-split, kanal, VRF/VRV dhe pompa nxehtësie në Tiranë, Durrës e më gjerë.',
+      } satisfies RouteSeo,
+    },
   },
   {
     path: 'sherbimet',

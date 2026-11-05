@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, isDevMode } from '@angular/core';
 import { BUSINESS } from '../../../data/business';
 import { UI_TEXT } from '../../../i18n';
+import { TrackPhone } from '../../analytics/track-phone.directive';
 import { Icon } from '../../../shared/ui/icon/icon';
 import { telHref } from '../../contact/phone';
 import { WhatsAppFlow } from '../../contact/whatsapp-flow.service';
@@ -11,7 +12,7 @@ import { WhatsAppFlow } from '../../contact/whatsapp-flow.service';
  */
 @Component({
   selector: 'app-mobile-contact-bar',
-  imports: [Icon],
+  imports: [Icon, TrackPhone],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './mobile-contact-bar.html',
   styleUrl: './mobile-contact-bar.scss',
@@ -20,7 +21,7 @@ export class MobileContactBar {
   protected readonly t = UI_TEXT;
   protected readonly phoneHref = BUSINESS.phone ? telHref(BUSINESS.phone) : null;
   protected readonly showTodo = isDevMode();
-  private readonly flow = inject(WhatsAppFlow);
+  protected readonly flow = inject(WhatsAppFlow);
 
   protected openWhatsApp(): void {
     this.flow.open({ source: 'shiriti' });

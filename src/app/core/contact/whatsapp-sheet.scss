@@ -1,0 +1,84 @@
+.intro {
+  color: var(--c-text-muted);
+}
+
+.todo-note {
+  color: var(--c-base);
+}
+
+.form {
+  display: grid;
+  gap: var(--sp-4);
+}
+
+.location {
+  gap: var(--sp-1);
+
+  button[ui-button] {
+    justify-self: start;
+  }
+}
+
+.location__ok {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2) var(--sp-3);
+  min-height: var(--tap-min);
+  margin: 0;
+  font-weight: 600;
+  color: var(--c-base);
+
+  ui-icon {
+    color: var(--c-teal);
+  }
+
+  a {
+    font-weight: 400;
+  }
+}
+
+.location__remove {
+  min-height: 44px;
+  padding: 0 var(--sp-2);
+  border: 0;
+  background: none;
+  color: var(--c-text-muted);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.location__status p {
+  margin: 0;
+}
+
+.location__error {
+  color: var(--c-base);
+  font-weight: 600;
+}
+
+.actions {
+  display: grid;
+  gap: var(--sp-2);
+  margin-top: var(--sp-5);
+  text-align: center;
+}
+
+.actions__send {
+  width: 100%;
+}
+
+.actions__hint {
+  margin: 0;
+  font-size: var(--fs-sm);
+  color: var(--c-text-muted);
+}
+
+.actions__skip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  min-height: 44px;
+  font-size: var(--fs-sm);
+}

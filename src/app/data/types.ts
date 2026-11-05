@@ -1,3 +1,5 @@
+import type { IconName } from '../shared/ui/icon/icons';
+
 /**
  * Tipet e përmbajtjes. Vlera `null` = e dhënë që mungon (TODO): në development shfaqet si
  * placeholder i dukshëm, në prodhim elementi fshihet.
@@ -40,6 +42,67 @@ export interface City {
   lng: number;
   projectCount: number | null;
   active: boolean;
+}
+
+/** Foto reale në public/images. Emër skedari përshkrues: montim-multi-split-vile-tirane.avif */
+export interface Photo {
+  src: string;
+  /** Përshkrim në shqip i asaj që shihet në foto. */
+  alt: string;
+  width: number;
+  height: number;
+}
+
+/** Emrat e ikonave nga shared/ui/icon/icons.ts (për një ikonë të re, shtoje atje). */
+export type IconKey = IconName;
+
+export interface Service {
+  slug: string;
+  title: string;
+  /** Një fjali për kartën. */
+  short: string;
+  icon: IconKey;
+}
+
+export interface Stat {
+  label: string;
+  /** P.sh. "12+", "2 vjet". null = nuk shfaqet. */
+  value: string | null;
+}
+
+export interface TrustBadge {
+  icon: IconKey;
+  label: string;
+}
+
+export interface InstallStandard {
+  slug: string;
+  title: string;
+  /** 2–3 fjali: pse ka rëndësi për klientin. */
+  text: string;
+  icon: IconKey;
+  /** Shfaqet te përmbledhja në kryefaqe. */
+  featured: boolean;
+  photo: Photo | null;
+}
+
+export interface ProcessStep {
+  title: string;
+  text: string;
+  icon: IconKey;
+}
+
+export interface FaqItem {
+  q: string;
+  a: string;
+  /** Shfaqet në FAQ e shkurtër të kryefaqes. */
+  home: boolean;
+}
+
+export interface Brand {
+  name: string;
+  /** Partner/servis i autorizuar (vetëm atëherë lejohet logoja). */
+  authorized: boolean;
 }
 
 export interface NavItem {

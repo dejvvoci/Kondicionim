@@ -11,13 +11,14 @@ import { filter } from 'rxjs';
 import { BUSINESS, businessName } from '../../../data/business';
 import { MAIN_NAV } from '../../../data/navigation';
 import { UI_TEXT } from '../../../i18n';
+import { TrackPhone } from '../../analytics/track-phone.directive';
 import { Button } from '../../../shared/ui/button/button';
 import { Icon } from '../../../shared/ui/icon/icon';
 import { formatPhone, telHref } from '../../contact/phone';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, RouterLinkActive, Button, Icon],
+  imports: [RouterLink, RouterLinkActive, Button, Icon, TrackPhone],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './header.html',
   styleUrl: './header.scss',

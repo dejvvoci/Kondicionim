@@ -59,6 +59,11 @@
 
 .footer__link {
   display: inline-flex;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
   align-items: center;
   min-height: 44px;
   color: var(--c-on-base-muted);
