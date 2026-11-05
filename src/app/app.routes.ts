@@ -1,13 +1,24 @@
 import { isDevMode } from '@angular/core';
-import { Routes } from '@angular/router';
+import { ResolveFn, Routes } from '@angular/router';
 import type { RouteSeo } from './core/seo/seo';
+
+const NOT_FOUND_SEO: RouteSeo = { title: 'Faqja nuk u gjet', description: '', noindex: true };
+
+/**
+ * SEO e faqes së shërbimit nga services.ts; slug i panjohur → noindex.
+ * Import dinamik, që të dhënat e shërbimeve të mos hyjnë në bundle-in fillestar.
+ */
+const serviceSeo: ResolveFn<RouteSeo> = async (route) => {
+  const { serviceBySlug } = await import('./data/services');
+  return serviceBySlug(route.paramMap.get('slug') ?? '')?.seo ?? NOT_FOUND_SEO;
+};
 
 const placeholder = () =>
   import('./features/placeholder/placeholder-page').then((m) => m.PlaceholderPage);
 
 const notFound = {
   loadComponent: () => import('./features/not-found/not-found-page').then((m) => m.NotFoundPage),
-  data: { seo: { title: 'Faqja nuk u gjet', description: '', noindex: true } satisfies RouteSeo },
+  data: { seo: NOT_FOUND_SEO },
 };
 
 const page = (h1: string, seo: RouteSeo) => ({ h1, seo });
@@ -39,12 +50,19 @@ export const routes: Routes = [
   },
   {
     path: 'sherbimet',
-    loadComponent: placeholder,
-    data: page('Shërbimet', {
-      title: 'Shërbimet e kondicionimit',
-      description:
-        'Konsulencë, montim split dhe multi-split, sisteme me kanale, VRF/VRV, pompa nxehtësie, riparim, rimbushje gazi dhe kontrata mirëmbajtjeje.',
-    }),
+    loadComponent: () => import('./features/services/services-page').then((m) => m.ServicesPage),
+    data: {
+      seo: {
+        title: 'Shërbimet e kondicionimit',
+        description:
+          'Konsulencë, montim split dhe multi-split, sisteme me kanale, VRF/VRV, pompa nxehtësie, riparim, rimbushje gazi dhe kontrata mirëmbajtjeje.',
+      } satisfies RouteSeo,
+    },
+  },
+  {
+    path: 'sherbimet/:slug',
+    loadComponent: () => import('./features/services/service-page').then((m) => m.ServicePage),
+    resolve: { seo: serviceSeo },
   },
   {
     path: 'standardet-e-montimit',

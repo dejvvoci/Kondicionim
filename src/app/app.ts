@@ -4,6 +4,7 @@ import { Footer } from './core/layout/footer/footer';
 import { Header } from './core/layout/header/header';
 import { MobileContactBar } from './core/layout/mobile-contact-bar/mobile-contact-bar';
 import { WhatsAppSheet } from './core/contact/whatsapp-sheet';
+import { WhatsAppFlow } from './core/contact/whatsapp-flow.service';
 import { SeoService } from './core/seo/seo.service';
 import { UI_TEXT } from './i18n';
 
@@ -19,12 +20,16 @@ import { UI_TEXT } from './i18n';
     </main>
     <app-footer />
     <app-mobile-contact-bar />
-    <app-whatsapp-sheet />
+    <!-- Forma WhatsApp ngarkohet kur hapet herën e parë (prefetch kur browser-i është i lirë). -->
+    @defer (when flow.isOpen(); prefetch on idle) {
+      <app-whatsapp-sheet />
+    }
   `,
   styleUrl: './app.scss',
 })
 export class App {
   protected readonly t = UI_TEXT;
+  protected readonly flow = inject(WhatsAppFlow);
 
   constructor() {
     inject(SeoService).init();
