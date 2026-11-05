@@ -4,6 +4,10 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    # Versionet major (Angular, TypeScript, Vitest) përditësohen me dorë me `ng update`.
+    ignore:
+      - dependency-name: '*'
+        update-types: ['version-update:semver-major']
     groups:
       angular:
         patterns: ['@angular/*', '@angular-devkit/*', 'angular-eslint', '@angular-eslint/*']
