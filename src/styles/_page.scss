@@ -1,0 +1,18 @@
+// Koka e faqeve të brendshme (.page-head): shtegu, etiketa, H1 dhe hyrja.
+.page-head {
+  padding-block: var(--sp-4) var(--sp-7);
+  background: var(--c-white);
+
+  .eyebrow {
+    margin-top: var(--sp-5);
+  }
+
+  h1 {
+    max-width: 22ch;
+  }
+
+  .lead {
+    max-width: 65ch;
+    margin: 0;
+  }
+}

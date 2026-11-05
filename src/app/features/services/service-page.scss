@@ -1,0 +1,118 @@
+@use 'mixins' as *;
+
+.service-head__grid {
+  display: grid;
+  gap: var(--sp-5);
+  align-items: start;
+
+  @include md {
+    grid-template-columns: 1fr auto;
+  }
+}
+
+.service-head__icon {
+  display: none;
+
+  @include md {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 96px;
+    height: 96px;
+    margin-top: var(--sp-6);
+    border-radius: var(--radius-card);
+    background: var(--c-bg-soft);
+    color: var(--c-teal);
+  }
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  margin-top: var(--sp-5);
+}
+
+.facts {
+  display: grid;
+  gap: var(--sp-6);
+
+  @include lg {
+    grid-template-columns: 3fr 2fr;
+    gap: var(--sp-7);
+  }
+}
+
+.facts__side {
+  display: grid;
+  gap: var(--sp-6);
+  align-content: start;
+}
+
+.facts__block {
+  h2 {
+    font-size: var(--fs-h3);
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.checklist,
+.plain {
+  display: grid;
+  gap: var(--sp-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.checklist li {
+  display: flex;
+  gap: var(--sp-3);
+  align-items: flex-start;
+
+  ui-icon {
+    margin-top: 3px;
+    color: var(--c-teal);
+  }
+}
+
+.plain li {
+  padding-left: var(--sp-4);
+  border-left: 3px solid var(--c-teal);
+}
+
+.price {
+  display: grid;
+  gap: var(--sp-1);
+
+  strong {
+    font-family: var(--font-heading);
+    font-size: var(--fs-h3);
+    color: var(--c-base);
+  }
+
+  small {
+    color: var(--c-text-muted);
+  }
+}
+
+.photos {
+  display: grid;
+  gap: var(--sp-4);
+
+  @include md {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.photos__item {
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+
+.all {
+  margin-top: var(--sp-4);
+}

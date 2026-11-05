@@ -56,12 +56,43 @@ export interface Photo {
 /** Emrat e ikonave nga shared/ui/icon/icons.ts (për një ikonë të re, shtoje atje). */
 export type IconKey = IconName;
 
+export interface QA {
+  q: string;
+  a: string;
+}
+
 export interface Service {
+  /** Pjesë e URL-së: /sherbimet/{slug}. Pa ë/ç. */
   slug: string;
   title: string;
   /** Një fjali për kartën. */
   short: string;
   icon: IconKey;
+  /** Paragrafi hyrës në faqen e shërbimit. */
+  intro: string;
+  /** Çfarë përfshin. */
+  includes: string[];
+  /** Kujt i shërben. */
+  audience: string[];
+  /** P.sh. "2–4 orë për një split". null = nuk shfaqet. */
+  duration: string | null;
+  /** Foto nga punë të vërteta. */
+  photos: Photo[];
+  /** 2–3 pyetje specifike për shërbimin. */
+  faq: QA[];
+  seo: { title: string; description: string };
+}
+
+export interface Price {
+  /** P.sh. "Montim standard split 9000–12000 BTU". */
+  label: string;
+  /** Çmimi "duke filluar nga". null = nuk shfaqet. */
+  from: number | null;
+  currency: 'ALL' | 'EUR';
+  /** Shërbimi ku shfaqet çmimi. */
+  serviceSlug: string;
+  /** Çfarë përfshin çmimi, me pak fjalë. */
+  note: string;
 }
 
 export interface Stat {

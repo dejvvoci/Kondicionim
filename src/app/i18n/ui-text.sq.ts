@@ -67,6 +67,31 @@ export const UI_TEXT = {
   placeholder: {
     wip: 'Kjo faqe është në ndërtim e sipër.',
   },
+  breadcrumbs: {
+    label: 'Shtegu i faqes',
+    home: 'Kryefaqja',
+    services: 'Shërbimet',
+  },
+  services: {
+    eyebrow: 'Shërbimet',
+    title: 'Shërbimet e kondicionimit',
+    lead: 'Nga zgjedhja e sistemit te mirëmbajtja: çdo shërbim kryhet me matje dhe sipas standardeve tona të montimit.',
+    serviceEyebrow: 'Shërbimi',
+    includes: 'Çfarë përfshin',
+    audience: 'Kujt i shërben',
+    duration: 'Sa zgjat',
+    photos: 'Nga punët tona',
+    photoLabel: 'Foto nga një punë reale',
+    price: 'Çmimi orientues',
+    priceFrom: 'duke filluar nga',
+    pricesLink: 'Çmimet dhe garancia',
+    faq: 'Pyetje për këtë shërbim',
+    others: 'Shërbime të tjera',
+    allServices: 'Të gjitha shërbimet',
+    ctaTitle: 'Keni nevojë për këtë shërbim?',
+    ctaLead:
+      'Na shkruani në WhatsApp: shërbimi është i zgjedhur, ju shtoni qytetin dhe, nëse doni, një foto.',
+  },
 } as const;
 
 export type UiText = typeof UI_TEXT;
