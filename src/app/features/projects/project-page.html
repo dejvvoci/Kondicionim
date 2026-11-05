@@ -1,0 +1,98 @@
+@if (project(); as p) {
+  <header class="page-head">
+    <div class="container">
+      <ui-breadcrumbs [items]="crumbs()" />
+      <span class="eyebrow">{{ cityName() }} · {{ system() }}</span>
+      <h1>{{ p.title }}</h1>
+      <p class="lead">{{ p.summary }}</p>
+    </div>
+  </header>
+
+  <div class="container project">
+    <ui-before-after
+      class="project__slider"
+      [before]="p.before"
+      [after]="p.after"
+      [label]="p.title"
+      [priority]="true"
+      sizes="(min-width: 1024px) 760px, 100vw"
+    />
+
+    <aside class="facts">
+      <dl>
+        <div>
+          <dt>{{ t.city }}</dt>
+          <dd>{{ cityName() }}</dd>
+        </div>
+        <div>
+          <dt>{{ t.system }}</dt>
+          <dd>{{ system() }}</dd>
+        </div>
+        @if (p.btu) {
+          <div>
+            <dt>{{ t.power }}</dt>
+            <dd>{{ p.btu }} BTU</dd>
+          </div>
+        }
+        @if (p.duration) {
+          <div>
+            <dt>{{ t.duration }}</dt>
+            <dd>{{ p.duration }}</dd>
+          </div>
+        }
+      </dl>
+      @if (services().length) {
+        <h2 class="facts__title">{{ t.services }}</h2>
+        <ul class="facts__services">
+          @for (s of services(); track s.slug) {
+            <li>
+              <a [routerLink]="'/sherbimet/' + s.slug">{{ s.title }}</a>
+            </li>
+          }
+        </ul>
+      }
+    </aside>
+
+    <div class="story">
+      @for (para of paragraphs(); track $index) {
+        <p>{{ para }}</p>
+      }
+    </div>
+  </div>
+
+  @if (p.video; as v) {
+    <ui-section [title]="t.video">
+      <ui-video-facade class="video" [video]="v" />
+    </ui-section>
+  }
+
+  @if (p.gallery.length) {
+    <ui-section tone="soft" [title]="t.gallery">
+      <div class="gallery">
+        @for (photo of p.gallery; track photo.src) {
+          <ui-photo [photo]="photo" sizes="(min-width: 768px) 33vw, 100vw" class="gallery__item" />
+        }
+      </div>
+    </ui-section>
+  }
+
+  @if (related().length) {
+    <ui-section [title]="t.related">
+      <ul class="related">
+        @for (r of related(); track r.slug) {
+          <li><app-project-card [project]="r" /></li>
+        }
+      </ul>
+    </ui-section>
+  }
+
+  @if (flow.available) {
+    <ui-section tone="base" [title]="t.ctaTitle" [lead]="t.ctaLead">
+      <button ui-button variant="primary" size="lg" type="button" (click)="openWhatsApp()">
+        <ui-icon name="brand-whatsapp" [size]="22" />{{ contact.whatsapp }}
+      </button>
+    </ui-section>
+  }
+} @else {
+  <app-not-found-page />
+}

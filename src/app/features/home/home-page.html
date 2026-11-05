@@ -53,24 +53,7 @@
 </section>
 
 <!-- 2. Shifrat e besueshmërisë -->
-@if (stats.length) {
-  <section class="stats" aria-label="Shifrat">
-    <dl class="container stats__list">
-      @for (s of stats; track s.label) {
-        <div class="stats__item">
-          <dt>{{ s.label }}</dt>
-          <dd>
-            @if (s.value) {
-              {{ s.value }}
-            } @else {
-              <span class="todo">TODO</span>
-            }
-          </dd>
-        </div>
-      }
-    </dl>
-  </section>
-}
+<ui-stats />
 
 <!-- 3. Shërbimet -->
 <ui-section
@@ -145,10 +128,23 @@
   </ol>
 </ui-section>
 
-<!-- 7. Projekte të zgjedhura (faza 6: slider para/pas) -->
-@if (showTodo) {
+<!-- 7. Projekte të zgjedhura, me slider para/pas -->
+@if (projects.length) {
   <ui-section tone="soft" [eyebrow]="home.projects.eyebrow" [title]="home.projects.title">
-    <p><span class="todo">TODO: 3 projekte me foto para/pas (projects.ts, faza 6)</span></p>
+    @defer (on viewport) {
+      <ul class="projects">
+        @for (p of projects; track p.slug) {
+          <li><app-project-card [project]="p" /></li>
+        }
+      </ul>
+    } @placeholder {
+      <div class="projects-placeholder"></div>
+    }
+    <a ui-button variant="link" routerLink="/projektet" class="more">{{ home.projects.link }}</a>
+  </ui-section>
+} @else if (showTodo) {
+  <ui-section tone="soft" [eyebrow]="home.projects.eyebrow" [title]="home.projects.title">
+    <p><span class="todo">TODO: projekte me featured: true (projects.ts)</span></p>
   </ui-section>
 }
 

@@ -1,0 +1,75 @@
+@use 'mixins' as *;
+
+.intro {
+  margin-bottom: var(--sp-4);
+}
+
+.photos,
+.certs {
+  display: grid;
+  gap: var(--sp-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include md {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.photos__item,
+.cert__photo {
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+
+.cert {
+  display: grid;
+  gap: var(--sp-3);
+}
+
+.cert__body {
+  display: flex;
+  gap: var(--sp-3);
+
+  ui-icon {
+    color: var(--c-teal);
+  }
+
+  h3 {
+    margin: 0;
+    font-size: var(--fs-lg);
+  }
+
+  p {
+    margin: 0;
+    color: var(--c-text-muted);
+  }
+}
+
+.brands {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3) var(--sp-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-heading);
+  font-size: var(--fs-lg);
+  font-weight: 600;
+  color: var(--c-base);
+
+  small {
+    display: block;
+    font-family: var(--font-body);
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    color: var(--c-teal-text);
+  }
+}
+
+.cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+}

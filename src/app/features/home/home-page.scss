@@ -64,42 +64,6 @@
   overflow: hidden;
 }
 
-// Shifrat
-.stats {
-  border-bottom: 1px solid var(--c-border);
-}
-
-.stats__list {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--sp-5) var(--sp-4);
-  margin-block: 0;
-  padding-block: var(--sp-6);
-
-  @include md {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-.stats__item {
-  display: flex;
-  flex-direction: column-reverse;
-  gap: var(--sp-1);
-
-  dt {
-    color: var(--c-text-muted);
-  }
-
-  dd {
-    margin: 0;
-    font-family: var(--font-heading);
-    font-size: var(--fs-h2);
-    font-weight: 600;
-    line-height: 1.1;
-    color: var(--c-base);
-  }
-}
-
 // Zona e mbulimit
 .coverage {
   display: grid;
@@ -230,4 +194,21 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--sp-3);
+}
+
+// Projektet e zgjedhura
+.projects {
+  display: grid;
+  gap: var(--sp-5);
+  margin: 0 0 var(--sp-4);
+  padding: 0;
+  list-style: none;
+
+  @include md {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.projects-placeholder {
+  min-height: 420px;
 }

@@ -138,6 +138,67 @@ export interface Brand {
   authorized: boolean;
 }
 
+/** Lloji i sistemit për filtrat e projekteve. */
+export type SystemKind =
+  'split' | 'multi-split' | 'kanal' | 'kasete' | 'dysheme-tavan' | 'vrf' | 'pompe-nxehtesie';
+
+export interface ProjectVideo {
+  platform: 'youtube' | 'instagram' | 'tiktok';
+  /** YouTube: ID e videos; Instagram/TikTok: URL e plotë e postimit. */
+  id: string;
+  title: string;
+  /** Pamja që shfaqet para klikimit (facade). */
+  thumbnail: Photo;
+}
+
+export interface Project {
+  /** /projektet/{slug}, p.sh. "vile-multi-split-5-koka-tirane". */
+  slug: string;
+  title: string;
+  /** Slug-u nga cities.ts. */
+  city: string;
+  system: SystemKind;
+  /** Fuqia totale, p.sh. 48000. */
+  btu: number | null;
+  /** P.sh. "2 ditë". */
+  duration: string | null;
+  /** Përshkrim teknik i shkurtër (1–2 fjali) për kartën. */
+  summary: string;
+  /** Rasti i plotë: sfida, zgjidhja, çfarë ishte e veçantë. Paragrafë të ndarë me rresht bosh. */
+  story: string;
+  before: Photo;
+  after: Photo;
+  /** Foto shtesë nga puna. */
+  gallery: Photo[];
+  video: ProjectVideo | null;
+  /** Slug-et e shërbimeve nga services.ts (lidhjet e brendshme). */
+  services: string[];
+  /** Shfaqet në kryefaqe (maksimum 3). */
+  featured: boolean;
+  /** ISO, p.sh. "2026-06-15". */
+  date: string;
+}
+
+/** Artikull blogu, i gjeneruar nga Markdown (scripts/build-content.ts). */
+export interface Article {
+  slug: string;
+  title: string;
+  description: string;
+  /** ISO, p.sh. "2026-11-05". */
+  date: string;
+  services: string[];
+  readingMinutes: number;
+  html: string;
+}
+
+export interface Certification {
+  title: string;
+  /** P.sh. "Daikin Academy", "AKU". */
+  issuer: string;
+  year: number | null;
+  photo: Photo | null;
+}
+
 export interface NavItem {
   label: string;
   path: string;

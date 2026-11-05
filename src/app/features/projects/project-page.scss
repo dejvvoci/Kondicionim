@@ -1,0 +1,86 @@
+@use 'mixins' as *;
+
+.project {
+  display: grid;
+  gap: var(--sp-6);
+  padding-bottom: var(--section-py);
+
+  @include lg {
+    grid-template-columns: 2fr 1fr;
+    align-items: start;
+  }
+}
+
+.facts {
+  padding: var(--sp-5);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-card);
+
+  dl {
+    display: grid;
+    gap: var(--sp-3);
+    margin: 0;
+  }
+
+  dt {
+    font-size: var(--fs-sm);
+    color: var(--c-text-muted);
+  }
+
+  dd {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: var(--c-base);
+  }
+}
+
+.facts__title {
+  margin: var(--sp-5) 0 var(--sp-2);
+  font-size: var(--fs-base);
+}
+
+.facts__services {
+  margin: 0;
+  padding-left: var(--sp-5);
+
+  a {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+  }
+}
+
+.story {
+  max-width: 70ch;
+
+  @include lg {
+    grid-column: 1;
+  }
+
+  p:last-child {
+    margin: 0;
+  }
+}
+
+.video {
+  max-width: 900px;
+}
+
+.gallery,
+.related {
+  display: grid;
+  gap: var(--sp-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include md {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.gallery__item {
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}

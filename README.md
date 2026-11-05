@@ -60,6 +60,15 @@ Të gjitha tekstet dhe të dhënat që ndryshojnë janë në `src/app/data/`. Nu
   `src/app/data/business.ts`
 - **Një qytet i ri**: një rresht i ri në `src/app/data/cities.ts`
 - **Menuja**: `src/app/data/navigation.ts`
+- **Një projekt i ri**: foto para/pas në `public/images/projektet/` (emër përshkrues, p.sh.
+  `vile-multi-split-tirane-para.avif`) dhe një objekt në `src/app/data/projects.ts`. Faqja
+  `/projektet/{slug}` krijohet vetë; me `featured: true` del edhe në kryefaqe.
+- **Një artikull i ri**: një skedar `src/content/keshilla/{slug}.md` me frontmatter `title`,
+  `description` (≤ 155 karaktere), `date` dhe opsionalisht `services`. Shih artikujt ekzistues si
+  shembull. Gjenerohet automatikisht me `npm start` / `npm run build`.
+- **Çmimet dhe garancia**: `src/app/data/prices.ts`
+- **Rreth ustait, certifikatat, markat**: `src/app/data/about.ts`, `src/app/data/brands.ts`
+- **Politika e privatësisë**: `src/app/data/privacy.ts`
 - **Koeficientët e kalkulatorit BTU**: `src/app/data/btu-config.ts`
 - **Tekstet e udhëzuesit dhe krahasimi i sistemeve**: `src/app/data/guide.ts`
 - **Standardet e montimit (tekst dhe foto)**: `src/app/data/standards.ts`

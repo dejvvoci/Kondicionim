@@ -27,3 +27,10 @@ export function buildCanonical(path: string, siteUrl = BUSINESS.siteUrl): string
   const clean = path.split(/[?#]/)[0].replace(/\/+$/, '');
   return `${siteUrl}${clean}/`;
 }
+
+/** Shkurton tekstin në kufirin e description-it, në fund të një fjale. */
+export function truncate(text: string, max = DESCRIPTION_MAX): string {
+  if (text.length <= max) return text;
+  const cut = text.slice(0, max - 1);
+  return `${cut.slice(0, cut.lastIndexOf(' ')).replace(/[,.;:]$/, '')}…`;
+}

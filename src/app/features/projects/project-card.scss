@@ -1,0 +1,63 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-card);
+  background: var(--c-white);
+  overflow: hidden;
+
+  ui-before-after ::ng-deep .ba {
+    border-radius: 0;
+  }
+}
+
+.card__body {
+  display: grid;
+  gap: var(--sp-2);
+  padding: var(--sp-4) var(--sp-5) var(--sp-5);
+}
+
+.card__title {
+  margin: 0;
+  font-size: var(--fs-lg);
+
+  a {
+    color: var(--c-base);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--c-teal-text);
+      text-decoration: underline;
+    }
+  }
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-1) var(--sp-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    padding: 2px var(--sp-2);
+    border-radius: var(--radius-badge);
+    background: var(--c-bg-soft);
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    color: var(--c-base);
+  }
+}
+
+.card__summary {
+  margin: 0;
+  font-size: var(--fs-sm);
+  color: var(--c-text-muted);
+}

@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "node scripts/check-content.ts && ng build && node scripts/postbuild.ts",
+    "start": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/build-content.ts && ng serve",
+    "build": "node scripts/check-content.ts && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/build-content.ts && ng build && node scripts/postbuild.ts",
     "test": "ng test --watch=false",
     "lint": "ng lint",
     "check:content": "node scripts/check-content.ts",

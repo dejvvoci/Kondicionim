@@ -104,6 +104,16 @@
     </ui-accordion>
   </ui-section>
 
+  @if (projects().length) {
+    <ui-section [title]="t.projects">
+      <ul class="projects">
+        @for (p of projects(); track p.slug) {
+          <li><app-project-card [project]="p" /></li>
+        }
+      </ul>
+    </ui-section>
+  }
+
   <ui-section [title]="t.others">
     <app-service-grid [services]="others()" />
     <a ui-button variant="link" routerLink="/sherbimet" class="all">{{ t.allServices }}</a>

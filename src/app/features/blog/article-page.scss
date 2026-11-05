@@ -1,0 +1,92 @@
+.narrow {
+  max-width: calc(720px + 2 * var(--gutter));
+}
+
+.meta {
+  margin: 0;
+  font-size: var(--fs-sm);
+  color: var(--c-text-muted);
+}
+
+// Përmbajtja vjen si HTML i gjeneruar: stilet arrijnë elementet me ::ng-deep.
+.prose {
+  padding-bottom: var(--sp-6);
+  font-size: var(--fs-lg);
+
+  ::ng-deep {
+    h2 {
+      margin-top: var(--sp-6);
+      font-size: var(--fs-h3);
+    }
+
+    h3 {
+      margin-top: var(--sp-5);
+      font-size: var(--fs-lg);
+    }
+
+    ul,
+    ol {
+      display: grid;
+      gap: var(--sp-2);
+      margin: 0 0 var(--sp-4);
+      padding-left: var(--sp-5);
+    }
+
+    li::marker {
+      color: var(--c-teal);
+    }
+
+    blockquote {
+      margin: var(--sp-5) 0;
+      padding: var(--sp-4) var(--sp-5);
+      border-left: 4px solid var(--c-teal);
+      border-radius: 0 var(--radius-btn) var(--radius-btn) 0;
+      background: var(--c-bg-soft);
+      color: var(--c-base);
+
+      p {
+        margin: 0;
+      }
+    }
+
+    code {
+      padding: 0 4px;
+      border-radius: 4px;
+      background: var(--c-bg-soft);
+      font-size: 0.9em;
+    }
+  }
+}
+
+.related {
+  padding-bottom: var(--section-py);
+
+  h2 {
+    font-size: var(--fs-lg);
+  }
+
+  ul {
+    margin: 0;
+    padding-left: var(--sp-5);
+  }
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
+.others {
+  display: grid;
+  gap: var(--sp-2);
+  margin: 0;
+  padding-left: var(--sp-5);
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-weight: 600;
+  }
+}
