@@ -1,0 +1,18 @@
+@if (icon(); as name) {
+  <span class="card__icon"><ui-icon [name]="name" /></span>
+}
+
+@if (level() === 2) {
+  <h2 class="card__title">{{ title() }}</h2>
+} @else {
+  <h3 class="card__title">{{ title() }}</h3>
+}
+
+<div class="card__body"><ng-content /></div>
+
+@if (link(); as href) {
+  <a class="card__link" [routerLink]="href">
+    {{ linkLabel() }}<span class="visually-hidden">: {{ title() }}</span>
+    <span aria-hidden="true">→</span>
+  </a>
+}

@@ -1,0 +1,76 @@
+@use 'mixins' as *;
+
+:host {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  height: 100%;
+  padding: var(--sp-5);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-card);
+  background: var(--c-white);
+  transition: border-color var(--dur) var(--ease);
+}
+
+:host(.ui-card--link:hover) {
+  border-color: var(--c-teal);
+}
+
+:host(.ui-card--link:focus-within) {
+  @include focus-ring;
+}
+
+.card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--c-bg-soft);
+  color: var(--c-teal);
+}
+
+.card__title {
+  margin: 0;
+  font-size: var(--fs-h3);
+}
+
+.card__body {
+  flex: 1;
+  color: var(--c-text-muted);
+
+  ::ng-deep p:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  align-self: flex-start;
+  min-height: 44px;
+  font-family: var(--font-heading);
+  font-weight: 500;
+  color: var(--c-teal-text);
+  text-decoration: none;
+
+  // E gjithë karta është zona e klikimit.
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+
+  // Fokusi shfaqet te karta (:focus-within), jo te linku.
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+:host(.ui-card--link:hover) .card__link {
+  text-decoration: underline;
+}

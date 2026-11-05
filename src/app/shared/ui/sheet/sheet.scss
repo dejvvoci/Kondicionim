@@ -1,0 +1,96 @@
+@use 'mixins' as *;
+
+.sheet {
+  width: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto 0 0; // celular: ngjitur poshtë
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--c-text);
+  overflow: visible;
+
+  &::backdrop {
+    background: rgb(14 59 67 / 0.55);
+  }
+
+  &[open] .sheet__panel {
+    animation: sheet-up var(--dur) var(--ease);
+  }
+
+  @include md {
+    width: min(560px, calc(100% - 2 * var(--gutter)));
+    margin: auto;
+
+    &[open] .sheet__panel {
+      animation-name: sheet-fade;
+    }
+  }
+}
+
+.sheet__panel {
+  display: flex;
+  flex-direction: column;
+  max-height: 90dvh;
+  border-radius: 16px 16px 0 0;
+  background: var(--c-white);
+  padding-bottom: env(safe-area-inset-bottom);
+
+  @include md {
+    max-height: 85dvh;
+    border-radius: var(--radius-card);
+    padding-bottom: 0;
+  }
+}
+
+.sheet__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding: var(--sp-4) var(--sp-3) var(--sp-2) var(--sp-5);
+}
+
+.sheet__title {
+  margin: 0;
+  font-size: var(--fs-h3);
+}
+
+.sheet__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--tap-min);
+  height: var(--tap-min);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-btn);
+  background: transparent;
+  color: var(--c-base);
+  cursor: pointer;
+
+  &:hover {
+    background: var(--c-bg-soft);
+  }
+}
+
+.sheet__body {
+  padding: var(--sp-2) var(--sp-5) var(--sp-5);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+@keyframes sheet-up {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes sheet-fade {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}

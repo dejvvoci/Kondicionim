@@ -2,12 +2,14 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Footer } from './core/layout/footer/footer';
 import { Header } from './core/layout/header/header';
+import { MobileContactBar } from './core/layout/mobile-contact-bar/mobile-contact-bar';
+import { WhatsAppSheet } from './core/contact/whatsapp-sheet';
 import { SeoService } from './core/seo/seo.service';
 import { UI_TEXT } from './i18n';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Header, Footer],
+  imports: [RouterOutlet, Header, Footer, MobileContactBar, WhatsAppSheet],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <a class="skip-link" href="#main" (click)="skipToMain($event)">{{ t.skipToContent }}</a>
@@ -16,6 +18,8 @@ import { UI_TEXT } from './i18n';
       <router-outlet />
     </main>
     <app-footer />
+    <app-mobile-contact-bar />
+    <app-whatsapp-sheet />
   `,
   styleUrl: './app.scss',
 })

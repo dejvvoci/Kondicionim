@@ -10,6 +10,11 @@ html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   scroll-padding-top: calc(var(--header-h) + var(--sp-4));
+
+  // Faqja nuk lëviz pas sheet-it/modal-it të hapur.
+  &.has-modal {
+    overflow: hidden;
+  }
 }
 
 body {
@@ -21,6 +26,11 @@ body {
   font-size: var(--fs-base);
   line-height: var(--lh-body);
   -webkit-font-smoothing: antialiased;
+
+  // Hapësirë për shiritin e kontaktit në celular, që të mos mbulojë përmbajtjen.
+  @include below-md {
+    padding-bottom: calc(var(--mobile-bar-h) + env(safe-area-inset-bottom));
+  }
 }
 
 img,

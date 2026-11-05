@@ -1,0 +1,27 @@
+<!-- Klik mbi backdrop = mbyll; me tastierë mbyllet me Esc (nativ) dhe butonin ✕. -->
+<!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
+<dialog
+  #dialog
+  class="sheet"
+  aria-modal="true"
+  [attr.aria-labelledby]="titleId()"
+  (click)="onDialogClick($event)"
+  (close)="onClosed()"
+>
+  <div class="sheet__panel">
+    <header class="sheet__head">
+      <h2 class="sheet__title" [id]="titleId()">{{ title() }}</h2>
+      <button
+        type="button"
+        class="sheet__close"
+        [attr.aria-label]="t.common.close"
+        (click)="close()"
+      >
+        <ui-icon name="x" />
+      </button>
+    </header>
+    <div class="sheet__body">
+      <ng-content />
+    </div>
+  </div>
+</dialog>

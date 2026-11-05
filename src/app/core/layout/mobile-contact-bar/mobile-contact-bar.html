@@ -1,0 +1,21 @@
+<nav class="bar" [attr.aria-label]="t.contact.barLabel">
+  @if (phoneHref) {
+    <a class="bar__btn bar__btn--call" [href]="phoneHref">
+      <ui-icon name="phone" [size]="22" />
+      <span>{{ t.contact.call }}</span>
+    </a>
+  } @else if (showTodo) {
+    <span class="bar__btn bar__btn--call">
+      <ui-icon name="phone" [size]="22" />
+      <span class="todo">TODO</span>
+    </span>
+  }
+  <button type="button" class="bar__btn bar__btn--whatsapp" (click)="openWhatsApp()">
+    <ui-icon name="brand-whatsapp" [size]="22" />
+    <span>{{ t.contact.whatsapp }}</span>
+  </button>
+  <button type="button" class="bar__btn bar__btn--offer" (click)="openOffer()">
+    <ui-icon name="file-description" [size]="22" />
+    <span>{{ t.contact.offer }}</span>
+  </button>
+</nav>

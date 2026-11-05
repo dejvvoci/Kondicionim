@@ -1,0 +1,50 @@
+:host {
+  display: block;
+}
+
+.section {
+  padding-block: var(--section-py);
+}
+
+:host(.ui-section--soft) .section {
+  background: var(--c-bg-soft);
+}
+
+:host(.ui-section--base) .section {
+  background: var(--c-base);
+  color: var(--c-white);
+
+  .section__title {
+    color: var(--c-white);
+  }
+
+  .section__lead {
+    color: var(--c-on-base-muted);
+  }
+
+  .eyebrow {
+    color: var(--c-cta);
+  }
+}
+
+.section--narrow {
+  max-width: calc(800px + 2 * var(--gutter));
+}
+
+.section__head {
+  max-width: 720px;
+  margin-bottom: var(--sp-6);
+
+  &--center {
+    margin-inline: auto;
+    text-align: center;
+  }
+}
+
+.section__title {
+  margin-bottom: var(--sp-3);
+}
+
+.section__lead {
+  margin: 0;
+}
