@@ -1,0 +1,70 @@
+@use 'mixins' as *;
+
+.standards {
+  display: grid;
+  gap: var(--sp-7);
+  margin: 0;
+  padding: var(--sp-6) 0 var(--section-py);
+  list-style: none;
+}
+
+.standard {
+  display: grid;
+  gap: var(--sp-5);
+  align-items: center;
+
+  @include md {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-7);
+
+    // Foto në anë të alternuara.
+    &:nth-child(even) .standard__photo {
+      order: -1;
+    }
+  }
+
+  &--solo {
+    grid-template-columns: minmax(0, 720px);
+  }
+}
+
+.standard__num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: var(--sp-3);
+  border-radius: 50%;
+  background: var(--c-bg-soft);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  color: var(--c-teal-text);
+}
+
+.standard__title {
+  font-size: var(--fs-h3);
+
+  @include md {
+    font-size: 1.5rem;
+  }
+}
+
+.standard__why {
+  margin-bottom: var(--sp-1);
+  font-family: var(--font-heading);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--c-teal-text);
+}
+
+.standard__text p:last-child {
+  margin: 0;
+  color: var(--c-text-muted);
+}
+
+.standard__photo,
+.tools-photo {
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}

@@ -4,7 +4,15 @@ import type { City } from './types';
 export const CITIES: City[] = [
   // TODO: numri i projekteve për çdo qytet (projectCount)
   { slug: 'tirane', name: 'Tiranë', lat: 41.3275, lng: 19.8187, projectCount: null, active: true },
-  { slug: 'durres', name: 'Durrës', lat: 41.3246, lng: 19.4565, projectCount: null, active: true },
+  {
+    slug: 'durres',
+    name: 'Durrës',
+    lat: 41.3246,
+    lng: 19.4565,
+    projectCount: null,
+    active: true,
+    mapLabel: 'below',
+  },
   {
     slug: 'elbasan',
     name: 'Elbasan',

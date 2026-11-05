@@ -1,0 +1,151 @@
+<div class="calc">
+  <form class="calc__form" (submit)="$event.preventDefault()">
+    <div class="calc__row">
+      <div class="field">
+        <label class="field__label" for="btu-area">Sipërfaqja (m²)</label>
+        <input
+          id="btu-area"
+          class="input"
+          type="number"
+          inputmode="decimal"
+          [min]="limits.area.min"
+          [max]="limits.area.max"
+          step="1"
+          [value]="area()"
+          aria-describedby="btu-area-help"
+          (input)="setNumber(area, $event)"
+        />
+        <span class="field__help" id="btu-area-help">
+          {{ limits.area.min }}–{{ limits.area.max }} m²
+        </span>
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="btu-height">Lartësia e tavanit (m)</label>
+        <input
+          id="btu-height"
+          class="input"
+          type="number"
+          inputmode="decimal"
+          [min]="limits.height.min"
+          [max]="limits.height.max"
+          step="0.1"
+          [value]="height()"
+          (input)="setNumber(height, $event)"
+        />
+      </div>
+    </div>
+
+    <fieldset class="choice">
+      <legend class="field__label">Ekspozimi ndaj diellit</legend>
+      <div class="choice__options">
+        @for (o of sunOptions; track o.value) {
+          <label class="choice__option">
+            <input
+              type="radio"
+              name="btu-sun"
+              [value]="o.value"
+              [checked]="sun() === o.value"
+              (change)="setChoice(sun, o.value)"
+            />
+            <span>{{ o.label }}</span>
+          </label>
+        }
+      </div>
+    </fieldset>
+
+    <fieldset class="choice">
+      <legend class="field__label">Kati</legend>
+      <div class="choice__options">
+        @for (o of floorOptions; track o.value) {
+          <label class="choice__option">
+            <input
+              type="radio"
+              name="btu-floor"
+              [value]="o.value"
+              [checked]="floor() === o.value"
+              (change)="setChoice(floor, o.value)"
+            />
+            <span>{{ o.label }}</span>
+          </label>
+        }
+      </div>
+    </fieldset>
+
+    <fieldset class="choice">
+      <legend class="field__label">Izolimi</legend>
+      <div class="choice__options">
+        @for (o of insulationOptions; track o.value) {
+          <label class="choice__option">
+            <input
+              type="radio"
+              name="btu-insulation"
+              [value]="o.value"
+              [checked]="insulation() === o.value"
+              (change)="setChoice(insulation, o.value)"
+            />
+            <span>{{ o.label }}</span>
+          </label>
+        }
+      </div>
+    </fieldset>
+
+    <div class="calc__row">
+      <div class="field">
+        <label class="field__label" for="btu-room">Lloji i ambientit</label>
+        <select id="btu-room" class="input" (change)="setChoice(room, selectValue($event))">
+          @for (o of roomOptions; track o.value) {
+            <option [value]="o.value" [selected]="room() === o.value">{{ o.label }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="btu-persons">Numri i personave</label>
+        <input
+          id="btu-persons"
+          class="input"
+          type="number"
+          inputmode="numeric"
+          [min]="limits.persons.min"
+          [max]="limits.persons.max"
+          step="1"
+          [value]="persons()"
+          (input)="setNumber(persons, $event)"
+        />
+      </div>
+    </div>
+  </form>
+
+  <section class="result" aria-labelledby="btu-result-label">
+    <h3 class="result__label" id="btu-result-label">{{ t.resultLabel }}</h3>
+    <div aria-live="polite" aria-atomic="true">
+      @if (result().size; as size) {
+        <p class="result__size">{{ size }} <span>BTU</span></p>
+      } @else {
+        <p class="result__size result__size--over">Mbi {{ maxSize }} <span>BTU</span></p>
+        <p class="result__over">
+          <strong>{{ t.overTitle }}.</strong> {{ t.overText }}
+        </p>
+      }
+    </div>
+
+    <p class="result__calc">{{ t.calculated }}: ~{{ btuLabel() }} BTU</p>
+
+    @if (result().factors.length) {
+      <h4 class="result__factors-title">{{ t.factorsTitle }}</h4>
+      <ul class="result__factors">
+        @for (f of result().factors; track f) {
+          <li>{{ f }}</li>
+        }
+      </ul>
+    }
+
+    <p class="result__note">{{ t.note }}</p>
+    @if (flow.available) {
+      <button ui-button variant="primary" type="button" class="result__cta" (click)="confirm()">
+        <ui-icon name="brand-whatsapp" [size]="20" />{{ t.confirm }}
+      </button>
+    }
+  </section>
+</div>

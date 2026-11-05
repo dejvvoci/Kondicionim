@@ -1,4 +1,3 @@
-import { isDevMode } from '@angular/core';
 import { ResolveFn, Routes } from '@angular/router';
 import type { RouteSeo } from './core/seo/seo';
 
@@ -23,17 +22,21 @@ const notFound = {
 
 const page = (h1: string, seo: RouteSeo) => ({ h1, seo });
 
+/** Angular e zëvendëson me false në build-in e prodhimit, ndaj kodi i mëposhtëm hiqet krejt. */
+declare const ngDevMode: boolean | undefined;
+
 /** Rrugë vetëm për development: nuk prerenderohen dhe nuk dalin në prodhim. */
-const devRoutes: Routes = isDevMode()
-  ? [
-      {
-        path: 'stili',
-        loadComponent: () =>
-          import('./features/style-guide/style-guide-page').then((m) => m.StyleGuidePage),
-        data: { seo: { title: 'Stili', description: '', noindex: true } satisfies RouteSeo },
-      },
-    ]
-  : [];
+const devRoutes: Routes =
+  typeof ngDevMode === 'undefined' || ngDevMode
+    ? [
+        {
+          path: 'stili',
+          loadComponent: () =>
+            import('./features/style-guide/style-guide-page').then((m) => m.StyleGuidePage),
+          data: { seo: { title: 'Stili', description: '', noindex: true } satisfies RouteSeo },
+        },
+      ]
+    : [];
 
 export const routes: Routes = [
   {
@@ -66,21 +69,25 @@ export const routes: Routes = [
   },
   {
     path: 'standardet-e-montimit',
-    loadComponent: placeholder,
-    data: page('Standardet tona të montimit', {
-      title: 'Standardet e montimit',
-      description:
-        'Vakumim i plotë, test presioni me azot, saldim me azot dhe testim final me matje: si montojmë që kondicioneri të punojë mirë për vite.',
-    }),
+    loadComponent: () => import('./features/standards/standards-page').then((m) => m.StandardsPage),
+    data: {
+      seo: {
+        title: 'Standardet e montimit',
+        description:
+          'Vakumim i plotë, test presioni me azot, saldim me azot dhe testim final me matje: si montojmë që kondicioneri të punojë mirë për vite.',
+      } satisfies RouteSeo,
+    },
   },
   {
     path: 'si-te-zgjidhni-kondicionerin',
-    loadComponent: placeholder,
-    data: page('Si të zgjidhni kondicionerin', {
-      title: 'Si të zgjidhni kondicionerin',
-      description:
-        'Llogaritni BTU-të e nevojshme për ambientin tuaj dhe krahasoni split, multi-split, kanal, kasetë dhe VRF para se të blini.',
-    }),
+    loadComponent: () => import('./features/guide/guide-page').then((m) => m.GuidePage),
+    data: {
+      seo: {
+        title: 'Si të zgjidhni kondicionerin: kalkulatori BTU',
+        description:
+          'Llogaritni BTU-të e nevojshme për ambientin tuaj dhe krahasoni split, multi-split, kanal, kasetë dhe VRF para se të blini.',
+      } satisfies RouteSeo,
+    },
   },
   {
     path: 'rreth-ustait',

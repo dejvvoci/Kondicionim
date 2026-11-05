@@ -60,6 +60,20 @@ Të gjitha tekstet dhe të dhënat që ndryshojnë janë në `src/app/data/`. Nu
   `src/app/data/business.ts`
 - **Një qytet i ri**: një rresht i ri në `src/app/data/cities.ts`
 - **Menuja**: `src/app/data/navigation.ts`
+- **Koeficientët e kalkulatorit BTU**: `src/app/data/btu-config.ts`
+- **Tekstet e udhëzuesit dhe krahasimi i sistemeve**: `src/app/data/guide.ts`
+- **Standardet e montimit (tekst dhe foto)**: `src/app/data/standards.ts`
+
+### Harta e Shqipërisë
+
+Harta është SVG inline, e gjeneruar një herë nga kufijtë e Natural Earth dhe e ruajtur në
+`src/app/shared/ui/map-albania/albania-map.generated.ts` (rreth 4 KB). Qytetet vendosen nga
+`lat`/`lng` në `cities.ts` me të njëjtin projeksion, ndaj një qytet i ri nuk kërkon rigjenerim.
+Rigjenerimi (vetëm nëse ndryshon burimi ose madhësia):
+
+```bash
+npm run build:map
+```
 
 Vlera `null` me koment `// TODO:` = e dhënë që mungon. Në development shfaqet si placeholder i
 dukshëm; në prodhim elementi fshihet. `npm run build` liston të gjitha TODO-t; para publikimit
@@ -96,4 +110,6 @@ Për të ndryshuar hostimin (Netlify, Firebase Hosting): publiko `dist/kondicion
 ## Licencat e burimeve të jashtme
 
 - Fontet Poppins dhe Open Sans: SIL Open Font License 1.1 (self-hosted në `public/fonts`)
+- Harta: Natural Earth, Admin 0 Countries 1:10m, domain publik
+  (https://www.naturalearthdata.com/about/terms-of-use/)
 - Ikonat: Tabler Icons, licenca MIT (vetëm path-et e përdorura, në `src/app/shared/ui/icon/icons.ts`)

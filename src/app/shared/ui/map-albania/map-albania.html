@@ -1,0 +1,50 @@
+<div class="map" [style.aspect-ratio]="ratio">
+  <svg
+    class="map__svg"
+    [attr.viewBox]="'0 0 ' + map.width + ' ' + map.height"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path class="map__land" [attr.d]="map.path" />
+  </svg>
+
+  @for (p of pins(); track p.city.slug) {
+    <div
+      class="pin"
+      [class.pin--open]="openSlug() === p.city.slug"
+      [class]="'pin--label-' + p.label"
+      [style.left.%]="p.left"
+      [style.top.%]="p.top"
+      (mouseenter)="show(p.city.slug)"
+      (mouseleave)="leave(p.city.slug, $event)"
+      (focusout)="leave(p.city.slug, $event)"
+    >
+      <button
+        type="button"
+        class="pin__dot"
+        [attr.aria-expanded]="openSlug() === p.city.slug"
+        [attr.aria-controls]="'map-tip-' + p.city.slug"
+        (click)="toggle(p.city)"
+      >
+        <span class="visually-hidden">{{ p.city.name }}</span>
+      </button>
+      <span class="pin__label" aria-hidden="true">{{ p.city.name }}</span>
+
+      <div
+        class="tip"
+        [class.tip--start]="p.left < 35"
+        [class.tip--end]="p.left > 65"
+        [id]="'map-tip-' + p.city.slug"
+        [hidden]="openSlug() !== p.city.slug"
+      >
+        <strong class="tip__name">{{ p.city.name }}</strong>
+        @if (projectsText(p.city); as count) {
+          <span class="tip__count">{{ count }}</span>
+        }
+        <a class="tip__link" routerLink="/projektet" [queryParams]="{ qyteti: p.city.slug }">
+          {{ t.seeProjects }} {{ p.city.name }} →
+        </a>
+      </div>
+    </div>
+  }
+</div>
