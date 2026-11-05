@@ -67,6 +67,11 @@ export const UI_TEXT = {
   placeholder: {
     wip: 'Kjo faqe është në ndërtim e sipër.',
   },
+  map: {
+    seeProjects: 'Shiko projektet në',
+    projects: 'projekte',
+    oneProject: '1 projekt',
+  },
   breadcrumbs: {
     label: 'Shtegu i faqes',
     home: 'Kryefaqja',

@@ -1,4 +1,4 @@
-import type { InstallStandard } from './types';
+import type { InstallStandard, Photo } from './types';
 
 // TODO: konfirmo me ustain tekstet e standardeve dhe shto foto reale për secilin
 export const STANDARDS: InstallStandard[] = [
@@ -67,3 +67,17 @@ export const STANDARDS: InstallStandard[] = [
     photo: null,
   },
 ];
+
+export const STANDARDS_PAGE = {
+  eyebrow: 'Standardet e montimit',
+  title: 'Standardet tona të montimit',
+  lead: 'Një kondicioner mund të ndizet edhe kur montohet keq. Ndryshimi duket pas një, dy ose pesë vitesh: në konsum, në zhurmë dhe në defekte. Këto janë hapat që nuk i anashkalojmë.',
+  why: 'Pse ka rëndësi',
+  tools: {
+    title: 'Veglat me të cilat punojmë',
+    text: 'Manometra dixhitalë, pompë vakumi, detektor rrjedhjeje dhe termometra: matjet tregojnë nëse sistemi punon siç duhet, jo përshtypja.',
+  },
+} as const;
+
+/** Foto e veglave profesionale. */
+export const TOOLS_PHOTO: Photo | null = null; // TODO: foto e veglave (manometra dixhitalë, pompë vakumi, detektor rrjedhjeje, termometra)

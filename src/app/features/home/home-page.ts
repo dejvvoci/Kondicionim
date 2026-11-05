@@ -18,6 +18,8 @@ import { Badge } from '../../shared/ui/badge/badge';
 import { Button } from '../../shared/ui/button/button';
 import { Icon } from '../../shared/ui/icon/icon';
 import { Photo } from '../../shared/ui/photo/photo';
+import { ALBANIA_MAP_SIZE } from '../../shared/ui/map-albania/albania-map-size.generated';
+import { MapAlbania } from '../../shared/ui/map-albania/map-albania';
 import { Section } from '../../shared/ui/section/section';
 import { ServiceGrid } from '../services/service-grid';
 
@@ -31,6 +33,7 @@ import { ServiceGrid } from '../services/service-grid';
     Badge,
     Button,
     Icon,
+    MapAlbania,
     Photo,
     Section,
     ServiceGrid,
@@ -51,6 +54,7 @@ export class HomePage {
   /** Në development shfaqen edhe shifrat që mungojnë (si TODO), në prodhim vetëm ato me vlerë. */
   protected readonly stats = isDevMode() ? STATS : visibleStats();
   protected readonly cities = activeCities();
+  protected readonly mapRatio = `${ALBANIA_MAP_SIZE.width} / ${ALBANIA_MAP_SIZE.height}`;
   protected readonly standards = STANDARDS.filter((s) => s.featured);
   protected readonly process = PROCESS;
   protected readonly brands = BRANDS;

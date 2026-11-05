@@ -1,0 +1,82 @@
+<header class="page-head">
+  <div class="container">
+    <ui-breadcrumbs [items]="crumbs" />
+    <span class="eyebrow">{{ g.calculator.eyebrow }}</span>
+    <h1>{{ g.title }}</h1>
+    <p class="lead">{{ g.lead }}</p>
+  </div>
+</header>
+
+<ui-section
+  tone="soft"
+  [title]="g.calculator.title"
+  [lead]="g.calculator.lead"
+  anchor="kalkulatori"
+>
+  <app-btu-calculator />
+</ui-section>
+
+<ui-section [eyebrow]="g.comparison.eyebrow" [title]="g.comparison.title">
+  <ul class="types">
+    @for (s of types; track s.slug) {
+      <li>
+        <details class="type" [open]="wide()">
+          <summary
+            class="type__head"
+            [attr.tabindex]="wide() ? -1 : null"
+            (click)="onSummaryClick($event)"
+          >
+            <span class="type__icon"><ui-icon [name]="s.icon" /></span>
+            <h3 class="type__title">{{ s.title }}</h3>
+            <ui-icon class="type__chevron" name="chevron-down" [size]="20" />
+          </summary>
+          <div class="type__body">
+            <h4>{{ g.comparison.bestFor }}</h4>
+            <p>{{ s.bestFor }}</p>
+            <h4>{{ g.comparison.pros }}</h4>
+            <ul class="type__list type__list--pros">
+              @for (p of s.pros; track p) {
+                <li>{{ p }}</li>
+              }
+            </ul>
+            <h4>{{ g.comparison.limits }}</h4>
+            <ul class="type__list">
+              @for (l of s.limits; track l) {
+                <li>{{ l }}</li>
+              }
+            </ul>
+            <a ui-button variant="link" [routerLink]="'/sherbimet/' + s.serviceSlug">
+              {{ more }}<span class="visually-hidden">: {{ s.title }}</span>
+            </a>
+          </div>
+        </details>
+      </li>
+    }
+  </ul>
+</ui-section>
+
+<ui-section tone="soft" [eyebrow]="g.topics.eyebrow" [title]="g.topics.title">
+  <div class="topics">
+    @for (topic of topics; track topic.title) {
+      <section class="topic">
+        <h3>{{ topic.title }}</h3>
+        <p>{{ topic.text }}</p>
+      </section>
+    }
+  </div>
+</ui-section>
+
+<ui-section tone="base" [title]="g.cta.title" [lead]="g.cta.lead">
+  <div class="cta-actions">
+    @if (phoneHref) {
+      <a ui-button variant="primary" size="lg" [href]="phoneHref" appTrackPhone="udhezuesi">
+        <ui-icon name="phone" [size]="22" />{{ contact.call }}
+      </a>
+    }
+    @if (flow.available) {
+      <button ui-button variant="outline-light" size="lg" type="button" (click)="openWhatsApp()">
+        <ui-icon name="brand-whatsapp" [size]="22" />{{ contact.whatsapp }}
+      </button>
+    }
+  </div>
+</ui-section>

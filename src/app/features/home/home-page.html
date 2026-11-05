@@ -83,17 +83,30 @@
   <app-service-grid />
 </ui-section>
 
-<!-- 4. Zona e mbulimit (harta interaktive shtohet në fazën 5) -->
+<!-- 4. Zona e mbulimit: harta ngarkohet kur afrohet në ekran; lista mbetet në HTML (SEO) -->
 <ui-section
   [eyebrow]="home.coverage.eyebrow"
   [title]="home.coverage.title"
   [lead]="home.coverage.lead"
 >
-  <ul class="cities">
-    @for (c of cities; track c.slug) {
-      <li class="cities__item"><ui-icon name="map-pin" [size]="20" />{{ c.name }}</li>
-    }
-  </ul>
+  <div class="coverage">
+    <div class="coverage__map">
+      @defer (on viewport) {
+        <ui-map-albania [cities]="cities" />
+      } @placeholder {
+        <div class="coverage__placeholder" [style.aspect-ratio]="mapRatio"></div>
+      }
+    </div>
+    <ul class="cities">
+      @for (c of cities; track c.slug) {
+        <li>
+          <a class="cities__item" routerLink="/projektet" [queryParams]="{ qyteti: c.slug }">
+            <ui-icon name="map-pin" [size]="20" />{{ c.name }}
+          </a>
+        </li>
+      }
+    </ul>
+  </div>
 </ui-section>
 
 <!-- 5. Standardet e montimit -->

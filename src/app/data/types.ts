@@ -42,6 +42,8 @@ export interface City {
   lng: number;
   projectCount: number | null;
   active: boolean;
+  /** Ku vendoset emri në hartë kur dy qytete janë afër (parazgjedhur: djathtas). */
+  mapLabel?: 'right' | 'left' | 'below';
 }
 
 /** Foto reale në public/images. Emër skedari përshkrues: montim-multi-split-vile-tirane.avif */

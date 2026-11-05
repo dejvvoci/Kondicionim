@@ -1,0 +1,131 @@
+@use 'mixins' as *;
+
+.types {
+  display: grid;
+  gap: var(--sp-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include md {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--sp-4);
+  }
+
+  @include lg {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.type {
+  height: 100%;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-card);
+  background: var(--c-white);
+}
+
+.type__head {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  min-height: var(--tap-min);
+  padding: var(--sp-4) var(--sp-5);
+  cursor: pointer;
+  list-style: none;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+    border-radius: var(--radius-card);
+  }
+
+  @include md {
+    cursor: default;
+  }
+}
+
+.type__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--c-bg-soft);
+  color: var(--c-teal);
+}
+
+.type__title {
+  flex: 1;
+  margin: 0;
+  font-size: var(--fs-h3);
+}
+
+.type__chevron {
+  // Pa tranzicion: në celular kartat mbyllen pas ngarkimit dhe shigjeta s'duhet të rrotullohet.
+  color: var(--c-teal);
+
+  details[open] & {
+    transform: rotate(180deg);
+  }
+
+  @include md {
+    display: none;
+  }
+}
+
+.type__body {
+  padding: 0 var(--sp-5) var(--sp-4);
+
+  h4 {
+    margin: var(--sp-4) 0 var(--sp-1);
+    font-size: var(--fs-base);
+    color: var(--c-text-muted);
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.type__list {
+  display: grid;
+  gap: var(--sp-1);
+  margin: 0;
+  padding-left: var(--sp-5);
+
+  &--pros li::marker {
+    color: var(--c-teal);
+  }
+}
+
+.topics {
+  display: grid;
+  gap: var(--sp-5) var(--sp-7);
+
+  @include md {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  h3 {
+    margin-bottom: var(--sp-2);
+  }
+
+  p {
+    margin: 0;
+    color: var(--c-text-muted);
+  }
+}
+
+.cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+}
