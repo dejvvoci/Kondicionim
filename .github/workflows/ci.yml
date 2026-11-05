@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  deployments: write
+  pull-requests: write
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+      - run: npm run format:check
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+
+      # Deploy në Cloudflare Pages: main → prodhim, çdo PR → preview me URL të vetën.
+      # Kalohet nëse sekretet CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID nuk janë vendosur.
+      - name: Deploy në Cloudflare Pages
+        id: deploy
+        if: env.CLOUDFLARE_API_TOKEN != '' && env.CLOUDFLARE_ACCOUNT_ID != ''
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist/kondicionim/browser --project-name=kondicionim --branch=${{ github.head_ref || github.ref_name }}
+
+      - name: URL-ja e preview-t
+        if: steps.deploy.outcome == 'success'
+        run: echo "Deploy-i:${{ steps.deploy.outputs.deployment-url }}" >> "$GITHUB_STEP_SUMMARY"

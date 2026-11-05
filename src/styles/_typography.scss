@@ -1,0 +1,44 @@
+h1,
+h2,
+h3,
+h4 {
+  margin: 0 0 var(--sp-4);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: var(--lh-heading);
+  color: var(--c-base);
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--fs-h1);
+}
+
+h2 {
+  font-size: var(--fs-h2);
+}
+
+h3 {
+  font-size: var(--fs-h3);
+}
+
+p {
+  margin: 0 0 var(--sp-4);
+}
+
+// Etiketë e vogël mbi seksione (e vetmja që lejohet uppercase), p.sh. "SHËRBIMET".
+.eyebrow {
+  display: block;
+  margin-bottom: var(--sp-2);
+  font-family: var(--font-heading);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-teal-text);
+}
+
+.lead {
+  font-size: var(--fs-lg);
+  color: var(--c-text-muted);
+}

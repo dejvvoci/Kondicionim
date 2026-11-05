@@ -1,0 +1,50 @@
+<header class="header">
+  <div class="container header__inner">
+    <a class="header__logo" routerLink="/" [attr.aria-label]="name + ' – ' + t.nav.home">
+      {{ name }}
+    </a>
+
+    <nav
+      class="header__nav"
+      [class.is-open]="menuOpen()"
+      id="main-nav"
+      [attr.aria-label]="t.nav.label"
+    >
+      <ul class="header__list">
+        @for (item of nav; track item.path) {
+          <li>
+            <a
+              class="header__link"
+              [routerLink]="item.path"
+              routerLinkActive="is-active"
+              ariaCurrentWhenActive="page"
+              >{{ item.label }}</a
+            >
+          </li>
+        }
+      </ul>
+    </nav>
+
+    <div class="header__actions">
+      @if (phoneHref) {
+        <a ui-button variant="primary" class="header__call" [href]="phoneHref">
+          <ui-icon name="phone" [size]="20" />
+          <span>{{ phoneLabel }}</span>
+        </a>
+      } @else if (showTodo) {
+        <span class="header__call todo">TODO: telefoni</span>
+      }
+
+      <button
+        type="button"
+        class="header__toggle"
+        aria-controls="main-nav"
+        [attr.aria-expanded]="menuOpen()"
+        [attr.aria-label]="menuOpen() ? t.nav.closeMenu : t.nav.openMenu"
+        (click)="toggle()"
+      >
+        <ui-icon [name]="menuOpen() ? 'x' : 'menu-2'" />
+      </button>
+    </div>
+  </div>
+</header>

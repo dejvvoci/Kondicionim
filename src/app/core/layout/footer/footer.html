@@ -1,0 +1,88 @@
+<footer class="footer">
+  <div class="container footer__grid">
+    <div class="footer__col">
+      <p class="footer__brand">{{ name }}</p>
+      @if (hasContact || showTodo) {
+        <h2 class="footer__title">{{ t.footer.contact }}</h2>
+        <ul class="footer__list">
+          @if (phoneHref) {
+            <li>
+              <a class="footer__link footer__link--icon" [href]="phoneHref">
+                <ui-icon name="phone" [size]="18" />{{ phoneLabel }}
+              </a>
+            </li>
+          } @else if (showTodo) {
+            <li><span class="todo">TODO: telefoni</span></li>
+          }
+          @if (whatsappHref) {
+            <li>
+              <a
+                class="footer__link footer__link--icon"
+                [href]="whatsappHref"
+                target="_blank"
+                rel="noopener"
+              >
+                <ui-icon name="brand-whatsapp" [size]="18" />{{ t.contact.whatsapp }}
+              </a>
+            </li>
+          } @else if (showTodo) {
+            <li><span class="todo">TODO: WhatsApp</span></li>
+          }
+          @for (s of socials; track s.label) {
+            <li>
+              <a class="footer__link" [href]="s.url" target="_blank" rel="noopener">{{
+                s.label
+              }}</a>
+            </li>
+          }
+        </ul>
+      }
+    </div>
+
+    <div class="footer__col">
+      @if (b.openingHours.length) {
+        <h2 class="footer__title">{{ t.footer.hours }}</h2>
+        <ul class="footer__list footer__list--spaced">
+          @for (h of b.openingHours; track h.days) {
+            <li class="footer__muted">{{ h.days }}: {{ h.hours }}</li>
+          }
+        </ul>
+      } @else if (showTodo) {
+        <h2 class="footer__title">{{ t.footer.hours }}</h2>
+        <p><span class="todo">TODO: orari</span></p>
+      }
+
+      <h2 class="footer__title">{{ t.footer.cities }}</h2>
+      <ul class="footer__list">
+        @for (c of cities; track c.slug) {
+          <li class="footer__muted footer__link--icon">
+            <ui-icon name="map-pin" [size]="18" />{{ c.name }}
+          </li>
+        }
+      </ul>
+    </div>
+
+    <nav class="footer__col" aria-labelledby="f-links">
+      <h2 class="footer__title" id="f-links">{{ t.footer.links }}</h2>
+      <ul class="footer__list footer__list--cols">
+        @for (item of nav; track item.path) {
+          <li>
+            <a class="footer__link" [routerLink]="item.path">{{ item.label }}</a>
+          </li>
+        }
+      </ul>
+    </nav>
+  </div>
+
+  <div class="container footer__bottom">
+    <p>© {{ year }} {{ name }}. {{ t.footer.rights }}</p>
+    @if (b.nipt) {
+      <p>{{ t.footer.nipt }}: {{ b.nipt }}</p>
+    } @else if (showTodo) {
+      <p><span class="todo">TODO: NIPT</span></p>
+    }
+    <p>
+      <a class="footer__link" routerLink="/privatesia">{{ t.footer.privacy }}</a>
+    </p>
+  </div>
+</footer>

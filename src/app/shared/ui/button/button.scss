@@ -1,0 +1,109 @@
+@use 'mixins' as *;
+
+:host {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  min-height: var(--tap-min);
+  padding: var(--sp-3) var(--sp-5);
+  border: 1.5px solid transparent;
+  border-radius: var(--radius-btn);
+  font-family: var(--font-heading);
+  font-size: var(--fs-base);
+  font-weight: 500;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),
+    transform var(--dur-fast) var(--ease);
+  -webkit-tap-highlight-color: transparent;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
+@include md {
+  :host {
+    min-height: 44px;
+  }
+
+  :host(.ui-button--lg) {
+    min-height: 52px;
+  }
+}
+
+:host(.ui-button--lg) {
+  padding-inline: var(--sp-6);
+  font-size: var(--fs-lg);
+}
+
+:host(.ui-button--primary) {
+  background: var(--c-cta);
+  color: var(--c-base);
+
+  &:hover {
+    background: var(--c-cta-hover);
+  }
+}
+
+:host(.ui-button--secondary) {
+  background: var(--c-base);
+  color: var(--c-white);
+
+  &:hover {
+    background: var(--c-text);
+  }
+}
+
+:host(.ui-button--outline) {
+  background: var(--c-white);
+  border-color: var(--c-base);
+  color: var(--c-base);
+
+  &:hover {
+    background: var(--c-bg-soft);
+  }
+}
+
+:host(.ui-button--outline-light) {
+  background: transparent;
+  border-color: var(--c-white);
+  color: var(--c-white);
+
+  &:hover {
+    background: rgb(255 255 255 / 0.1);
+  }
+
+  &:focus-visible {
+    outline-color: var(--c-white);
+  }
+}
+
+:host(.ui-button--link) {
+  min-height: 44px;
+  padding-inline: 0;
+  background: transparent;
+  color: var(--c-teal-text);
+
+  &::after {
+    content: '→';
+    transition: transform var(--dur) var(--ease);
+  }
+
+  &:hover {
+    text-decoration: underline;
+
+    &::after {
+      transform: translateX(3px);
+    }
+  }
+}

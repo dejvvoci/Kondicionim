@@ -1,0 +1,146 @@
+@use 'mixins' as *;
+
+:host {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: block;
+}
+
+.header {
+  background: var(--c-base);
+  color: var(--c-white);
+}
+
+.header__inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-5);
+  min-height: var(--header-h);
+}
+
+.header__logo {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-right: auto;
+  font-family: var(--font-heading);
+  font-size: var(--fs-lg);
+  font-weight: 600;
+  color: var(--c-white);
+  text-decoration: none;
+
+  &:focus-visible {
+    outline-color: var(--c-white);
+  }
+}
+
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.header__call {
+  display: none;
+
+  @include md {
+    display: inline-flex;
+  }
+}
+
+.header__toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tap-min);
+  height: var(--tap-min);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-btn);
+  background: transparent;
+  color: var(--c-white);
+  cursor: pointer;
+
+  &:hover {
+    background: rgb(255 255 255 / 0.1);
+  }
+
+  &:focus-visible {
+    outline-color: var(--c-white);
+  }
+
+  @include lg {
+    display: none;
+  }
+}
+
+.header__list {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.header__link {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 8px;
+  font-family: var(--font-heading);
+  font-size: var(--fs-base);
+  font-weight: 500;
+  color: var(--c-white);
+  text-decoration: none;
+
+  &:hover {
+    background: rgb(255 255 255 / 0.08);
+  }
+
+  &:focus-visible {
+    outline-color: var(--c-white);
+  }
+
+  &.is-active {
+    color: var(--c-cta);
+  }
+}
+
+// Celular dhe tablet: menu që hapet poshtë header-it.
+@media (max-width: 1023.98px) {
+  .header__nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    padding: var(--sp-2) var(--gutter) var(--sp-5);
+    background: var(--c-base);
+    border-top: 1px solid rgb(255 255 255 / 0.12);
+
+    &.is-open {
+      display: block;
+    }
+  }
+
+  .header__list {
+    flex-direction: column;
+  }
+
+  .header__link {
+    min-height: var(--tap-min);
+    font-size: var(--fs-lg);
+  }
+}
+
+@include lg {
+  .header__nav {
+    order: 0;
+  }
+
+  .header__list {
+    gap: var(--sp-1);
+  }
+}
