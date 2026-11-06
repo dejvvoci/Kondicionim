@@ -16,7 +16,7 @@ export const PRIVACY = {
     {
       title: 'Kush jemi',
       paragraphs: [
-        'Faqja i përket biznesit të paraqitur në fund të faqes (emri, NIPT-i dhe kontaktet). Për çdo pyetje mbi të dhënat tuaja mund të na shkruani ose të telefononi në kontaktet e mëposhtme.',
+        'Faqja i përket biznesit të paraqitur në fund të faqes (emri dhe kontaktet). Për çdo pyetje mbi të dhënat tuaja mund të na shkruani ose të telefononi në kontaktet e mëposhtme.',
       ],
     },
     {

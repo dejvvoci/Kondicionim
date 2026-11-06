@@ -3,22 +3,24 @@ import { placeholder } from './placeholders';
 import type { Business, Photo } from './types';
 
 export const BUSINESS: Business = {
-  name: null, // TODO: emri i biznesit
+  name: 'Montim dhe servis kondicioneri Ardit',
   fallbackName: 'Usta kondicionimi',
-  siteUrl: 'https://kondicionim.pages.dev', // TODO: domeni final
-  phone: null, // TODO: numri i telefonit, p.sh. "+3556XXXXXXXX"
-  whatsapp: null, // TODO: numri i WhatsApp, p.sh. "3556XXXXXXXX"
-  nipt: null, // TODO: NIPT-i
-  email: null, // TODO: email-i (opsional)
-  openingHours: [], // TODO: orari i punës, p.sh. { days: 'E hënë – e shtunë', hours: '08:00 – 19:00', schema: 'Mo-Sa 08:00-19:00' }
+  siteUrl: 'https://montimkondicioneri.al',
+  phone: '06xxxxxxxxx', // TODO: numër shembull, vendos numrin real, p.sh. "+3556XXXXXXXX"
+  whatsapp: '06xxxxxxxxx', // TODO: numër shembull, vendos numrin real, p.sh. "3556XXXXXXXX"
+  email: 'email@email.com', // TODO: email shembull, vendos email-in real
+  openingHours: [],
+  hoursNote: 'Kontaktoni për të lënë orarin e takimit të përshtatshëm për të dy.',
   social: {
-    facebook: null, // TODO: linku i Facebook
-    instagram: null, // TODO: linku i Instagram
-    tiktok: null, // TODO: linku i TikTok
+    facebook: 'https://www.facebook.com/', // TODO: linku i faqes së biznesit
+    instagram: 'https://www.instagram.com/', // TODO: linku i profilit të biznesit
+    tiktok: 'https://www.tiktok.com/', // TODO: linku i profilit të biznesit
     youtube: null,
   },
-  locality: null, // TODO: qyteti i bazës, p.sh. "Tiranë" (i njëjtë me Google Business Profile)
-  priceRange: null, // TODO: niveli i çmimeve për Google, p.sh. "$$"
+  locality: 'Tiranë',
+  // Google pret një interval të shkurtër ose "$"; çmimi me kërkesë shpjegohet te faqja e çmimeve.
+  priceRange: null,
+  servesWholeCountry: true,
   ...BUSINESS_OVERRIDES,
 };
 

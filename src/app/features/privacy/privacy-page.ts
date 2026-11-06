@@ -37,9 +37,6 @@ import { Breadcrumbs, type Crumb } from '../../shared/ui/breadcrumbs/breadcrumbs
           <h2>{{ p.contactTitle }}</h2>
           <ul>
             <li>{{ name }}</li>
-            @if (b.nipt) {
-              <li>NIPT: {{ b.nipt }}</li>
-            }
             @if (b.phone) {
               <li>
                 <a [href]="tel(b.phone)">{{ format(b.phone) }}</a>

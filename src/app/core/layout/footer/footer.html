@@ -39,13 +39,18 @@
     </div>
 
     <div class="footer__col">
-      @if (b.openingHours.length) {
+      @if (b.openingHours.length || b.hoursNote) {
         <h2 class="footer__title">{{ t.footer.hours }}</h2>
-        <ul class="footer__list footer__list--spaced">
-          @for (h of b.openingHours; track h.days) {
-            <li class="footer__muted">{{ h.days }}: {{ h.hours }}</li>
-          }
-        </ul>
+        @if (b.openingHours.length) {
+          <ul class="footer__list footer__list--spaced">
+            @for (h of b.openingHours; track h.days) {
+              <li class="footer__muted">{{ h.days }}: {{ h.hours }}</li>
+            }
+          </ul>
+        }
+        @if (b.hoursNote) {
+          <p class="footer__muted">{{ b.hoursNote }}</p>
+        }
       } @else if (showTodo) {
         <h2 class="footer__title">{{ t.footer.hours }}</h2>
         <p><span class="todo">TODO: orari</span></p>
@@ -75,11 +80,6 @@
 
   <div class="container footer__bottom">
     <p>© {{ year }} {{ name }}. {{ t.footer.rights }}</p>
-    @if (b.nipt) {
-      <p>{{ t.footer.nipt }}: {{ b.nipt }}</p>
-    } @else if (showTodo) {
-      <p><span class="todo">TODO: NIPT</span></p>
-    }
     <p>
       <a class="footer__link" routerLink="/privatesia">{{ t.footer.privacy }}</a>
     </p>

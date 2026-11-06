@@ -9,7 +9,7 @@
 import { chromium } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { businessName } from '../src/app/data/business.ts';
+import { BUSINESS, businessName } from '../src/app/data/business.ts';
 import { activeCities } from '../src/app/data/cities.ts';
 import { ALBANIA_MAP } from '../src/app/shared/ui/map-albania/albania-map.generated.ts';
 import { project } from '../src/app/shared/ui/map-albania/projection.ts';
@@ -21,6 +21,10 @@ const font = (file: string) =>
   `url(data:font/woff2;base64,${readFileSync(join(root, 'public/fonts', file)).toString('base64')}) format('woff2')`;
 
 const cities = activeCities();
+// Kur punon në të gjithë vendin, një rresht i shkurtër në vend të listës së qyteteve.
+const area = BUSINESS.servesWholeCountry
+  ? `${BUSINESS.locality ?? cities[0].name} · Në të gjithë Shqipërinë`
+  : cities.map((c) => c.name).join(' · ');
 const dots = cities
   .map((c) => {
     const [x, y] = project(c.lat, c.lng, ALBANIA_MAP.projection);
@@ -42,7 +46,7 @@ const html = `<!doctype html>
   .card { display: grid; grid-template-columns: 1fr 300px; gap: 48px; height: 100%; padding: 72px 80px; }
   .text { display: flex; flex-direction: column; justify-content: center; }
   .eyebrow { color: #1ba39c; font-weight: 600; font-size: 24px; letter-spacing: .08em; text-transform: uppercase; }
-  h1 { margin-top: 20px; font-family: Poppins, sans-serif; font-weight: 600; font-size: 76px; line-height: 1.1; }
+  h1 { margin-top: 20px; font-family: Poppins, sans-serif; font-weight: 600; font-size: 64px; line-height: 1.1; }
   p { margin-top: 24px; color: #c3dcdc; font-size: 34px; line-height: 1.35; }
   .cities { margin-top: auto; padding-top: 32px; border-top: 2px solid rgba(255,255,255,.15); color: #fff; font-size: 28px; font-weight: 600; }
   svg { width: 100%; height: 100%; }
@@ -54,7 +58,7 @@ const html = `<!doctype html>
       <div class="eyebrow">Montim · Riparim · Mirëmbajtje</div>
       <h1>${businessName()}</h1>
       <p>Kondicionerë split, multi-split, kanal, VRF/VRV dhe pompa nxehtësie</p>
-      <div class="cities">${cities.map((c) => c.name).join(' · ')}</div>
+      <div class="cities">${area}</div>
     </div>
     <svg viewBox="0 0 ${ALBANIA_MAP.width} ${ALBANIA_MAP.height}" aria-hidden="true">
       <path d="${ALBANIA_MAP.path}" fill="#1ba39c" fill-opacity=".35" stroke="#1ba39c" stroke-width="3"/>

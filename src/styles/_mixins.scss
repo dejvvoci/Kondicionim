@@ -1,6 +1,8 @@
 // Breakpoint-et dhe mixin-et e përbashkëta. Përdorim: @use 'mixins' as *;
 $bp-md: 768px;
 $bp-lg: 1024px;
+// Menuja e plotë e header-it (emri i biznesit + 6 lidhje + butoni i telefonit).
+$bp-nav: 1200px;
 
 @mixin md {
   @media (min-width: $bp-md) {
@@ -10,6 +12,18 @@ $bp-lg: 1024px;
 
 @mixin lg {
   @media (min-width: $bp-lg) {
+    @content;
+  }
+}
+
+@mixin nav-wide {
+  @media (min-width: $bp-nav) {
+    @content;
+  }
+}
+
+@mixin below-nav-wide {
+  @media (max-width: #{$bp-nav - 0.02px}) {
     @content;
   }
 }

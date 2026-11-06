@@ -5,5 +5,16 @@ import type { Brand } from './types';
  * ustai është partner i autorizuar.
  */
 export const BRANDS: Brand[] = [
-  // TODO: markat me të cilat punon ustai, p.sh. { name: 'Daikin', authorized: false }
+  // TODO: konfirmo me ustain listën (markat kryesore që shiten në Shqipëri); authorized: true
+  // vetëm nëse është partner/servis i autorizuar i markës.
+  { name: 'Daikin', authorized: false },
+  { name: 'Mitsubishi Electric', authorized: false },
+  { name: 'LG', authorized: false },
+  { name: 'Samsung', authorized: false },
+  { name: 'Gree', authorized: false },
+  { name: 'Midea', authorized: false },
+  { name: 'Toshiba', authorized: false },
+  { name: 'Hisense', authorized: false },
+  { name: 'Haier', authorized: false },
+  { name: 'Beko', authorized: false },
 ];

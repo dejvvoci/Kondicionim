@@ -12,7 +12,7 @@ export const HOME = {
   coverage: {
     eyebrow: 'Zona e mbulimit',
     title: 'Ku punojmë',
-    lead: 'Montime dhe servis në këto qytete. Për qytete të tjera, na shkruani.',
+    lead: 'Me bazë në Tiranë, punojmë në të gjitha qytetet e Shqipërisë. Këto janë qytetet ku punojmë më shpesh.',
   },
   standards: {
     eyebrow: 'Standardet e montimit',
