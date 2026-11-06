@@ -142,8 +142,18 @@ dhe `baseHref: /en/`. Të dhënat në `src/app/data/` ndahen në të njëjtën m
 ## Hostimi dhe deploy-i (Cloudflare Pages)
 
 Build-i nxjerr vetëm skedarë statikë në `dist/kondicionim/browser`. `scripts/postbuild.ts` krijon
-`404.html` (pa të, Pages kthen kryefaqen për çdo URL të panjohur). Header-at e sigurisë dhe të
-cache-it janë në `public/_headers`.
+`404.html` (pa të, Pages kthen kryefaqen për çdo URL të panjohur).
+
+Header-at e sigurisë dhe të cache-it janë në `public/_headers`: CSP, HSTS, `nosniff`,
+`Referrer-Policy`, `Permissions-Policy` dhe cache afatgjatë vetëm për JS, CSS dhe fontet (HTML-ja
+rifreskohet menjëherë). CSP-ja nuk lejon skripte inline: `postbuild.ts` shton hash-et e skripteve
+të vogla të Angular-it dhe testi `e2e/security.spec.ts` kontrollon që faqja punon pa asnjë shkelje.
+Kur zgjidhet analitika, domeni i saj shtohet te `script-src`/`connect-src` (shih komentet në
+`_headers`).
+
+Ikonat (favicon, Apple touch, manifest) ndërtohen me `npm run build:icons`; riekzekutoje kur
+ndryshon emri i biznesit ose kur ka logo. Hapat e publikimit në domenin final janë te
+[PUBLIKIMI.md](PUBLIKIMI.md).
 
 Deploy-i bëhet nga GitHub Actions (`.github/workflows/ci.yml`): çdo PR merr një preview me URL të
 vetën, merge në `main` = deploy në prodhim. Konfigurimi një herë:

@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/build-content.ts && ng serve",
-    "build": "node scripts/check-content.ts && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/build-content.ts && ng build && node scripts/postbuild.ts && node scripts/check-dist.ts",
+    "start": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/register-ts.mjs scripts/build-content.ts && ng serve",
+    "build": "node scripts/check-content.ts && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/register-ts.mjs scripts/build-content.ts && ng build && node scripts/postbuild.ts && node scripts/check-dist.ts",
     "test": "ng test --watch=false",
     "lint": "ng lint",
     "check:content": "node scripts/check-content.ts",
@@ -12,11 +12,12 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "preview": "node scripts/serve.ts",
-    "build:map": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/build-map.ts",
-    "build:e2e": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/build-content.ts && ng build --configuration production,e2e && node scripts/postbuild.ts dist/e2e/browser && node scripts/check-dist.ts dist/e2e/browser",
+    "build:map": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/register-ts.mjs scripts/build-map.ts",
+    "build:e2e": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/register-ts.mjs scripts/build-content.ts && ng build --configuration production,e2e && node scripts/postbuild.ts dist/e2e/browser && node scripts/check-dist.ts dist/e2e/browser",
     "e2e": "playwright test",
     "lighthouse": "npx --yes @lhci/cli@0.15.1 autorun",
-    "build:og": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/build-og.ts"
+    "build:og": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/register-ts.mjs scripts/build-og.ts",
+    "build:icons": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/register-ts.mjs scripts/build-icons.ts"
   },
   "private": true,
   "packageManager": "npm@11.10.0",
