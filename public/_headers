@@ -1,14 +1,28 @@
+# Header-at e Cloudflare Pages (seksioni 7.3 i specifikimit).
+#
+# CSP: {INLINE_SCRIPT_HASHES} zëvendësohet nga scripts/postbuild.ts me hash-et sha256 të
+# skripteve inline të Angular-it (event replay), të llogaritura nga faqet e build-it.
+# Kur zgjidhet analitika, shto domenin e saj te script-src dhe connect-src, p.sh.
+#   Plausible: https://plausible.io
+#   Cloudflare Web Analytics: https://static.cloudflareinsights.com (script) dhe
+#   https://cloudflareinsights.com (connect)
+# HTML-ja nuk ka header Cache-Control këtu: Pages e shërben me max-age=0, must-revalidate,
+# pra ndryshimet duken menjëherë.
 /*
+  Content-Security-Policy: default-src 'self'; script-src 'self' {INLINE_SCRIPT_HASHES}; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self'; frame-src https://www.youtube-nocookie.com; frame-ancestors 'none'; base-uri 'self'; form-action 'none'; object-src 'none'
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(self), camera=(), microphone=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
   X-Frame-Options: DENY
 
+# Skedarët me hash në emër (main-*.js, chunk-*.js, boot-*.js, styles-*.css) nuk ndryshojnë kurrë.
 /*.js
   Cache-Control: public, max-age=31536000, immutable
 
 /*.css
   Cache-Control: public, max-age=31536000, immutable
 
+# Fontet: nëse ndryshon një font, ndrysho edhe emrin e skedarit.
 /fonts/*
   Cache-Control: public, max-age=31536000, immutable

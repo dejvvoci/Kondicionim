@@ -95,6 +95,31 @@ for (const file of pages(dist).concat(join(dist, '404.html'))) {
   writeFileSync(file, html);
 }
 
+/*
+ * CSP pa 'unsafe-inline' për skriptet: hash-i sha256 i çdo skripti inline të ekzekutueshëm
+ * (event replay i Angular-it) në çdo faqe shkon te script-src në _headers.
+ * JSON-LD dhe ng-state (type="application/...json") nuk ekzekutohen, ndaj nuk kanë nevojë.
+ */
+const scriptHashes = new Set<string>();
+for (const file of pages(dist).concat(join(dist, '404.html'))) {
+  const html = readFileSync(file, 'utf8');
+  for (const m of html.matchAll(/<script(?![^>]*\ssrc=)([^>]*)>([\s\S]*?)<\/script>/g)) {
+    if (/type="application\/(ld\+)?json"/.test(m[1])) continue;
+    scriptHashes.add(`'sha256-${createHash('sha256').update(m[2]).digest('base64')}'`);
+  }
+}
+const headersFile = join(dist, '_headers');
+const cspLine = /^(\s+Content-Security-Policy:.*)\{INLINE_SCRIPT_HASHES\}/m;
+const headers = readFileSync(headersFile, 'utf8');
+if (!cspLine.test(headers)) {
+  console.error('postbuild: CSP në _headers nuk ka {INLINE_SCRIPT_HASHES} te script-src');
+  process.exit(1);
+}
+writeFileSync(
+  headersFile,
+  headers.replace(cspLine, (_, before: string) => before + [...scriptHashes].sort().join(' ')),
+);
+
 const attr = (html: string, pattern: RegExp): string | null => pattern.exec(html)?.[1] ?? null;
 const escapeXml = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');

@@ -27,9 +27,19 @@ const TYPES: Record<string, string> = {
   '.webp': 'image/webp',
   '.avif': 'image/avif',
   '.ico': 'image/x-icon',
+  '.webmanifest': 'application/manifest+json',
   '.woff2': 'font/woff2',
 };
-const COMPRESSIBLE = new Set(['.html', '.js', '.css', '.json', '.xml', '.txt', '.svg']);
+const COMPRESSIBLE = new Set([
+  '.html',
+  '.js',
+  '.css',
+  '.json',
+  '.xml',
+  '.txt',
+  '.svg',
+  '.webmanifest',
+]);
 
 /** Rregullat e _headers: [shembulli i URL-së si RegExp, header-at]. */
 function loadHeaders(): [RegExp, [string, string][]][] {
