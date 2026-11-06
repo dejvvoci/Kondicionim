@@ -47,7 +47,10 @@ export interface BusinessJsonLdInput {
 
 /** HVACBusiness, në çdo faqe. */
 export function businessJsonLd({ business: b, name, cities, image }: BusinessJsonLdInput): JsonLd {
-  const sameAs = Object.values(b.social).filter((url): url is string => !!url);
+  // Vetëm profile të vërteta (me path), jo faqja kryesore e rrjetit (p.sh. facebook.com/).
+  const sameAs = Object.values(b.social).filter(
+    (url): url is string => !!url && new URL(url).pathname.replace(/\/+$/, '') !== '',
+  );
   return compact({
     '@context': CONTEXT,
     '@type': 'HVACBusiness',
@@ -57,13 +60,15 @@ export function businessJsonLd({ business: b, name, cities, image }: BusinessJso
     image: absoluteUrl(b.siteUrl, (image ?? OG_IMAGE).src),
     telephone: b.phone,
     email: b.email,
-    taxID: b.nipt,
     address: compact({
       '@type': 'PostalAddress',
       addressLocality: b.locality,
       addressCountry: 'AL',
     }),
-    areaServed: areaServed(cities),
+    areaServed: [
+      ...areaServed(cities),
+      ...(b.servesWholeCountry ? [{ '@type': 'Country', name: 'Shqipëri' }] : []),
+    ],
     openingHours: b.openingHours.map((h) => h.schema).filter(Boolean),
     priceRange: b.priceRange,
     sameAs,

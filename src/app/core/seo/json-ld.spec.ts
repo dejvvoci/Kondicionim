@@ -17,12 +17,13 @@ const empty: Business = {
   siteUrl: SITE,
   phone: null,
   whatsapp: null,
-  nipt: null,
   email: null,
   openingHours: [],
   social: { facebook: null, instagram: null, tiktok: null, youtube: null },
   locality: null,
   priceRange: null,
+  hoursNote: null,
+  servesWholeCountry: false,
 };
 
 describe('businessJsonLd', () => {
@@ -46,13 +47,17 @@ describe('businessJsonLd', () => {
       business: {
         ...empty,
         phone: '+355690000000',
-        nipt: 'L00000000A',
         locality: 'Tiranë',
         priceRange: '$$',
         openingHours: [
           { days: 'E hënë – e shtunë', hours: '08:00 – 19:00', schema: 'Mo-Sa 08:00-19:00' },
         ],
-        social: { ...empty.social, facebook: 'https://facebook.com/x' },
+        social: {
+          ...empty.social,
+          facebook: 'https://facebook.com/x',
+          tiktok: 'https://www.tiktok.com/',
+        },
+        servesWholeCountry: true,
       },
       name: 'Klima X',
       cities: [],
@@ -61,14 +66,14 @@ describe('businessJsonLd', () => {
     expect(ld).toMatchObject({
       name: 'Klima X',
       telephone: '+355690000000',
-      taxID: 'L00000000A',
       image: `${SITE}/images/usta.avif`,
       address: { addressLocality: 'Tiranë', addressCountry: 'AL' },
       openingHours: ['Mo-Sa 08:00-19:00'],
       priceRange: '$$',
+      // Faqja kryesore e rrjetit (tiktok.com/) nuk është profil, ndaj nuk shkon te sameAs.
       sameAs: ['https://facebook.com/x'],
+      areaServed: [{ '@type': 'Country', name: 'Shqipëri' }],
     });
-    expect(ld).not.toHaveProperty('areaServed');
   });
 });
 

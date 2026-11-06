@@ -54,7 +54,6 @@ export const UI_TEXT = {
     hours: 'Orari',
     cities: 'Zonat ku punojmë',
     links: 'Faqet',
-    nipt: 'NIPT',
     privacy: 'Politika e privatësisë',
     rights: 'Të gjitha të drejtat e rezervuara.',
   },

@@ -64,12 +64,22 @@ writeFileSync(out('favicon.ico'), Buffer.concat([header, ...images]));
 
 await browser.close();
 
+/** Emri nën ikonën në ekranin e telefonit (≤ 12 shkronja): fjalët e fundit që nxënë, pa prerë fjalë. */
+function shortName(name: string): string {
+  const words = name.split(' ');
+  for (let i = 0; i < words.length; i++) {
+    const tail = words.slice(i).join(' ');
+    if (tail.length <= 12) return tail;
+  }
+  return words[words.length - 1];
+}
+
 writeFileSync(
   out('manifest.webmanifest'),
   JSON.stringify(
     {
       name: businessName(),
-      short_name: businessName().slice(0, 12),
+      short_name: shortName(businessName()),
       lang: 'sq',
       start_url: '/',
       display: 'browser',

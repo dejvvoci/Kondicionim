@@ -26,8 +26,13 @@
   min-height: 44px;
   margin-right: auto;
   font-family: var(--font-heading);
+  // Emri i gjatë kalon në dy rreshta të balancuar, pa e shtyrë menunë.
+  flex-shrink: 0;
+  max-width: 11.5em;
   font-size: var(--fs-lg);
   font-weight: 600;
+  line-height: 1.2;
+  text-wrap: balance;
   color: var(--c-white);
   text-decoration: none;
 
@@ -71,7 +76,7 @@
     outline-color: var(--c-white);
   }
 
-  @include lg {
+  @include nav-wide {
     display: none;
   }
 }
@@ -92,6 +97,7 @@
   font-family: var(--font-heading);
   font-size: var(--fs-base);
   font-weight: 500;
+  white-space: nowrap;
   color: var(--c-white);
   text-decoration: none;
 
@@ -109,7 +115,7 @@
 }
 
 // Celular dhe tablet: menu që hapet poshtë header-it.
-@media (max-width: 1023.98px) {
+@include below-nav-wide {
   .header__nav {
     display: none;
     position: absolute;
@@ -135,7 +141,7 @@
   }
 }
 
-@include lg {
+@include nav-wide {
   .header__nav {
     order: 0;
   }

@@ -31,40 +31,6 @@
     </ui-section>
   }
 
-  @if (certifications.length) {
-    <ui-section [title]="a.certificationsTitle">
-      <ul class="certs">
-        @for (c of certifications; track c.title) {
-          <li class="cert">
-            @if (c.photo; as photo) {
-              <ui-photo
-                [photo]="photo"
-                sizes="(min-width: 768px) 33vw, 100vw"
-                class="cert__photo"
-              />
-            }
-            <div class="cert__body">
-              <ui-icon name="certificate" />
-              <div>
-                <h3>{{ c.title }}</h3>
-                <p>
-                  {{ c.issuer }}
-                  @if (c.year) {
-                    · {{ c.year }}
-                  }
-                </p>
-              </div>
-            </div>
-          </li>
-        }
-      </ul>
-    </ui-section>
-  } @else if (showTodo) {
-    <ui-section [title]="a.certificationsTitle">
-      <p><span class="todo">TODO: certifikatat me foto (about.ts)</span></p>
-    </ui-section>
-  }
-
   @if (brands.length) {
     <ui-section tone="soft" [title]="a.brandsTitle">
       <ul class="brands">

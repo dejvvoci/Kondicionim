@@ -1,13 +1,16 @@
-import type { Certification, Photo } from './types';
+import type { Photo } from './types';
 import { placeholder } from './placeholders';
 
 export const ABOUT = {
   eyebrow: 'Rreth ustait',
   title: 'Rreth ustait',
-  // TODO: prezantimi i ustait (kush është, që kur punon, si e ka mësuar zanatin), 2–3 paragrafë.
-  intro: [] as string[],
+  intro: [
+    'Ardit punon prej 4 vitesh me kondicionerë: montim, servis dhe riparim, në shtëpi, zyra dhe ambiente biznesi. Baza është në Tiranë dhe punon në të gjitha qytetet e Shqipërisë.',
+    'Ka qenë drejtues i stafit teknik për kondicionerët në kompaninë Neptun, ku ka punuar me të gjitha markat që kompania tregton. Kjo përvojë i ka dhënë njohje të drejtpërdrejtë me modele dhe sisteme të ndryshme, si dhe me defektet që shfaqen më shpesh tek secila.',
+    'Zanatin e ka mësuar përmes kurseve profesionale dhe praktikave më të mira të punës europiane, të cilat i zbaton në çdo punë: vakumim i plotë, test presioni me azot dhe testim me matje para dorëzimit.',
+    'Deri sot ka kryer rreth 100 montime dhe ka riparuar mbi 350 pajisje, në repart dhe në terren. Çdo montim ka garanci 3-vjeçare mbi punën.',
+  ],
   photosTitle: 'Ustai dhe ekipi në punë',
-  certificationsTitle: 'Certifikatat dhe trajnimet',
   brandsTitle: 'Markat me të cilat punon',
   authorized: 'Partner i autorizuar',
   ctaTitle: 'Flisni drejtpërdrejt me ustain',
@@ -20,9 +23,4 @@ export const ABOUT_PHOTOS: Photo[] = [
   placeholder('ekipi-gjate-montimit', 'ekipi gjatë një montimi'),
   placeholder('usta-me-veglat', 'ustai me veglat profesionale'),
   // TODO: 2–3 foto të ustait dhe ekipit në punë
-];
-
-export const CERTIFICATIONS: Certification[] = [
-  // TODO: certifikatat (trajnime nga prodhuesit, F-gas nëse ka, kualifikime elektrike) me foto
-  // p.sh. { title: 'Certifikim F-gas', issuer: '...', year: 2022, photo: { src: '/images/certifikata/f-gas.avif', alt: '...', width: 1200, height: 850 } }
 ];

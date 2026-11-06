@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, isDevMode } from '@angular/
 import { TrackPhone } from '../../core/analytics/track-phone.directive';
 import { telHref } from '../../core/contact/phone';
 import { WhatsAppFlow } from '../../core/contact/whatsapp-flow.service';
-import { ABOUT, ABOUT_PHOTOS, CERTIFICATIONS } from '../../data/about';
+import { ABOUT, ABOUT_PHOTOS } from '../../data/about';
 import { BRANDS } from '../../data/brands';
 import { BUSINESS } from '../../data/business';
 import { UI_TEXT } from '../../i18n';
@@ -28,7 +28,6 @@ export class AboutPage {
   protected readonly showTodo = isDevMode();
   protected readonly phoneHref = BUSINESS.phone ? telHref(BUSINESS.phone) : null;
   protected readonly photos = ABOUT_PHOTOS;
-  protected readonly certifications = CERTIFICATIONS;
   protected readonly brands = BRANDS;
   protected readonly crumbs: Crumb[] = [
     { label: UI_TEXT.breadcrumbs.home, path: '/' },

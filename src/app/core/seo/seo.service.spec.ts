@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router, provideRouter } from '@angular/router';
-import { BUSINESS } from '../../data/business';
+import { BUSINESS, businessName } from '../../data/business';
 import type { RouteSeo } from './seo';
 import { SeoService } from './seo.service';
 
@@ -71,12 +71,12 @@ describe('SeoService', () => {
   it('title, description, canonical, Open Graph dhe Twitter Card nga të dhënat e rrugës', async () => {
     await router.navigateByUrl('/sherbimet?burimi=x#seksioni');
 
-    expect(doc.title).toBe('Shërbimet | Usta kondicionimi');
+    expect(doc.title).toBe(`Shërbimet | ${businessName()}`);
     expect(meta('name="description"')).toBe('Të gjitha shërbimet.');
     expect(doc.head.querySelector<HTMLLinkElement>('link[rel="canonical"]')?.href).toBe(
       `${SITE}/sherbimet/`,
     );
-    expect(meta('property="og:title"')).toBe('Shërbimet | Usta kondicionimi');
+    expect(meta('property="og:title"')).toBe(`Shërbimet | ${businessName()}`);
     expect(meta('property="og:url"')).toBe(`${SITE}/sherbimet/`);
     expect(meta('property="og:type"')).toBe('website');
     expect(meta('property="og:image"')).toBe(`${SITE}/og-image.png`);

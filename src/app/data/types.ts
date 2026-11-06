@@ -31,14 +31,17 @@ export interface Business {
   phone: string | null;
   /** Format ndërkombëtar pa + dhe pa zero fillestare, p.sh. "3556XXXXXXXX". */
   whatsapp: string | null;
-  nipt: string | null;
   email: string | null;
   openingHours: OpeningHours[];
+  /** Tekst në vend të orarit fiks, p.sh. "Me takim". Shfaqet te footer-i. */
+  hoursNote: string | null;
   social: SocialLinks;
   /** Qyteti i bazës (ose adresa, nëse ka pikë fizike), për Google. null = vetëm vendi. */
   locality: string | null;
   /** Niveli i çmimeve për Google, p.sh. "$$" ose "3000–60000 ALL". null = nuk shfaqet. */
   priceRange: string | null;
+  /** Punon edhe jashtë qyteteve në cities.ts, në të gjithë Shqipërinë (për Google). */
+  servesWholeCountry: boolean;
 }
 
 export interface City {
@@ -199,14 +202,6 @@ export interface Article {
   date: string;
   services: string[];
   readingMinutes: number;
-}
-
-export interface Certification {
-  title: string;
-  /** P.sh. "Daikin Academy", "AKU". */
-  issuer: string;
-  year: number | null;
-  photo: Photo | null;
 }
 
 export interface NavItem {
