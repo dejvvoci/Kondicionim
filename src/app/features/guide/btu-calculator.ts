@@ -1,6 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
+  afterNextRender,
   afterRenderEffect,
   computed,
   inject,
@@ -91,7 +93,13 @@ export class BtuCalculator {
     new Intl.NumberFormat('sq-AL').format(this.result().btu),
   );
 
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+
   constructor() {
+    // Kalkulatori hidratohet kur shfaqet në ekran. Nëse përdoruesi ka shkruar para kësaj,
+    // vlerat merren nga fushat, që rezultati të përputhet me atë që shihet.
+    afterNextRender(() => this.syncFromDom());
+
     // Një event pasi vlera qetësohet, jo në çdo shkronjë (vetëm në browser).
     afterRenderEffect((onCleanup) => {
       const size = this.result().size;
@@ -104,8 +112,36 @@ export class BtuCalculator {
     });
   }
 
+  private syncFromDom(): void {
+    const root = this.host.nativeElement;
+    const syncNumber = (id: string, target: WritableSignal<number>) => {
+      const value = root.querySelector<HTMLInputElement>(`#${id}`)?.value;
+      if (value !== undefined && value !== String(target())) this.applyNumber(target, value);
+    };
+    const syncChoice = <T extends string>(
+      selector: string,
+      options: readonly Option<T>[],
+      target: WritableSignal<T>,
+    ) => {
+      const value = root.querySelector<HTMLInputElement | HTMLSelectElement>(selector)?.value;
+      const option = options.find((o) => o.value === value);
+      if (option && option.value !== target()) this.setChoice(target, option.value);
+    };
+    syncNumber('btu-area', this.area);
+    syncNumber('btu-height', this.height);
+    syncNumber('btu-persons', this.persons);
+    syncChoice('[name="btu-sun"]:checked', this.sunOptions, this.sun);
+    syncChoice('[name="btu-floor"]:checked', this.floorOptions, this.floor);
+    syncChoice('[name="btu-insulation"]:checked', this.insulationOptions, this.insulation);
+    syncChoice('#btu-room', this.roomOptions, this.room);
+  }
+
   protected setNumber(target: WritableSignal<number>, event: Event): void {
-    const raw = (event.target as HTMLInputElement).value.replace(',', '.');
+    this.applyNumber(target, (event.target as HTMLInputElement).value);
+  }
+
+  private applyNumber(target: WritableSignal<number>, value: string): void {
+    const raw = value.replace(',', '.');
     target.set(raw === '' ? NaN : Number(raw));
     this.touched.set(true);
   }

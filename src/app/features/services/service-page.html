@@ -25,106 +25,121 @@
     </div>
   </header>
 
-  <ui-section tone="soft">
-    <div class="facts">
-      <section class="facts__block" aria-labelledby="perfshin">
-        <h2 id="perfshin">{{ t.includes }}</h2>
-        <ul class="checklist">
-          @for (item of s.includes; track item) {
-            <li><ui-icon name="check" [size]="20" />{{ item }}</li>
-          }
-        </ul>
-      </section>
-
-      <div class="facts__side">
-        <section class="facts__block" aria-labelledby="kujt">
-          <h2 id="kujt">{{ t.audience }}</h2>
-          <ul class="plain">
-            @for (a of s.audience; track a) {
-              <li>{{ a }}</li>
+  <!-- Pjesa poshtë kokës hidratohet në ndërveprimin e parë (HTML e prerenderuar deri atëherë). -->
+  @defer (on immediate; hydrate on interaction) {
+    <ui-section tone="soft">
+      <div class="facts">
+        <section class="facts__block" aria-labelledby="perfshin">
+          <h2 id="perfshin">{{ t.includes }}</h2>
+          <ul class="checklist">
+            @for (item of s.includes; track item) {
+              <li><ui-icon name="check" [size]="20" />{{ item }}</li>
             }
           </ul>
         </section>
 
-        @if (s.duration) {
-          <section class="facts__block" aria-labelledby="zgjat">
-            <h2 id="zgjat">{{ t.duration }}</h2>
-            <p>{{ s.duration }}</p>
+        <div class="facts__side">
+          <section class="facts__block" aria-labelledby="kujt">
+            <h2 id="kujt">{{ t.audience }}</h2>
+            <ul class="plain">
+              @for (a of s.audience; track a) {
+                <li>{{ a }}</li>
+              }
+            </ul>
           </section>
-        } @else if (showTodo) {
-          <section class="facts__block">
-            <h2>{{ t.duration }}</h2>
-            <p><span class="todo">TODO: kohëzgjatja (services.ts)</span></p>
-          </section>
-        }
 
-        @if (prices().length) {
-          <section class="facts__block" aria-labelledby="cmimi">
-            <h2 id="cmimi">{{ t.price }}</h2>
-            @for (p of prices(); track p.label) {
-              <p class="price">
-                <span>{{ p.label }}</span>
-                <strong>{{ t.priceFrom }} {{ p.amount }}</strong>
-                <small>{{ p.note }}</small>
-              </p>
-            }
-            <a ui-button variant="link" routerLink="/cmimet-dhe-garancia">{{ t.pricesLink }}</a>
-          </section>
-        } @else if (showTodo) {
-          <section class="facts__block">
-            <h2>{{ t.price }}</h2>
-            <p><span class="todo">TODO: çmimi (prices.ts), nëse ka</span></p>
-          </section>
-        }
-      </div>
-    </div>
-  </ui-section>
-
-  @if (s.photos.length || showTodo) {
-    <ui-section [title]="t.photos">
-      <div class="photos">
-        @for (p of s.photos; track p.src) {
-          <ui-photo [photo]="p" sizes="(min-width: 768px) 33vw, 100vw" class="photos__item" />
-        } @empty {
-          @for (n of [1, 2, 3]; track n) {
-            <ui-photo [label]="t.photoLabel + ': ' + s.title" class="photos__item" />
+          @if (s.duration) {
+            <section class="facts__block" aria-labelledby="zgjat">
+              <h2 id="zgjat">{{ t.duration }}</h2>
+              <p>{{ s.duration }}</p>
+            </section>
+          } @else if (showTodo) {
+            <section class="facts__block">
+              <h2>{{ t.duration }}</h2>
+              <p><span class="todo">TODO: kohëzgjatja (services.ts)</span></p>
+            </section>
           }
-        }
+
+          @if (prices().length) {
+            <section class="facts__block" aria-labelledby="cmimi">
+              <h2 id="cmimi">{{ t.price }}</h2>
+              @for (p of prices(); track p.label) {
+                <p class="price">
+                  <span>{{ p.label }}</span>
+                  <strong>{{ t.priceFrom }} {{ p.amount }}</strong>
+                  <small>{{ p.note }}</small>
+                </p>
+              }
+              <a ui-button variant="link" routerLink="/cmimet-dhe-garancia">{{ t.pricesLink }}</a>
+            </section>
+          } @else if (showTodo) {
+            <section class="facts__block">
+              <h2>{{ t.price }}</h2>
+              <p><span class="todo">TODO: çmimi (prices.ts), nëse ka</span></p>
+            </section>
+          }
+        </div>
       </div>
     </ui-section>
-  }
 
-  <ui-section tone="soft" [title]="t.faq" [narrow]="true">
-    <ui-accordion>
-      @for (f of s.faq; track f.q) {
-        <ui-accordion-item [title]="f.q" [group]="'faq-' + s.slug">
-          <p>{{ f.a }}</p>
-        </ui-accordion-item>
-      }
-    </ui-accordion>
-  </ui-section>
+    @if (s.photos.length || showTodo) {
+      <ui-section [title]="t.photos">
+        <div class="photos">
+          @for (p of s.photos; track p.src) {
+            <ui-photo [photo]="p" sizes="(min-width: 768px) 33vw, 100vw" class="photos__item" />
+          } @empty {
+            @for (n of [1, 2, 3]; track n) {
+              <ui-photo [label]="t.photoLabel + ': ' + s.title" class="photos__item" />
+            }
+          }
+        </div>
+      </ui-section>
+    }
 
-  @if (projects().length) {
-    <ui-section [title]="t.projects">
-      <ul class="projects">
-        @for (p of projects(); track p.slug) {
-          <li><app-project-card [project]="p" /></li>
+    <ui-section tone="soft" [title]="t.faq" [narrow]="true">
+      <ui-accordion>
+        @for (f of s.faq; track f.q) {
+          <ui-accordion-item [title]="f.q" [group]="'faq-' + s.slug">
+            <p>{{ f.a }}</p>
+          </ui-accordion-item>
         }
-      </ul>
+      </ui-accordion>
     </ui-section>
-  }
 
-  <ui-section [title]="t.others">
-    <app-service-grid [services]="others()" />
-    <a ui-button variant="link" routerLink="/sherbimet" class="all">{{ t.allServices }}</a>
-  </ui-section>
+    @if (projects().length) {
+      <ui-section [title]="t.projects">
+        <ul class="projects">
+          @for (p of projects(); track p.slug) {
+            <li><app-project-card [project]="p" /></li>
+          }
+        </ul>
+      </ui-section>
+    }
 
-  @if (flow.available) {
-    <ui-section tone="base" [title]="t.ctaTitle" [lead]="t.ctaLead">
-      <button ui-button variant="primary" size="lg" type="button" (click)="openWhatsApp()">
-        <ui-icon name="brand-whatsapp" [size]="22" />{{ contact.whatsapp }}
-      </button>
+    @if (articles().length) {
+      <ui-section [title]="t.articles">
+        <ul class="articles">
+          @for (a of articles(); track a.slug) {
+            <li>
+              <a [routerLink]="'/keshilla/' + a.slug">{{ a.title }}</a>
+            </li>
+          }
+        </ul>
+      </ui-section>
+    }
+
+    <ui-section [title]="t.others">
+      <app-service-grid [services]="others()" />
+      <a ui-button variant="link" routerLink="/sherbimet" class="all">{{ t.allServices }}</a>
     </ui-section>
+
+    @if (flow.available) {
+      <ui-section tone="base" [title]="t.ctaTitle" [lead]="t.ctaLead">
+        <button ui-button variant="primary" size="lg" type="button" (click)="openWhatsApp()">
+          <ui-icon name="brand-whatsapp" [size]="22" />{{ contact.whatsapp }}
+        </button>
+      </ui-section>
+    }
   }
 } @else {
   <app-not-found-page />

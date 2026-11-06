@@ -87,6 +87,20 @@
   }
 }
 
+.articles {
+  display: grid;
+  gap: var(--sp-2);
+  margin: 0;
+  padding-left: var(--sp-5);
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-weight: 600;
+  }
+}
+
 .photos__item {
   border-radius: var(--radius-card);
   overflow: hidden;

@@ -13,82 +13,89 @@
   </div>
 </header>
 
-<ui-stats />
+<!-- Pjesa poshtë kokës hidratohet në ndërveprimin e parë (HTML e prerenderuar deri atëherë). -->
+@defer (on immediate; hydrate on interaction) {
+  <ui-stats />
 
-@if (photos.length || showTodo) {
-  <ui-section tone="soft" [title]="a.photosTitle">
-    <div class="photos">
-      @for (p of photos; track p.src) {
-        <ui-photo [photo]="p" sizes="(min-width: 768px) 33vw, 100vw" class="photos__item" />
-      } @empty {
-        @for (n of [1, 2, 3]; track n) {
-          <ui-photo label="Ustai / ekipi në punë" class="photos__item" />
+  @if (photos.length || showTodo) {
+    <ui-section tone="soft" [title]="a.photosTitle">
+      <div class="photos">
+        @for (p of photos; track p.src) {
+          <ui-photo [photo]="p" sizes="(min-width: 768px) 33vw, 100vw" class="photos__item" />
+        } @empty {
+          @for (n of [1, 2, 3]; track n) {
+            <ui-photo label="Ustai / ekipi në punë" class="photos__item" />
+          }
         }
+      </div>
+    </ui-section>
+  }
+
+  @if (certifications.length) {
+    <ui-section [title]="a.certificationsTitle">
+      <ul class="certs">
+        @for (c of certifications; track c.title) {
+          <li class="cert">
+            @if (c.photo; as photo) {
+              <ui-photo
+                [photo]="photo"
+                sizes="(min-width: 768px) 33vw, 100vw"
+                class="cert__photo"
+              />
+            }
+            <div class="cert__body">
+              <ui-icon name="certificate" />
+              <div>
+                <h3>{{ c.title }}</h3>
+                <p>
+                  {{ c.issuer }}
+                  @if (c.year) {
+                    · {{ c.year }}
+                  }
+                </p>
+              </div>
+            </div>
+          </li>
+        }
+      </ul>
+    </ui-section>
+  } @else if (showTodo) {
+    <ui-section [title]="a.certificationsTitle">
+      <p><span class="todo">TODO: certifikatat me foto (about.ts)</span></p>
+    </ui-section>
+  }
+
+  @if (brands.length) {
+    <ui-section tone="soft" [title]="a.brandsTitle">
+      <ul class="brands">
+        @for (b of brands; track b.name) {
+          <li>
+            {{ b.name }}
+            @if (b.authorized) {
+              <small>{{ a.authorized }}</small>
+            }
+          </li>
+        }
+      </ul>
+    </ui-section>
+  } @else if (showTodo) {
+    <ui-section tone="soft" [title]="a.brandsTitle">
+      <p><span class="todo">TODO: markat (brands.ts)</span></p>
+    </ui-section>
+  }
+
+  <ui-section tone="base" [title]="a.ctaTitle" [lead]="contact.microcopy">
+    <div class="cta-actions">
+      @if (phoneHref) {
+        <a ui-button variant="primary" size="lg" [href]="phoneHref" appTrackPhone="rreth-ustait">
+          <ui-icon name="phone" [size]="22" />{{ contact.call }}
+        </a>
+      }
+      @if (flow.available) {
+        <button ui-button variant="outline-light" size="lg" type="button" (click)="openWhatsApp()">
+          <ui-icon name="brand-whatsapp" [size]="22" />{{ contact.whatsapp }}
+        </button>
       }
     </div>
   </ui-section>
 }
-
-@if (certifications.length) {
-  <ui-section [title]="a.certificationsTitle">
-    <ul class="certs">
-      @for (c of certifications; track c.title) {
-        <li class="cert">
-          @if (c.photo; as photo) {
-            <ui-photo [photo]="photo" sizes="(min-width: 768px) 33vw, 100vw" class="cert__photo" />
-          }
-          <div class="cert__body">
-            <ui-icon name="certificate" />
-            <div>
-              <h3>{{ c.title }}</h3>
-              <p>
-                {{ c.issuer }}
-                @if (c.year) {
-                  · {{ c.year }}
-                }
-              </p>
-            </div>
-          </div>
-        </li>
-      }
-    </ul>
-  </ui-section>
-} @else if (showTodo) {
-  <ui-section [title]="a.certificationsTitle">
-    <p><span class="todo">TODO: certifikatat me foto (about.ts)</span></p>
-  </ui-section>
-}
-
-@if (brands.length) {
-  <ui-section tone="soft" [title]="a.brandsTitle">
-    <ul class="brands">
-      @for (b of brands; track b.name) {
-        <li>
-          {{ b.name }}
-          @if (b.authorized) {
-            <small>{{ a.authorized }}</small>
-          }
-        </li>
-      }
-    </ul>
-  </ui-section>
-} @else if (showTodo) {
-  <ui-section tone="soft" [title]="a.brandsTitle">
-    <p><span class="todo">TODO: markat (brands.ts)</span></p>
-  </ui-section>
-}
-
-<ui-section tone="base" [title]="a.ctaTitle" [lead]="contact.microcopy">
-  <div class="cta-actions">
-    @if (phoneHref) {
-      <a ui-button variant="primary" size="lg" [href]="phoneHref" appTrackPhone="rreth-ustait">
-        <ui-icon name="phone" [size]="22" />{{ contact.call }}
-      </a>
-    }
-    @if (flow.available) {
-      <button ui-button variant="outline-light" size="lg" type="button" (click)="openWhatsApp()">
-        <ui-icon name="brand-whatsapp" [size]="22" />{{ contact.whatsapp }}
-      </button>
-    }
-  </div>
-</ui-section>

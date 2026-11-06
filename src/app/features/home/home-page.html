@@ -52,141 +52,157 @@
   </div>
 </section>
 
-<!-- 2. Shifrat e besueshmërisë -->
-<ui-stats />
+<!--
+  Seksionet pa ndërveprim të vazhdueshëm hidratohen vetëm kur përdoruesi i prek (klik/tastierë).
+  Hero, harta dhe projektet (slider) hidratohen menjëherë.
+-->
+@defer (on immediate; hydrate on interaction) {
+  <!-- 2. Shifrat e besueshmërisë -->
+  <ui-stats />
 
-<!-- 3. Shërbimet -->
-<ui-section
-  tone="soft"
-  [eyebrow]="home.services.eyebrow"
-  [title]="home.services.title"
-  [lead]="home.services.lead"
-  anchor="sherbimet"
->
-  <app-service-grid />
-</ui-section>
+  <!-- 3. Shërbimet -->
+  <ui-section
+    tone="soft"
+    [eyebrow]="home.services.eyebrow"
+    [title]="home.services.title"
+    [lead]="home.services.lead"
+    anchor="sherbimet"
+  >
+    <app-service-grid />
+  </ui-section>
+}
 
-<!-- 4. Zona e mbulimit: harta ngarkohet kur afrohet në ekran; lista mbetet në HTML (SEO) -->
-<ui-section
-  [eyebrow]="home.coverage.eyebrow"
-  [title]="home.coverage.title"
-  [lead]="home.coverage.lead"
->
-  <div class="coverage">
-    <div class="coverage__map">
-      @defer (on viewport) {
-        <ui-map-albania [cities]="cities" />
-      } @placeholder {
-        <div class="coverage__placeholder" [style.aspect-ratio]="mapRatio"></div>
-      }
+<!-- 4. Zona e mbulimit: hidratohet kur afrohet në ekran dhe ngarkon hartën; lista mbetet në HTML (SEO) -->
+@defer (on immediate; hydrate on viewport) {
+  <ui-section
+    [eyebrow]="home.coverage.eyebrow"
+    [title]="home.coverage.title"
+    [lead]="home.coverage.lead"
+  >
+    <div class="coverage">
+      <div class="coverage__map">
+        @defer (on viewport) {
+          <ui-map-albania [cities]="cities" />
+        } @placeholder {
+          <div class="coverage__placeholder" [style.aspect-ratio]="mapRatio"></div>
+        }
+      </div>
+      <ul class="cities">
+        @for (c of cities; track c.slug) {
+          <li>
+            <a class="cities__item" routerLink="/projektet" [queryParams]="{ qyteti: c.slug }">
+              <ui-icon name="map-pin" [size]="20" />{{ c.name }}
+            </a>
+          </li>
+        }
+      </ul>
     </div>
-    <ul class="cities">
-      @for (c of cities; track c.slug) {
-        <li>
-          <a class="cities__item" routerLink="/projektet" [queryParams]="{ qyteti: c.slug }">
-            <ui-icon name="map-pin" [size]="20" />{{ c.name }}
-          </a>
+  </ui-section>
+}
+
+@defer (on immediate; hydrate on interaction) {
+  <!-- 5. Standardet e montimit -->
+  <ui-section
+    tone="soft"
+    [eyebrow]="home.standards.eyebrow"
+    [title]="home.standards.title"
+    [lead]="home.standards.lead"
+  >
+    <ul class="standards">
+      @for (s of standards; track s.slug) {
+        <li class="standards__item">
+          <span class="standards__icon"><ui-icon [name]="s.icon" /></span>
+          <h3>{{ s.title }}</h3>
+          <p>{{ s.text }}</p>
         </li>
       }
     </ul>
-  </div>
-</ui-section>
+    <a ui-button variant="link" routerLink="/standardet-e-montimit" class="more">
+      {{ home.standards.link }}
+    </a>
+  </ui-section>
 
-<!-- 5. Standardet e montimit -->
-<ui-section
-  tone="soft"
-  [eyebrow]="home.standards.eyebrow"
-  [title]="home.standards.title"
-  [lead]="home.standards.lead"
->
-  <ul class="standards">
-    @for (s of standards; track s.slug) {
-      <li class="standards__item">
-        <span class="standards__icon"><ui-icon [name]="s.icon" /></span>
-        <h3>{{ s.title }}</h3>
-        <p>{{ s.text }}</p>
-      </li>
-    }
-  </ul>
-  <a ui-button variant="link" routerLink="/standardet-e-montimit" class="more">
-    {{ home.standards.link }}
-  </a>
-</ui-section>
+  <!-- 6. Procesi i punës -->
+  <ui-section [eyebrow]="home.process.eyebrow" [title]="home.process.title">
+    <ol class="process">
+      @for (step of process; track step.title; let i = $index) {
+        <li class="process__step">
+          <span class="process__icon"><ui-icon [name]="step.icon" /></span>
+          <h3>
+            <span class="process__num">{{ i + 1 }}.</span> {{ step.title }}
+          </h3>
+          <p>{{ step.text }}</p>
+        </li>
+      }
+    </ol>
+  </ui-section>
+}
 
-<!-- 6. Procesi i punës -->
-<ui-section [eyebrow]="home.process.eyebrow" [title]="home.process.title">
-  <ol class="process">
-    @for (step of process; track step.title; let i = $index) {
-      <li class="process__step">
-        <span class="process__icon"><ui-icon [name]="step.icon" /></span>
-        <h3>
-          <span class="process__num">{{ i + 1 }}.</span> {{ step.title }}
-        </h3>
-        <p>{{ step.text }}</p>
-      </li>
-    }
-  </ol>
-</ui-section>
+<!-- 7. Projekte të zgjedhura, me slider para/pas (hidratohen kur shfaqen në ekran) -->
+@defer (on immediate; hydrate on viewport) {
+  @if (projects.length) {
+    <ui-section tone="soft" [eyebrow]="home.projects.eyebrow" [title]="home.projects.title">
+      @defer (on viewport) {
+        <ul class="projects">
+          @for (p of projects; track p.slug) {
+            <li><app-project-card [project]="p" /></li>
+          }
+        </ul>
+      } @placeholder {
+        <div class="projects-placeholder"></div>
+      }
+      <a ui-button variant="link" routerLink="/projektet" class="more">{{ home.projects.link }}</a>
+    </ui-section>
+  } @else if (showTodo) {
+    <ui-section tone="soft" [eyebrow]="home.projects.eyebrow" [title]="home.projects.title">
+      <p><span class="todo">TODO: projekte me featured: true (projects.ts)</span></p>
+    </ui-section>
+  }
+}
 
-<!-- 7. Projekte të zgjedhura, me slider para/pas -->
-@if (projects.length) {
-  <ui-section tone="soft" [eyebrow]="home.projects.eyebrow" [title]="home.projects.title">
-    @defer (on viewport) {
-      <ul class="projects">
-        @for (p of projects; track p.slug) {
-          <li><app-project-card [project]="p" /></li>
+@defer (on immediate; hydrate on interaction) {
+  <!-- 8. Markat -->
+  @if (brands.length) {
+    <ui-section [eyebrow]="home.brands.eyebrow" [title]="home.brands.title">
+      <ul class="brands">
+        @for (b of brands; track b.name) {
+          <li>{{ b.name }}</li>
         }
       </ul>
-    } @placeholder {
-      <div class="projects-placeholder"></div>
-    }
-    <a ui-button variant="link" routerLink="/projektet" class="more">{{ home.projects.link }}</a>
-  </ui-section>
-} @else if (showTodo) {
-  <ui-section tone="soft" [eyebrow]="home.projects.eyebrow" [title]="home.projects.title">
-    <p><span class="todo">TODO: projekte me featured: true (projects.ts)</span></p>
-  </ui-section>
-}
+    </ui-section>
+  } @else if (showTodo) {
+    <ui-section [eyebrow]="home.brands.eyebrow" [title]="home.brands.title">
+      <p><span class="todo">TODO: markat (brands.ts)</span></p>
+    </ui-section>
+  }
 
-<!-- 8. Markat -->
-@if (brands.length) {
-  <ui-section [eyebrow]="home.brands.eyebrow" [title]="home.brands.title">
-    <ul class="brands">
-      @for (b of brands; track b.name) {
-        <li>{{ b.name }}</li>
+  <!-- 9. FAQ e shkurtër -->
+  <ui-section tone="soft" [eyebrow]="home.faq.eyebrow" [title]="home.faq.title" [narrow]="true">
+    <ui-accordion>
+      @for (f of faq; track f.q) {
+        <ui-accordion-item [title]="f.q" group="faq-home">
+          <p>{{ f.a }}</p>
+        </ui-accordion-item>
       }
-    </ul>
+    </ui-accordion>
+    <a ui-button variant="link" routerLink="/pyetje-te-shpeshta" class="more">{{
+      home.faq.link
+    }}</a>
   </ui-section>
-} @else if (showTodo) {
-  <ui-section [eyebrow]="home.brands.eyebrow" [title]="home.brands.title">
-    <p><span class="todo">TODO: markat (brands.ts)</span></p>
+
+  <!-- 10. CTA finale -->
+  <ui-section tone="base" [title]="home.finalCta.title" [lead]="home.finalCta.lead">
+    <div class="final-actions">
+      @if (flow.available) {
+        <button ui-button variant="primary" size="lg" type="button" (click)="openWhatsApp('cta')">
+          <ui-icon name="brand-whatsapp" [size]="22" />{{ t.whatsapp }}
+        </button>
+      }
+      @if (phoneHref) {
+        <a ui-button variant="outline-light" size="lg" [href]="phoneHref" appTrackPhone="cta">
+          <ui-icon name="phone" [size]="22" />{{ t.call }}
+        </a>
+      }
+    </div>
   </ui-section>
 }
-
-<!-- 9. FAQ e shkurtër -->
-<ui-section tone="soft" [eyebrow]="home.faq.eyebrow" [title]="home.faq.title" [narrow]="true">
-  <ui-accordion>
-    @for (f of faq; track f.q) {
-      <ui-accordion-item [title]="f.q" group="faq-home">
-        <p>{{ f.a }}</p>
-      </ui-accordion-item>
-    }
-  </ui-accordion>
-  <a ui-button variant="link" routerLink="/pyetje-te-shpeshta" class="more">{{ home.faq.link }}</a>
-</ui-section>
-
-<!-- 10. CTA finale -->
-<ui-section tone="base" [title]="home.finalCta.title" [lead]="home.finalCta.lead">
-  <div class="final-actions">
-    @if (flow.available) {
-      <button ui-button variant="primary" size="lg" type="button" (click)="openWhatsApp('cta')">
-        <ui-icon name="brand-whatsapp" [size]="22" />{{ t.whatsapp }}
-      </button>
-    }
-    @if (phoneHref) {
-      <a ui-button variant="outline-light" size="lg" [href]="phoneHref" appTrackPhone="cta">
-        <ui-icon name="phone" [size]="22" />{{ t.call }}
-      </a>
-    }
-  </div>
-</ui-section>

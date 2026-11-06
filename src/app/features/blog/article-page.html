@@ -12,41 +12,46 @@
       </div>
     </header>
 
-    <!-- HTML-ja vjen nga Markdown-i ynë (scripts/build-content.ts), jo nga përdoruesit. -->
-    <div class="container narrow prose" [innerHTML]="a.html"></div>
+    <!-- Teksti dhe pjesa poshtë tij hidratohen në ndërveprimin e parë. -->
+    @defer (on immediate; hydrate on interaction) {
+      <!-- HTML-ja vjen nga Markdown-i ynë (scripts/build-content.ts), jo nga përdoruesit. -->
+      <div class="container narrow prose" [innerHTML]="html()"></div>
 
-    @if (services().length) {
-      <aside class="container narrow related" aria-labelledby="sherbime-te-lidhura">
-        <h2 id="sherbime-te-lidhura">{{ t.related }}</h2>
-        <ul>
-          @for (s of services(); track s.slug) {
-            <li>
-              <a [routerLink]="'/sherbimet/' + s.slug">{{ s.title }}</a>
-            </li>
-          }
-        </ul>
-      </aside>
+      @if (services().length) {
+        <aside class="container narrow related" aria-labelledby="sherbime-te-lidhura">
+          <h2 id="sherbime-te-lidhura">{{ t.related }}</h2>
+          <ul>
+            @for (s of services(); track s.slug) {
+              <li>
+                <a [routerLink]="'/sherbimet/' + s.slug">{{ s.title }}</a>
+              </li>
+            }
+          </ul>
+        </aside>
+      }
     }
   </article>
 
-  @if (flow.available) {
-    <ui-section tone="base" [title]="t.ctaTitle" [lead]="t.ctaLead">
-      <button ui-button variant="primary" size="lg" type="button" (click)="openWhatsApp()">
-        <ui-icon name="brand-whatsapp" [size]="22" />{{ contact.whatsapp }}
-      </button>
-    </ui-section>
-  }
+  @defer (on immediate; hydrate on interaction) {
+    @if (flow.available) {
+      <ui-section tone="base" [title]="t.ctaTitle" [lead]="t.ctaLead">
+        <button ui-button variant="primary" size="lg" type="button" (click)="openWhatsApp()">
+          <ui-icon name="brand-whatsapp" [size]="22" />{{ contact.whatsapp }}
+        </button>
+      </ui-section>
+    }
 
-  @if (others().length) {
-    <ui-section [title]="t.more">
-      <ul class="others">
-        @for (o of others(); track o.slug) {
-          <li>
-            <a [routerLink]="'/keshilla/' + o.slug">{{ o.title }}</a>
-          </li>
-        }
-      </ul>
-    </ui-section>
+    @if (others().length) {
+      <ui-section [title]="t.more">
+        <ul class="others">
+          @for (o of others(); track o.slug) {
+            <li>
+              <a [routerLink]="'/keshilla/' + o.slug">{{ o.title }}</a>
+            </li>
+          }
+        </ul>
+      </ui-section>
+    }
   }
 } @else {
   <app-not-found-page />

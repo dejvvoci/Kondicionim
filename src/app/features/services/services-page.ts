@@ -21,17 +21,19 @@ import { ServiceGrid } from './service-grid';
         <p class="lead">{{ t.lead }}</p>
       </div>
     </header>
-
-    <ui-section tone="soft">
-      <app-service-grid />
-    </ui-section>
-
-    @if (flow.available) {
-      <ui-section tone="base" [title]="t.ctaTitle" [lead]="contact.microcopy">
-        <button ui-button variant="primary" size="lg" type="button" (click)="openWhatsApp()">
-          <ui-icon name="brand-whatsapp" [size]="22" />{{ contact.whatsapp }}
-        </button>
+    <!-- Pjesa poshtë kokës hidratohet në ndërveprimin e parë. -->
+    @defer (on immediate; hydrate on interaction) {
+      <ui-section tone="soft">
+        <app-service-grid />
       </ui-section>
+
+      @if (flow.available) {
+        <ui-section tone="base" [title]="t.ctaTitle" [lead]="contact.microcopy">
+          <button ui-button variant="primary" size="lg" type="button" (click)="openWhatsApp()">
+            <ui-icon name="brand-whatsapp" [size]="22" />{{ contact.whatsapp }}
+          </button>
+        </ui-section>
+      }
     }
   `,
 })

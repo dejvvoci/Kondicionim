@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { WhatsAppFlow } from '../../core/contact/whatsapp-flow.service';
+import { ARTICLE_HTML } from '../../data/article-html.generated';
 import { ARTICLES } from '../../data/articles.generated';
 import { businessName } from '../../data/business';
 import { SERVICES } from '../../data/services';
@@ -29,6 +30,7 @@ export class ArticlePage {
   protected readonly author = businessName();
 
   protected readonly article = computed(() => ARTICLES.find((a) => a.slug === this.slug()));
+  protected readonly html = computed(() => ARTICLE_HTML[this.slug()] ?? '');
   protected readonly date = computed(() => formatDate(this.article()?.date ?? ''));
   protected readonly services = computed(() =>
     SERVICES.filter((s) => this.article()?.services.includes(s.slug)),

@@ -1,4 +1,12 @@
-import { buildCanonical, buildTitle, TITLE_MAX, truncate } from './seo';
+import { routes } from '../../app.routes';
+import {
+  DESCRIPTION_MAX,
+  buildCanonical,
+  buildTitle,
+  type RouteSeo,
+  TITLE_MAX,
+  truncate,
+} from './seo';
 
 describe('seo', () => {
   it('shton emrin e biznesit te titulli', () => {
@@ -32,5 +40,19 @@ describe('truncate', () => {
     const t = truncate('një dy tre katër pesë', 12);
     expect(t).toBe('një dy tre…');
     expect(t.length).toBeLessThanOrEqual(12);
+  });
+});
+
+describe('SEO e rrugëve (data.seo)', () => {
+  it('çdo titull dhe description brenda kufijve', () => {
+    const seo = routes
+      .map((r) => r.data?.['seo'] as RouteSeo | undefined)
+      .filter((s): s is RouteSeo => !!s && !s.noindex);
+    expect(seo.length).toBeGreaterThan(8);
+    for (const s of seo) {
+      expect(buildTitle(s.title).length, s.title).toBeLessThanOrEqual(TITLE_MAX);
+      expect(s.description.length, s.title).toBeLessThanOrEqual(DESCRIPTION_MAX);
+      expect(s.description.length, s.title).toBeGreaterThan(50);
+    }
   });
 });
