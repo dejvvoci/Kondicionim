@@ -1,4 +1,5 @@
 import { BUSINESS_OVERRIDES } from './business.overrides';
+import { placeholder } from './placeholders';
 import type { Business, Photo } from './types';
 
 export const BUSINESS: Business = {
@@ -24,7 +25,11 @@ export const BUSINESS: Business = {
 export const businessName = (): string => BUSINESS.name ?? BUSINESS.fallbackName;
 
 /** Foto e ustait në punë për seksionin kryesor (elementi LCP). Asnjë foto stock. */
-export const HERO_PHOTO: Photo | null = null; // TODO: foto reale e ustait në punë, p.sh. { src: '/images/usta-montim-tirane.avif', alt: '...', width: 1200, height: 900 }
+// TODO: foto reale e ustait në punë, p.sh. { src: '/images/usta-montim-tirane.avif', alt: '...', width: 1200, height: 900 }
+export const HERO_PHOTO: Photo | null = placeholder(
+  'usta-ne-pune',
+  'ustai në punë, duke montuar ose kontrolluar një kondicioner (pa foto stock)',
+); // TODO: foto shembull, zëvendësohet me foton reale
 
 /**
  * Mesazhi i parambushur i WhatsApp. Çdo rresht me {fushë} hiqet nëse fusha është bosh.

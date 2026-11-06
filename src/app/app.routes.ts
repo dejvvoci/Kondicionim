@@ -35,7 +35,9 @@ const serviceSeo: ResolveFn<RouteSeo> = async (route, state) => {
 const projectSeo: ResolveFn<RouteSeo> = async (route) => {
   const { projectBySlug } = await import('./data/projects');
   const p = projectBySlug(route.paramMap.get('slug') ?? '');
-  return p ? { title: p.title, description: truncate(p.summary), image: p.after } : NOT_FOUND_SEO;
+  if (!p) return NOT_FOUND_SEO;
+  // Projektet shembull nuk indeksohen (dhe nuk hyjnë në sitemap).
+  return { title: p.title, description: truncate(p.summary), image: p.after, noindex: p.example };
 };
 
 const articleSeo: ResolveFn<RouteSeo> = async (route, state) => {

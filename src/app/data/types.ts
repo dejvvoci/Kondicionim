@@ -183,6 +183,11 @@ export interface Project {
   featured: boolean;
   /** ISO, p.sh. "2026-06-15". */
   date: string;
+  /**
+   * Projekt shembull për prezantim (jo punë reale): shënohet "Shembull" kudo ku shfaqet dhe
+   * faqja e tij nuk indeksohet. Fshihet kur vijnë projektet reale.
+   */
+  example?: boolean;
 }
 
 /** Artikull blogu, i gjeneruar nga Markdown (scripts/build-content.ts). */

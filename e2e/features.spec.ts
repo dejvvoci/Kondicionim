@@ -65,6 +65,16 @@ test('çdo faqe ka një H1, title, description dhe JSON-LD të vlefshëm', async
   for (const path of paths) {
     await page.goto(path);
     await expect(page.locator('h1'), path).toHaveCount(1);
+    // Hierarki e rregullt: asnjë nivel i kapërcyer (h1 → h3) teksa zbresim.
+    const levels = await page
+      .locator('main h1, main h2, main h3, main h4')
+      .evaluateAll((hs) => hs.map((h) => Number(h.tagName[1])));
+    levels.forEach((level, i) => {
+      if (i > 0)
+        expect(level, `${path}: h${levels[i - 1]} → h${level}`).toBeLessThanOrEqual(
+          levels[i - 1] + 1,
+        );
+    });
     expect((await page.title()).length, path).toBeLessThanOrEqual(60);
     const description = await page.locator('meta[name="description"]').getAttribute('content');
     expect(description?.length ?? 0, path).toBeGreaterThan(50);
@@ -150,4 +160,22 @@ test('vlerat e shkruara në kalkulator para nisjes së JS-së ruhen pas hidratim
   await page.getByLabel('Sipërfaqja (m²)').scrollIntoViewIfNeeded();
   await expect(page.locator('.result__size')).toHaveText(/18000\s*BTU/);
   await expect(page.getByLabel('Sipërfaqja (m²)')).toHaveValue('30');
+});
+
+test('projektet shembull: të shënuara kudo dhe jashtë indeksit', async ({ page, request }) => {
+  await page.goto('/projektet/');
+  await expect(page.getByRole('note')).toContainText('shembuj për prezantim');
+  await expect(page.locator('.card__example')).toHaveCount(6);
+
+  await page.goto('/projektet/projekt-shembull-1/');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(/^Projekt shembull: /);
+  await expect(page.getByRole('note')).toContainText('Projekt shembull për prezantim');
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex');
+  await expect(page.locator('.project__slider').getByRole('slider')).toHaveAttribute(
+    'aria-label',
+    /Projekt shembull/,
+  );
+
+  const sitemap = await (await request.get('/sitemap.xml')).text();
+  expect(sitemap).not.toContain('projekt-shembull');
 });

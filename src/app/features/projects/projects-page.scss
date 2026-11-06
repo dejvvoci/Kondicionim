@@ -1,5 +1,14 @@
 @use 'mixins' as *;
 
+.example-note {
+  margin-top: var(--sp-4);
+  padding: var(--sp-3) var(--sp-4);
+  border-left: 4px solid var(--c-teal);
+  border-radius: var(--radius-badge);
+  background: var(--c-white);
+  color: var(--c-text);
+}
+
 .filters {
   display: grid;
   gap: var(--sp-4);

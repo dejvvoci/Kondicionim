@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+<rect width="1200" height="900" fill="#e6ecec"/>
+<rect x="36" y="36" width="1128" height="828" rx="30" fill="none" stroke="#a9bcbe" stroke-width="5" stroke-dasharray="30 20"/>
+<rect x="405" y="72" width="390" height="84" rx="42" fill="#10766f"/>
+<text x="600" y="129" text-anchor="middle" font-family="'Segoe UI', Roboto, system-ui, sans-serif" font-size="40.5" font-weight="700" letter-spacing="2.5" fill="#ffffff">FOTO SHEMBULL</text>
+<g transform="translate(528 198) scale(6)" fill="none" stroke="#7d9497" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M5 7h1a2 2 0 0 0 2 -2a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1a2 2 0 0 0 2 2h1a2 2 0 0 1 2 2v9a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2"/><path d="M9 13a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/>
+</g>
+<text x="600" y="408" text-anchor="middle" font-family="'Segoe UI', Roboto, system-ui, sans-serif" font-size="78" font-weight="600" fill="#3c5a5f">Foto reale këtu</text>
+<text x="600" y="492" text-anchor="middle" font-family="'Segoe UI', Roboto, system-ui, sans-serif" font-size="54" fill="#3c5a5f">Testimi final me matje</text>
+<text x="600" y="756" text-anchor="middle" font-family="'Segoe UI', Roboto, system-ui, sans-serif" font-size="42" fill="#55706f">1200 × 900 px · raporti 4:3 · AVIF ose WebP</text>
+<text x="600" y="807" text-anchor="middle" font-family="'Segoe UI', Roboto, system-ui, sans-serif" font-size="42" fill="#55706f">Skedari: projekt-shembull-1-galeri-3.avif</text>
+</svg>

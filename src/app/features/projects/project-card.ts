@@ -21,9 +21,18 @@ import { BeforeAfter } from '../../shared/ui/before-after/before-after';
         sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
       />
       <div class="card__body">
-        <h3 class="card__title">
-          <a [routerLink]="'/projektet/' + p.slug">{{ p.title }}</a>
-        </h3>
+        @if (p.example) {
+          <span class="card__example">{{ t.example }}</span>
+        }
+        @if (headingLevel() === 2) {
+          <h2 class="card__title">
+            <a [routerLink]="'/projektet/' + p.slug">{{ p.title }}</a>
+          </h2>
+        } @else {
+          <h3 class="card__title">
+            <a [routerLink]="'/projektet/' + p.slug">{{ p.title }}</a>
+          </h3>
+        }
         <ul class="meta">
           <li>{{ cityName() }}</li>
           <li>{{ system() }}</li>
@@ -42,6 +51,8 @@ import { BeforeAfter } from '../../shared/ui/before-after/before-after';
 })
 export class ProjectCard {
   readonly project = input.required<Project>();
+  /** 3 brenda një seksioni me titull (h2); 2 kur lista vjen direkt pas h1 (/projektet). */
+  readonly headingLevel = input<2 | 3>(3);
 
   protected readonly t = UI_TEXT.projects;
   protected readonly cityName = computed(

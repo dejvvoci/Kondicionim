@@ -5,6 +5,7 @@ import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { BUSINESS, HERO_PHOTO, businessName } from '../../data/business';
 import { CITIES } from '../../data/cities';
+import { isPlaceholder } from '../../data/placeholders';
 import { OG_IMAGE, absoluteUrl, breadcrumbJsonLd, businessJsonLd, type JsonLd } from './json-ld';
 import { buildCanonical, buildTitle, type RouteSeo } from './seo';
 
@@ -36,7 +37,8 @@ export class SeoService {
         business: BUSINESS,
         name: businessName(),
         cities: CITIES.filter((c) => c.active),
-        image: HERO_PHOTO,
+        // Foto shembull nuk shkon kurrë te Google si foto e biznesit.
+        image: HERO_PHOTO && !isPlaceholder(HERO_PHOTO) ? HERO_PHOTO : null,
       }),
     );
     const sub = this.router.events

@@ -24,7 +24,7 @@ import { ServiceGrid } from './service-grid';
     <!-- Pjesa poshtë kokës hidratohet në ndërveprimin e parë. -->
     @defer (on immediate; hydrate on interaction) {
       <ui-section tone="soft">
-        <app-service-grid />
+        <app-service-grid [headingLevel]="2" />
       </ui-section>
 
       @if (flow.available) {

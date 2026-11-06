@@ -1,4 +1,5 @@
 import type { InstallStandard, Photo } from './types';
+import { placeholder } from './placeholders';
 
 // TODO: konfirmo me ustain tekstet e standardeve dhe shto foto reale për secilin
 export const STANDARDS: InstallStandard[] = [
@@ -8,7 +9,10 @@ export const STANDARDS: InstallStandard[] = [
     text: 'Para se të hapet gazi, nga tubat nxirret ajri dhe lagështia me pompë vakumi, jo duke i "pastruar me gaz". Lagështia që mbetet në linjë dëmton vajin dhe kompresorin me kalimin e kohës.',
     icon: 'gauge',
     featured: true,
-    photo: null,
+    photo: placeholder(
+      'standard-vakumim-i-plote',
+      'pompa e vakumit e lidhur me manometrin dixhital gjatë vakumimit',
+    ), // TODO: foto shembull, zëvendësohet me foton reale
   },
   {
     slug: 'test-presioni-me-azot',
@@ -16,7 +20,10 @@ export const STANDARDS: InstallStandard[] = [
     text: 'Linja mbushet me azot nën presion dhe kontrollohet që presioni të mos bjerë. Kështu rrjedhjet gjenden para se të hyjë gazi, jo pas disa javësh kur aparati nuk ftoh më.',
     icon: 'shield-check',
     featured: true,
-    photo: null,
+    photo: placeholder(
+      'standard-test-presioni-me-azot',
+      'manometri gjatë testit të presionit me azot',
+    ), // TODO: foto shembull, zëvendësohet me foton reale
   },
   {
     slug: 'saldim-me-azot',
@@ -24,7 +31,7 @@ export const STANDARDS: InstallStandard[] = [
     text: 'Gjatë saldimit kalon azot brenda tubit, që bakri të mos oksidohet nga brenda. Përndryshe ashklat e oksidit qarkullojnë në sistem dhe bllokojnë valvulat dhe filtrat.',
     icon: 'tool',
     featured: true,
-    photo: null,
+    photo: placeholder('standard-saldim-me-azot', 'saldimi i tubit të bakrit me azot'), // TODO: foto shembull, zëvendësohet me foton reale
   },
   {
     slug: 'tuba-dhe-izolim',
@@ -32,7 +39,7 @@ export const STANDARDS: InstallStandard[] = [
     text: 'Diametri dhe trashësia e tubave zgjidhen sipas aparatit dhe gjatësisë së linjës. Izolimi i plotë ruan efikasitetin dhe parandalon kondensimin brenda mureve.',
     icon: 'layout-grid',
     featured: false,
-    photo: null,
+    photo: placeholder('standard-tuba-dhe-izolim', 'tubat e bakrit me izolimin e vendosur'), // TODO: foto shembull, zëvendësohet me foton reale
   },
   {
     slug: 'pjerresia-e-kondensates',
@@ -40,7 +47,10 @@ export const STANDARDS: InstallStandard[] = [
     text: 'Tubi i ujit montohet me rënie të vazhdueshme, pa ulje-ngritje. Kjo është arsyeja më e shpeshtë pse një kondicioner pikon brenda në shtëpi.',
     icon: 'droplet',
     featured: false,
-    photo: null,
+    photo: placeholder(
+      'standard-pjerresia-e-kondensates',
+      'tubi i kondensatës me pjerrësinë e duhur',
+    ), // TODO: foto shembull, zëvendësohet me foton reale
   },
   {
     slug: 'njesia-e-jashtme',
@@ -48,7 +58,7 @@ export const STANDARDS: InstallStandard[] = [
     text: 'Njësia e jashtme vendoset në nivel, me hapësirë për ajrim dhe me tampona antivibrim. Më pak zhurmë për ju dhe fqinjët, dhe më pak sforcim mbi tubat.',
     icon: 'air-conditioning',
     featured: false,
-    photo: null,
+    photo: placeholder('standard-njesia-e-jashtme', 'njësia e jashtme mbi mbajtëse antivibrim'), // TODO: foto shembull, zëvendësohet me foton reale
   },
   {
     slug: 'kabllo-dhe-siguresa',
@@ -56,7 +66,7 @@ export const STANDARDS: InstallStandard[] = [
     text: 'Seksioni i kabllos dhe siguresa zgjidhen sipas rrymës së aparatit, jo sipas asaj që gjendet në shtëpi. Kjo shmang mbinxehjen dhe ndërprerjet.',
     icon: 'certificate',
     featured: false,
-    photo: null,
+    photo: placeholder('standard-kabllo-dhe-siguresa', 'kablloja dhe siguresa e aparatit'), // TODO: foto shembull, zëvendësohet me foton reale
   },
   {
     slug: 'testim-final',
@@ -64,7 +74,10 @@ export const STANDARDS: InstallStandard[] = [
     text: 'Në fund maten presionet, temperaturat dhe rryma, dhe krahasohen me vlerat e prodhuesit. Ju shpjegojmë përdorimin, pastrimin e filtrave dhe kur duhet thirrur ustai.',
     icon: 'clipboard-check',
     featured: true,
-    photo: null,
+    photo: placeholder(
+      'standard-testim-final',
+      'matja e temperaturës dhe e presionit në testimin final',
+    ), // TODO: foto shembull, zëvendësohet me foton reale
   },
 ];
 
@@ -80,4 +93,10 @@ export const STANDARDS_PAGE = {
 } as const;
 
 /** Foto e veglave profesionale. */
-export const TOOLS_PHOTO: Photo | null = null; // TODO: foto e veglave (manometra dixhitalë, pompë vakumi, detektor rrjedhjeje, termometra)
+// TODO: foto e veglave (manometra dixhitalë, pompë vakumi, detektor rrjedhjeje, termometra)
+export const TOOLS_PHOTO: Photo | null = placeholder(
+  'veglat-e-punes',
+  'veglat: manometra dixhitalë, pompë vakumi, detektor rrjedhjeje, termometra',
+  1600,
+  900,
+); // TODO: foto shembull, zëvendësohet me foton reale

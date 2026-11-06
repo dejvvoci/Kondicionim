@@ -87,6 +87,26 @@ Të gjitha tekstet dhe të dhënat që ndryshojnë janë në `src/app/data/`. Nu
 - **Tekstet e udhëzuesit dhe krahasimi i sistemeve**: `src/app/data/guide.ts`
 - **Standardet e montimit (tekst dhe foto)**: `src/app/data/standards.ts`
 
+### Fotot shembull (për prezantim)
+
+Derisa të vijnë fotot reale, faqja shfaq foto shembull (`public/images/shembull/*.svg`): secila
+tregon "Foto shembull", çfarë duhet të shfaqë fotoja reale, përmasat (p.sh. 1200 × 900 px, 4:3)
+dhe emrin e sugjeruar të skedarit. Janë 58: hero, 3 te "Rreth ustait", 3 për çdo shërbim, 8 te
+standardet, fotoja e veglave dhe fotot para/pas të projekteve shembull. Përcaktohen me
+`placeholder(...)` në skedarët e të dhënave (shih `src/app/data/placeholders.ts`) dhe vizatohen
+me `npm run build:placeholders`.
+
+**Projektet shembull** (`example: true` te `src/app/data/projects.ts`): 6 projekte me qytete dhe
+sisteme të ndryshme, që të shihen filtrat dhe slider-i para/pas. Shënohen "Shembull" kudo ku
+shfaqen, faqet e tyre kanë `noindex` dhe nuk hyjnë në sitemap; BTU dhe kohëzgjatja mbeten bosh.
+Kur vijnë projektet reale, fshi `...exampleProjects()` dhe funksionin.
+
+Për ta zëvendësuar një foto: vendos foton reale te `public/images/` me emrin e sugjeruar (AVIF
+ose WebP; hero nën 150 KB) dhe zëvendëso thirrjen `placeholder(...)` me objektin `Photo` real,
+me `alt` përshkrues në shqip. Fotot shembull nuk dalin kurrë si foto e biznesit te Google
+(JSON-LD), `npm run build` tregon sa faqe i kanë ende, dhe `check-content --strict` dështon
+derisa të mos mbetet asnjë.
+
 ### Harta e Shqipërisë
 
 Harta është SVG inline, e gjeneruar një herë nga kufijtë e Natural Earth dhe e ruajtur në
