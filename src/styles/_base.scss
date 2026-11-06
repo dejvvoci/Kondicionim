@@ -31,6 +31,11 @@ body {
   @include below-md {
     padding-bottom: calc(var(--mobile-bar-h) + env(safe-area-inset-bottom));
   }
+
+  // Shiriti i fshehur (pa numra kontakti): pa hapësirë bosh poshtë.
+  &:has(app-mobile-contact-bar.is-empty) {
+    padding-bottom: 0;
+  }
 }
 
 img,

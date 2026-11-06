@@ -16,12 +16,15 @@ import { WhatsAppFlow } from '../../contact/whatsapp-flow.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './mobile-contact-bar.html',
   styleUrl: './mobile-contact-bar.scss',
+  // Pa telefon dhe pa WhatsApp (të dhënat mungojnë), shiriti fshihet krejt.
+  host: { '[class.is-empty]': 'empty' },
 })
 export class MobileContactBar {
   protected readonly t = UI_TEXT;
   protected readonly phoneHref = BUSINESS.phone ? telHref(BUSINESS.phone) : null;
   protected readonly showTodo = isDevMode();
   protected readonly flow = inject(WhatsAppFlow);
+  protected readonly empty = !this.phoneHref && !this.flow.available && !this.showTodo;
 
   protected openWhatsApp(): void {
     this.flow.open({ source: 'shiriti' });

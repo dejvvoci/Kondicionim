@@ -1,4 +1,5 @@
 import type { Service } from './types';
+import { servicePlaceholders } from './placeholders';
 
 // TODO: konfirmo me ustain tekstet e shërbimeve (çdo fakt teknik rishikohet para publikimit)
 // TODO: kohëzgjatja (duration) dhe foto nga punë reale për çdo shërbim
@@ -24,7 +25,10 @@ export const SERVICES: Service[] = [
       'Zyra, dyqane dhe hotele që duan një sistem të planifikuar',
     ],
     duration: null,
-    photos: [],
+    photos: servicePlaceholders(
+      'konsulence-dhe-zgjedhja-e-sistemit',
+      'Konsulencë dhe zgjedhja e sistemit',
+    ), // TODO: foto shembull, zëvendësohet me foton reale
     faq: [
       {
         q: 'A duhet ta blej aparatin para inspektimit?',
@@ -62,7 +66,7 @@ export const SERVICES: Service[] = [
       'Zyra dhe dyqane të vogla',
     ],
     duration: null,
-    photos: [],
+    photos: servicePlaceholders('montim-split', 'Montim split'), // TODO: foto shembull, zëvendësohet me foton reale
     faq: [
       {
         q: 'A mund ta montoni aparatin që e kam blerë vetë?',
@@ -100,7 +104,7 @@ export const SERVICES: Service[] = [
       'Zyra me disa dhoma',
     ],
     duration: null,
-    photos: [],
+    photos: servicePlaceholders('montim-multi-split', 'Montim multi-split'), // TODO: foto shembull, zëvendësohet me foton reale
     faq: [
       {
         q: 'Multi-split apo disa split të veçantë?',
@@ -138,7 +142,10 @@ export const SERVICES: Service[] = [
       'Zyra me tavan të rënë',
     ],
     duration: null,
-    photos: [],
+    photos: servicePlaceholders(
+      'sisteme-me-kanale-dhe-dysheme-tavan',
+      'Sisteme me kanale dhe dysheme-tavan',
+    ), // TODO: foto shembull, zëvendësohet me foton reale
     faq: [
       {
         q: 'Kur duhet planifikuar sistemi me kanale?',
@@ -176,7 +183,7 @@ export const SERVICES: Service[] = [
       'Pallate dhe komplekse me shumë ambiente',
     ],
     duration: null,
-    photos: [],
+    photos: servicePlaceholders('sisteme-vrf-vrv', 'Sisteme VRF/VRV'), // TODO: foto shembull, zëvendësohet me foton reale
     faq: [
       {
         q: 'Çfarë e dallon VRF nga multi-split?',
@@ -214,7 +221,7 @@ export const SERVICES: Service[] = [
       'Biznese që duan të ulin koston e ngrohjes',
     ],
     duration: null,
-    photos: [],
+    photos: servicePlaceholders('pompa-nxehtesie', 'Pompa nxehtësie'), // TODO: foto shembull, zëvendësohet me foton reale
     faq: [
       {
         q: 'A ngroh pompa e nxehtësisë kur jashtë bën ftohtë?',
@@ -252,7 +259,7 @@ export const SERVICES: Service[] = [
       'Split, multi-split dhe sisteme komerciale',
     ],
     duration: null,
-    photos: [],
+    photos: servicePlaceholders('diagnostikim-dhe-riparim', 'Diagnostikim dhe riparim'), // TODO: foto shembull, zëvendësohet me foton reale
     faq: [
       {
         q: 'Çfarë të bëj kur shfaqet një kod gabimi?',
@@ -290,7 +297,10 @@ export const SERVICES: Service[] = [
       'Sisteme pas zhvendosjes ose dëmtimit të tubave',
     ],
     duration: null,
-    photos: [],
+    photos: servicePlaceholders(
+      'kontroll-rrjedhjeje-dhe-rimbushje-gazi',
+      'Kontroll rrjedhjeje dhe rimbushje gazi',
+    ), // TODO: foto shembull, zëvendësohet me foton reale
     faq: [
       {
         q: 'Sa shpesh duhet rimbushur gazi?',
@@ -328,7 +338,7 @@ export const SERVICES: Service[] = [
       'Biznese që zhvendosin zyrën ose dyqanin',
     ],
     duration: null,
-    photos: [],
+    photos: servicePlaceholders('cmontim-dhe-zhvendosje', 'Çmontim dhe zhvendosje'), // TODO: foto shembull, zëvendësohet me foton reale
     faq: [
       {
         q: 'A mund të ripërdoren tubat e vjetër?',
@@ -366,7 +376,10 @@ export const SERVICES: Service[] = [
       'Hotele, klinika dhe ambiente publike',
     ],
     duration: null,
-    photos: [],
+    photos: servicePlaceholders(
+      'kontrata-mirembajtjeje-per-biznese',
+      'Kontrata mirëmbajtjeje për biznese',
+    ), // TODO: foto shembull, zëvendësohet me foton reale
     faq: [
       {
         q: 'Sa shpesh bëhen vizitat?',

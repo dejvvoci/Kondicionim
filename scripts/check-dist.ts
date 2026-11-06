@@ -116,3 +116,11 @@ if (errors.length) {
 console.log(
   `check-dist: ${files.length} faqe, ${checked} lidhje në rregull; JS fillestar ${(jsGzip / 1024).toFixed(1)} KB gzip`,
 );
+
+// Fotot shembull (src/app/data/placeholders.ts) lejohen për prezantim, por duhen zëvendësuar.
+const withPlaceholders = files.filter((f) => readFileSync(f, 'utf8').includes('/images/shembull/'));
+if (withPlaceholders.length) {
+  console.warn(
+    `check-dist: ⚠ ${withPlaceholders.length} faqe kanë ende foto shembull (images/shembull), zëvendësoji me fotot reale`,
+  );
+}
