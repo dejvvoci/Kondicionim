@@ -20,23 +20,25 @@ import { formatDate } from './article-date';
         <p class="lead">{{ t.lead }}</p>
       </div>
     </header>
-
-    <ui-section tone="soft">
-      <ul class="articles">
-        @for (a of articles; track a.slug) {
-          <li class="article">
-            <p class="article__meta">
-              <time [attr.datetime]="a.date">{{ date(a.date) }}</time> · {{ a.readingMinutes }}
-              {{ t.minutes }}
-            </p>
-            <h2 class="article__title">
-              <a [routerLink]="'/keshilla/' + a.slug">{{ a.title }}</a>
-            </h2>
-            <p class="article__desc">{{ a.description }}</p>
-          </li>
-        }
-      </ul>
-    </ui-section>
+    <!-- Pjesa poshtë kokës hidratohet në ndërveprimin e parë. -->
+    @defer (on immediate; hydrate on interaction) {
+      <ui-section tone="soft">
+        <ul class="articles">
+          @for (a of articles; track a.slug) {
+            <li class="article">
+              <p class="article__meta">
+                <time [attr.datetime]="a.date">{{ date(a.date) }}</time> · {{ a.readingMinutes }}
+                {{ t.minutes }}
+              </p>
+              <h2 class="article__title">
+                <a [routerLink]="'/keshilla/' + a.slug">{{ a.title }}</a>
+              </h2>
+              <p class="article__desc">{{ a.description }}</p>
+            </li>
+          }
+        </ul>
+      </ui-section>
+    }
   `,
   styles: `
     .articles {

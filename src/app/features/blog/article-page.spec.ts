@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { DESCRIPTION_MAX, TITLE_MAX } from '../../core/seo/seo';
+import { ARTICLE_HTML } from '../../data/article-html.generated';
 import { ARTICLES } from '../../data/articles.generated';
 import { SERVICES } from '../../data/services';
 import { formatDate } from './article-date';
@@ -8,7 +9,10 @@ import { ArticlePage } from './article-page';
 
 describe('ArticlePage', () => {
   async function render(slug: string) {
-    TestBed.configureTestingModule({ providers: [provideRouter([])] });
+    await TestBed.configureTestingModule({
+      imports: [ArticlePage],
+      providers: [provideRouter([])],
+    }).compileComponents();
     const fixture = TestBed.createComponent(ArticlePage);
     fixture.componentRef.setInput('slug', slug);
     await fixture.whenStable();
@@ -36,7 +40,7 @@ describe('ARTICLES (të gjeneruara)', () => {
     for (const a of ARTICLES) {
       expect(a.title.length).toBeLessThanOrEqual(TITLE_MAX);
       expect(a.description.length).toBeLessThanOrEqual(DESCRIPTION_MAX);
-      expect(a.html).not.toContain('TODO');
+      expect(ARTICLE_HTML[a.slug]).not.toContain('TODO');
       for (const s of a.services) expect(SERVICES.some((x) => x.slug === s)).toBe(true);
     }
   });

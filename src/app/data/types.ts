@@ -10,6 +10,8 @@ export interface OpeningHours {
   days: string;
   /** P.sh. "08:00 – 19:00" */
   hours: string;
+  /** I njëjti orar për Google (schema.org), p.sh. "Mo-Sa 08:00-19:00". */
+  schema: string;
 }
 
 export interface SocialLinks {
@@ -33,6 +35,10 @@ export interface Business {
   email: string | null;
   openingHours: OpeningHours[];
   social: SocialLinks;
+  /** Qyteti i bazës (ose adresa, nëse ka pikë fizike), për Google. null = vetëm vendi. */
+  locality: string | null;
+  /** Niveli i çmimeve për Google, p.sh. "$$" ose "3000–60000 ALL". null = nuk shfaqet. */
+  priceRange: string | null;
 }
 
 export interface City {
@@ -188,7 +194,6 @@ export interface Article {
   date: string;
   services: string[];
   readingMinutes: number;
-  html: string;
 }
 
 export interface Certification {

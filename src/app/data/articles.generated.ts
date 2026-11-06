@@ -11,8 +11,7 @@ export const ARTICLES: Article[] = [
       "pompa-nxehtesie",
       "konsulence-dhe-zgjedhja-e-sistemit"
     ],
-    "readingMinutes": 2,
-    "html": "<p>Një kondicioner nuk e &quot;prodhon&quot; nxehtësinë si një rezistencë: e merr nga ajri jashtë dhe e sjell brenda. Ky është parimi i pompës së nxehtësisë, dhe për këtë arsye, për të njëjtën sasi nxehtësie, harxhon zakonisht shumë më pak rrymë se një ngrohës elektrik me rezistencë.</p>\n<h2>Kur ia vlen</h2>\n<ul><li><strong>Në zonat me dimër të butë</strong>, si bregdeti dhe ultësirat, një aparat inverter i mirë ngroh me efikasitet gjatë gjithë sezonit.</li><li><strong>Kur aparati është me fuqinë e duhur.</strong> Një aparat i vogël punon gjithë kohën në maksimum dhe efikasiteti bie.</li><li><strong>Kur ambienti ka izolim të arsyeshëm.</strong> Dritaret që lënë ajër dhe muret e pa izoluara e humbin nxehtësinë pavarësisht aparatit.</li></ul>\n<h2>Kufizimet</h2>\n<p>Kur temperatura jashtë bie shumë, aparati ka më pak nxehtësi për të marrë dhe efikasiteti ulet. Në zonat malore ose me dimër të ashpër ka rëndësi të zgjidhni një model që e ruan fuqinë në temperatura të ulëta; prodhuesit e tregojnë këtë në specifikimet teknike.</p>\n<p>Gjatë dimrit aparati bën edhe cikle të shkurtra shkrirjeje të akullit në njësinë e jashtme. Është normale që për pak minuta të mos fryjë ajër të ngrohtë.</p>\n<h2>Si të zgjidhni</h2>\n<p>Shikoni vlerën <strong>SCOP</strong> (efikasiteti sezonal në ngrohje) në etiketën e energjisë dhe fuqinë në ngrohje, jo vetëm në ftohje. Për shtëpi me ngrohje qendrore ekziston edhe zgjidhja e <a href=\"/sherbimet/pompa-nxehtesie\">pompës së nxehtësisë</a> që ngroh ujin e radiatorëve.</p>\n<p>Nëse nuk jeni të sigurt, ustai e vlerëson ambientin dhe ju këshillon për modelin dhe fuqinë e duhur.</p>"
+    "readingMinutes": 2
   },
   {
     "slug": "kodet-e-gabimit-te-kondicioneri",
@@ -22,8 +21,7 @@ export const ARTICLES: Article[] = [
     "services": [
       "diagnostikim-dhe-riparim"
     ],
-    "readingMinutes": 2,
-    "html": "<p>Kur aparati ndalet dhe në ekran ose në kontroll shfaqet një kod si <strong>E1</strong>, <strong>H6</strong> ose <strong>F3</strong>, aparati po ju tregon se cila pjesë e sistemit ka dalë jashtë vlerave normale.</p>\n<h2>Pse i njëjti kod nuk do të thotë e njëjta gjë</h2>\n<p>Çdo prodhues ka listën e vet. I njëjti <strong>E1</strong> mund të jetë problem komunikimi mes njësive te një markë dhe sensor temperature te një tjetër. Prandaj kuptimi i saktë gjendet në manualin e modelit tuaj, jo në lista të përgjithshme në internet.</p>\n<p>Në përgjithësi, kodet ndahen në disa grupe:</p>\n<ul><li><strong>sensorët e temperaturës</strong> (në dhomë, në bateri ose në njësinë e jashtme);</li><li><strong>komunikimi</strong> mes njësisë së brendshme dhe të jashtme;</li><li><strong>mbrojtjet</strong> e kompresorit nga presioni, temperatura ose rryma;</li><li><strong>ventilatorët</strong> e njësisë së brendshme ose të jashtme;</li><li><strong>kondensata</strong>, te aparatet që kanë pompë uji.</li></ul>\n<h2>Çfarë të bëni</h2>\n<ol><li>Shënoni kodin ashtu siç shfaqet, bashkë me markën dhe modelin (shkruhen në etiketën anash njësisë).</li><li>Fikeni aparatin nga siguresa për disa minuta dhe ndizeni sërish.</li><li>Nëse kodi rikthehet, mos e rindizni vazhdimisht: disa mbrojtje e ndalin aparatin pikërisht për të shmangur dëmtimin e kompresorit.</li><li>Na dërgoni në WhatsApp foton e kodit dhe të etiketës.</li></ol>\n<p>Me kodin dhe modelin, ustai e ngushton shkakun që para se të vijë dhe sjell pjesët ose veglat e duhura. Diagnostikimi përfundimtar bëhet me matje: kodi tregon ku të kërkosh, jo gjithmonë cila pjesë është prishur.</p>"
+    "readingMinutes": 2
   },
   {
     "slug": "pse-me-pikon-kondicioneri",
@@ -34,8 +32,7 @@ export const ARTICLES: Article[] = [
       "diagnostikim-dhe-riparim",
       "montim-split"
     ],
-    "readingMinutes": 2,
-    "html": "<p>Kur kondicioneri ftoh, nxjerr lagështinë nga ajri. Ky ujë mblidhet në një tabaka brenda njësisë së brendshme dhe del jashtë përmes tubit të kondensatës. Nëse uji pikon nga njësia në mur, diçka e pengon këtë rrugë.</p>\n<h2>Shkaqet më të shpeshta</h2>\n<ul><li><strong>Tubi i kondensatës pa pjerrësi të mjaftueshme.</strong> Tubi duhet të ketë rënie të vazhdueshme deri në dalje. Nëse ngrihet diku, uji ndalet dhe kthehet mbrapsht.</li><li><strong>Tubi ose tabakaja e bllokuar.</strong> Pluhuri, myku dhe insektet formojnë një shtresë që e mbyll daljen, sidomos pas disa sezonesh pa pastrim.</li><li><strong>Filtrat shumë të ndotur.</strong> Ajri kalon me vështirësi, bateria ftohet tepër, formohet akull dhe kur shkrin, uji del jashtë tabakasë.</li><li><strong>Njësia e brendshme jo në nivel.</strong> Një animi i vogël mjafton që uji të derdhet nga ana e gabuar e tabakasë.</li><li><strong>Mungesë gazi.</strong> Me më pak gaz, bateria ngrin. Akulli shkrin kur aparati fiket dhe uji kalon tabakanë.</li></ul>\n<h2>Çfarë mund të bëni vetë</h2>\n<ol><li>Fikeni aparatin dhe mbroni murin dhe dyshemenë nga uji.</li><li>Pastroni filtrat me ujë të vakët dhe lërini të thahen para se t’i vendosni.</li><li>Kontrolloni nëse del ujë nga fundi i tubit të kondensatës kur aparati punon.</li></ol>\n<p>Nëse pas pastrimit të filtrave aparati vazhdon të pikojë, problemi është zakonisht te kondensata, te pozicioni i njësisë ose te gazi. Këto kërkojnë vegla dhe matje.</p>\n<blockquote><p>Mos e lini një kondicioner që pikon të punojë për ditë të tëra: uji dëmton suvanë, parketin dhe mund të arrijë te lidhjet elektrike.</p></blockquote>\n<h2>Si e zgjidh ustai</h2>\n<p>Ustai kontrollon pjerrësinë dhe pastron tubin e kondensatës, pastron tabakanë dhe baterinë, kontrollon nivelin e njësisë dhe, nëse ka shenja akulli, mat presionet për të parë nëse mungon gaz. Në një montim të ri, tubi i kondensatës vendoset që në fillim me rënien e duhur: është një nga <a href=\"/standardet-e-montimit\">standardet tona të montimit</a>.</p>"
+    "readingMinutes": 2
   },
   {
     "slug": "pse-nuk-ftoh-mire-kondicioneri",
@@ -46,8 +43,7 @@ export const ARTICLES: Article[] = [
       "diagnostikim-dhe-riparim",
       "kontroll-rrjedhjeje-dhe-rimbushje-gazi"
     ],
-    "readingMinutes": 2,
-    "html": "<p>Një kondicioner që punon gjithë ditën dhe dhoma mbetet e ngrohtë ka gjithmonë një shkak. Disa i kontrolloni vetë në pak minuta, të tjerët kërkojnë matje.</p>\n<h2>Kontrollet e para</h2>\n<ul><li><strong>Modaliteti dhe temperatura.</strong> Sigurohuni që aparati është në ftohje (ikona e borës) dhe jo në ventilim ose &quot;auto&quot;.</li><li><strong>Filtrat.</strong> Filtrat e zënë nga pluhuri e ulin shumë sasinë e ajrit. Pastrojini dhe provoni sërish.</li><li><strong>Dyert dhe dritaret.</strong> Një derë e hapur drejt një ambienti tjetër e shumëfishon ngarkesën.</li></ul>\n<h2>Shkaqet që kërkojnë ustain</h2>\n<ul><li><strong>Mungesë gazi.</strong> Gazi nuk harxhohet: nëse mungon, ka rrjedhje. Shenjat janë ajri jo mjaft i ftohtë dhe akulli në tubat e njësisë së jashtme.</li><li><strong>Njësia e jashtme e ndotur ose pa ajrim.</strong> Kondensatori i mbuluar me pluhur ose gjethe, ose i vendosur në një kënd pa qarkullim ajri, nuk e nxjerr dot nxehtësinë.</li><li><strong>Ventilator ose kondensator elektrik me defekt.</strong> Aparati mund të ndizet, por kompresori ose ventilatori nuk punojnë si duhet.</li><li><strong>Fuqi e vogël për ambientin.</strong> Një aparat 9000 BTU në një sallë me shumë diell nuk e arrin dot temperaturën, sado mirë të punojë. Provoni <a href=\"/si-te-zgjidhni-kondicionerin\">kalkulatorin BTU</a> për një vlerë orientuese.</li></ul>\n<h2>Pse ka rëndësi diagnostikimi me matje</h2>\n<p>Rimbushja e gazit &quot;sa për të provuar&quot; është shpesh para e humbur: nëse rrjedhja nuk riparohet, gazi del sërish. Me manometra dhe termometra ustai sheh presionet, temperaturat dhe rrymën, dhe e gjen shkakun para se të ndërrojë ndonjë pjesë.</p>"
+    "readingMinutes": 2
   },
   {
     "slug": "sa-shpesh-duhet-pastruar-kondicioneri",
@@ -58,7 +54,6 @@ export const ARTICLES: Article[] = [
       "kontrata-mirembajtjeje-per-biznese",
       "diagnostikim-dhe-riparim"
     ],
-    "readingMinutes": 2,
-    "html": "<p>Pastrimi nuk është vetëm çështje higjiene. Një aparat i pastër ftoh dhe ngroh më shpejt, harxhon më pak energji dhe zgjat më shumë.</p>\n<h2>Çfarë pastroni vetë</h2>\n<p><strong>Filtrat e njësisë së brendshme</strong>, çdo disa javë kur aparati punon shpesh. Hapni kapakun e përparmë, nxirrni filtrat, lajini me ujë të vakët (pa detergjent të fortë) dhe lërini të thahen plotësisht para se t’i vendosni. Mos e ndizni aparatin pa filtra.</p>\n<h2>Çfarë pastron ustai</h2>\n<p>Të paktën një herë në vit, mirë është para sezonit të verës:</p>\n<ul><li>bateria e njësisë së brendshme dhe ventilatori cilindrik, ku mblidhet myku që shkakton erën e keqe;</li><li>tabakaja dhe tubi i kondensatës, që aparati të mos pikojë;</li><li>njësia e jashtme, që të nxjerrë nxehtësinë pa pengesë;</li><li>kontrolli i lidhjeve elektrike dhe matja e presioneve.</li></ul>\n<p>Në restorante, dyqane me pluhur ose ambiente ku aparati punon gjithë ditën, pastrimi i plotë duhet më shpesh. Për bizneset ia vlen një <a href=\"/sherbimet/kontrata-mirembajtjeje-per-biznese\">plan mirëmbajtjeje</a>.</p>\n<h2>Shenjat që aparati ka nevojë për pastrim</h2>\n<ul><li>erë e rëndë ose myk kur ndizet;</li><li>ajër më i dobët se zakonisht;</li><li>pika uji nga njësia e brendshme;</li><li>zhurmë më e lartë nga ventilatori.</li></ul>\n<blockquote><p>Spërkatësit &quot;pastrues&quot; që shiten në dyqan nuk e zëvendësojnë pastrimin e plotë: e lagin baterinë, por papastërtia mbetet te ventilatori dhe te kondensata.</p></blockquote>"
+    "readingMinutes": 2
   }
 ];

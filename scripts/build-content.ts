@@ -1,5 +1,6 @@
 /**
- * Artikujt Markdown (src/content/keshilla/*.md) → src/app/data/articles.generated.ts.
+ * Artikujt Markdown (src/content/keshilla/*.md) → src/app/data/articles.generated.ts (lista)
+ * dhe src/app/data/article-html.generated.ts (teksti, vetëm për faqen e artikullit).
  * Ekzekutohet automatikisht para `npm start` dhe `npm run build`.
  *
  * Frontmatter-i i çdo artikulli:
@@ -20,6 +21,7 @@ import {
 const root = join(import.meta.dirname, '..');
 const dir = join(root, 'src/content/keshilla');
 const out = join(root, 'src/app/data/articles.generated.ts');
+const outHtml = join(root, 'src/app/data/article-html.generated.ts');
 
 const errors: string[] = [];
 const articles = readdirSync(dir)
@@ -54,12 +56,24 @@ if (errors.length) {
   process.exit(1);
 }
 
+const header =
+  '// Gjeneruar nga scripts/build-content.ts nga src/content/keshilla/*.md. Mos e ndrysho me dorë.';
+const index = articles.map(({ html: _html, ...meta }) => meta);
+const bodies = Object.fromEntries(articles.map((a) => [a.slug, a.html]));
+
 writeFileSync(
   out,
-  `// Gjeneruar nga scripts/build-content.ts nga src/content/keshilla/*.md. Mos e ndrysho me dorë.
+  `${header}
 import type { Article } from './types';
 
-export const ARTICLES: Article[] = ${JSON.stringify(articles, null, 2)};
+export const ARTICLES: Article[] = ${JSON.stringify(index, null, 2)};
+`,
+);
+writeFileSync(
+  outHtml,
+  `${header}
+/** HTML-ja e çdo artikulli sipas slug-ut, e ngarkuar vetëm nga faqja e artikullit. */
+export const ARTICLE_HTML: Record<string, string> = ${JSON.stringify(bodies, null, 2)};
 `,
 );
 console.log(`build-content: ${articles.length} artikuj`);

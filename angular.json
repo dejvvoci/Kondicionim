@@ -52,12 +52,29 @@
                   "maximumError": "10kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                },
+                "fonts": true
+              }
             },
             "development": {
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "e2e": {
+              "outputPath": "dist/e2e",
+              "fileReplacements": [
+                {
+                  "replace": "src/app/data/business.overrides.ts",
+                  "with": "src/app/data/business.overrides.e2e.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -80,7 +97,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html", "e2e/**/*.ts"]
           }
         }
       }

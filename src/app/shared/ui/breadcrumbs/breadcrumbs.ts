@@ -1,5 +1,13 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  effect,
+  inject,
+  input,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { SeoService } from '../../../core/seo/seo.service';
 import { UI_TEXT } from '../../../i18n';
 
 export interface Crumb {
@@ -8,7 +16,7 @@ export interface Crumb {
   path?: string;
 }
 
-/** Shtegu i navigimit për faqet e brendshme. JSON-LD BreadcrumbList shtohet nga SEO. */
+/** Shtegu i navigimit për faqet e brendshme; i njëjti shteg shkon në JSON-LD (BreadcrumbList). */
 @Component({
   selector: 'ui-breadcrumbs',
   imports: [RouterLink],
@@ -55,4 +63,10 @@ export interface Crumb {
 export class Breadcrumbs {
   protected readonly t = UI_TEXT.breadcrumbs;
   readonly items = input.required<Crumb[]>();
+
+  constructor() {
+    const seo = inject(SeoService);
+    effect(() => seo.setBreadcrumbs(this.items()));
+    inject(DestroyRef).onDestroy(() => seo.setBreadcrumbs(null));
+  }
 }

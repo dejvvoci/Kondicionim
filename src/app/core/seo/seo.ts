@@ -1,12 +1,22 @@
 import { BUSINESS, businessName } from '../../data/business';
+import type { Photo } from '../../data/types';
+import type { JsonLd } from './json-ld';
 
-/** Të dhënat SEO të një rruge, në `data.seo` të route-it. */
+/** Të dhënat SEO të një rruge, në `data.seo` të route-it (ose nga një resolver). */
 export interface RouteSeo {
   /** Titulli pa emrin e biznesit (shtohet automatikisht). */
   title: string;
   description: string;
   /** Faqe që nuk duhet indeksuar (p.sh. 404). */
   noindex?: boolean;
+  /** og:type; 'article' për artikujt e këshillave. Parazgjedhur: 'website'. */
+  type?: 'website' | 'article';
+  /** Data e publikimit (ISO), për artikujt. */
+  publishedTime?: string;
+  /** Imazhi kur faqja ndahet në WhatsApp/Facebook. Parazgjedhur: OG_IMAGE. */
+  image?: Photo;
+  /** JSON-LD i faqes (Service, FAQPage, BlogPosting), ndërtuar nga të dhënat. */
+  jsonLd?: JsonLd[];
 }
 
 export const TITLE_MAX = 60;

@@ -42,3 +42,8 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+
+# Testet e2e dhe Lighthouse
+/test-results/
+/playwright-report/
+/.lighthouseci/

@@ -144,6 +144,7 @@ export const UI_TEXT = {
     faq: 'Pyetje për këtë shërbim',
     others: 'Shërbime të tjera',
     projects: 'Projekte me këtë shërbim',
+    articles: 'Këshilla për këtë temë',
     allServices: 'Të gjitha shërbimet',
     ctaTitle: 'Keni nevojë për këtë shërbim?',
     ctaLead:

@@ -21,40 +21,42 @@ import { Breadcrumbs, type Crumb } from '../../shared/ui/breadcrumbs/breadcrumbs
         }
       </div>
     </header>
+    <!-- Pjesa poshtë kokës hidratohet në ndërveprimin e parë. -->
+    @defer (on immediate; hydrate on interaction) {
+      <div class="container prose">
+        @for (s of p.sections; track s.title) {
+          <section>
+            <h2>{{ s.title }}</h2>
+            @for (para of s.paragraphs; track $index) {
+              <p>{{ para }}</p>
+            }
+          </section>
+        }
 
-    <div class="container prose">
-      @for (s of p.sections; track s.title) {
         <section>
-          <h2>{{ s.title }}</h2>
-          @for (para of s.paragraphs; track $index) {
-            <p>{{ para }}</p>
+          <h2>{{ p.contactTitle }}</h2>
+          <ul>
+            <li>{{ name }}</li>
+            @if (b.nipt) {
+              <li>NIPT: {{ b.nipt }}</li>
+            }
+            @if (b.phone) {
+              <li>
+                <a [href]="tel(b.phone)">{{ format(b.phone) }}</a>
+              </li>
+            }
+            @if (b.email) {
+              <li>
+                <a [href]="'mailto:' + b.email">{{ b.email }}</a>
+              </li>
+            }
+          </ul>
+          @if (showTodo && !b.phone && !b.email) {
+            <p><span class="todo">TODO: kontakti (business.ts)</span></p>
           }
         </section>
-      }
-
-      <section>
-        <h2>{{ p.contactTitle }}</h2>
-        <ul>
-          <li>{{ name }}</li>
-          @if (b.nipt) {
-            <li>NIPT: {{ b.nipt }}</li>
-          }
-          @if (b.phone) {
-            <li>
-              <a [href]="tel(b.phone)">{{ format(b.phone) }}</a>
-            </li>
-          }
-          @if (b.email) {
-            <li>
-              <a [href]="'mailto:' + b.email">{{ b.email }}</a>
-            </li>
-          }
-        </ul>
-        @if (showTodo && !b.phone && !b.email) {
-          <p><span class="todo">TODO: kontakti (business.ts)</span></p>
-        }
-      </section>
-    </div>
+      </div>
+    }
   `,
   styles: `
     .prose {

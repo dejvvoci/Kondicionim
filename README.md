@@ -18,8 +18,21 @@ npm test             # unit tests (Vitest)
 npm run lint         # ESLint (angular-eslint)
 npm run format       # Prettier
 npm run build        # kontroll përmbajtjeje + build me prerender → dist/kondicionim/browser
-npm run preview      # shërben build-in statik në http://localhost:4300
+npm run preview      # shërben build-in si Cloudflare Pages në http://localhost:4300
 ```
+
+Testet e plota (si në CI):
+
+```bash
+npx playwright install chromium   # një herë
+npm run build:e2e    # build me numra kontakti fiktivë → dist/e2e/browser
+npm run e2e          # Playwright + axe, në celular (390px) dhe desktop (1280px)
+npm run lighthouse   # Lighthouse CI mbi 5 faqe (kërkon Chrome)
+```
+
+Build-i i testeve zëvendëson vetëm `src/app/data/business.overrides.ts` me
+`business.overrides.e2e.ts` (telefon dhe WhatsApp fiktivë), që butonat e kontaktit të testohen
+edhe pa të dhënat reale. Përndryshe është i njëjtë me build-in e prodhimit.
 
 ## Struktura
 
@@ -31,8 +44,9 @@ src/app/
   data/          # PËRMBAJTJA: business.ts, cities.ts, navigation.ts, ...
   i18n/          # tekstet e ndërfaqes (ui-text.sq.ts)
 src/styles/      # tokens, fonts, base, typography, utilities, mixins
-public/          # fontet, favicon, robots.txt, _headers (Cloudflare)
-scripts/         # check-content.ts, postbuild.ts
+public/          # fontet, favicon, og-image.png, _headers (Cloudflare)
+scripts/         # build-content, postbuild (404, sitemap, robots), check-dist, serve, build-og
+e2e/             # testet Playwright + axe
 ```
 
 ## Komponentët UI
@@ -89,6 +103,35 @@ dukshëm; në prodhim elementi fshihet. `npm run build` liston të gjitha TODO-t
 final ekzekuto `node scripts/check-content.ts --strict` (dështon nëse ka TODO).
 
 Pas ndryshimit: commit → push → deploy automatik.
+
+## SEO
+
+- **Title, description, canonical, Open Graph dhe Twitter Card** vendosen nga `SeoService` sipas
+  `data.seo` të çdo rruge në `src/app/app.routes.ts` (ose nga të dhënat, për shërbimet, projektet
+  dhe artikujt). Testet kontrollojnë kufijtë: titulli ≤ 60, description ≤ 155 karaktere.
+- **JSON-LD**: `HVACBusiness` në çdo faqe (nga `business.ts` dhe `cities.ts`), `Service` në faqet e
+  shërbimeve, `FAQPage` te pyetjet, `BlogPosting` te artikujt dhe `BreadcrumbList` në faqet e
+  brendshme. Fushat që mungojnë nuk shkruhen; nuk ka `aggregateRating`. Pas publikimit, kontrollo
+  disa faqe me [Rich Results Test](https://search.google.com/test/rich-results).
+- **sitemap.xml dhe robots.txt** gjenerohen nga `scripts/postbuild.ts` me faqet e prerenderuara
+  (pa ato me `noindex`), me URL-në kanonike dhe datën e artikujve.
+- **Imazhi OG** (`public/og-image.png`, 1200×630) ndërtohet nga emri, qytetet dhe harta.
+  Rindërtoje kur ndryshon emri i biznesit: `npm run build:og`.
+
+## Performanca
+
+Faqet janë HTML e plotë që në build, ndaj JavaScript-i nevojitet vetëm për ndërveprimin:
+
+- **JS nis pas ngarkimit të faqes** (`boot-*.js`, i krijuar nga `scripts/postbuild.ts`). Klikimet e
+  bëra para kësaj ruhen dhe përsëriten pas nisjes (`withEventReplay`).
+- **Hidratim i pjesshëm** (`withIncrementalHydration`): header-i, footer-i dhe seksionet poshtë
+  kokës së faqes janë në blloqe `@defer (on immediate; hydrate on interaction)` dhe mbeten HTML
+  statike deri në klikimin e parë. Kalkulatori, harta dhe slider-i para/pas përdorin
+  `hydrate on viewport` dhe lexojnë vlerat nga DOM-i nëse përdoruesi i ndryshoi para hidratimit.
+  Një seksion i ri pa ndërveprim të veçantë futet në bllokun ekzistues të faqes.
+- **CSS-ja globale** futet brenda çdo faqeje (pa kërkesë shtesë dhe pa `onload` inline).
+- `scripts/check-dist.ts` dështon nëse JS-ja fillestare kalon 150 KB gzip, nëse imazhi hero kalon
+  150 KB ose nëse ka lidhje të prishura; Lighthouse CI kontrollon pikët dhe LCP/CLS/TBT.
 
 ## Gjuhët e tjera
 

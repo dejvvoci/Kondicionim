@@ -5,7 +5,10 @@ import { ServicePage } from './service-page';
 
 describe('ServicePage', () => {
   async function render(slug: string) {
-    TestBed.configureTestingModule({ providers: [provideRouter([])] });
+    await TestBed.configureTestingModule({
+      imports: [ServicePage],
+      providers: [provideRouter([])],
+    }).compileComponents();
     const fixture = TestBed.createComponent(ServicePage);
     fixture.componentRef.setInput('slug', slug);
     await fixture.whenStable();

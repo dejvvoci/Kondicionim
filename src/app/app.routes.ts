@@ -1,27 +1,76 @@
 import { ResolveFn, Routes } from '@angular/router';
-import { type RouteSeo, truncate } from './core/seo/seo';
+import { articleJsonLd, faqJsonLd, serviceJsonLd } from './core/seo/json-ld';
+import { type RouteSeo, buildCanonical, truncate } from './core/seo/seo';
+import { BUSINESS, businessName } from './data/business';
 
 const NOT_FOUND_SEO: RouteSeo = { title: 'Faqja nuk u gjet', description: '', noindex: true };
 
-/**
- * SEO e faqes së shërbimit nga services.ts; slug i panjohur → noindex.
- * Import dinamik, që të dhënat e shërbimeve të mos hyjnë në bundle-in fillestar.
+/*
+ * Resolver-at e SEO-së lexojnë të dhënat me import dinamik, që shërbimet, artikujt dhe
+ * pyetjet të mos hyjnë në bundle-in fillestar. Slug i panjohur → 404 (noindex).
  */
-const serviceSeo: ResolveFn<RouteSeo> = async (route) => {
-  const { serviceBySlug } = await import('./data/services');
-  return serviceBySlug(route.paramMap.get('slug') ?? '')?.seo ?? NOT_FOUND_SEO;
+
+const serviceSeo: ResolveFn<RouteSeo> = async (route, state) => {
+  const [{ serviceBySlug }, { pricesFor }, { activeCities }] = await Promise.all([
+    import('./data/services'),
+    import('./data/prices'),
+    import('./data/cities'),
+  ]);
+  const service = serviceBySlug(route.paramMap.get('slug') ?? '');
+  if (!service) return NOT_FOUND_SEO;
+  return {
+    ...service.seo,
+    jsonLd: [
+      serviceJsonLd({
+        service,
+        siteUrl: BUSINESS.siteUrl,
+        url: buildCanonical(state.url),
+        cities: activeCities(),
+        prices: pricesFor(service.slug),
+      }),
+    ],
+  };
 };
 
 const projectSeo: ResolveFn<RouteSeo> = async (route) => {
   const { projectBySlug } = await import('./data/projects');
   const p = projectBySlug(route.paramMap.get('slug') ?? '');
-  return p ? { title: p.title, description: truncate(p.summary) } : NOT_FOUND_SEO;
+  return p ? { title: p.title, description: truncate(p.summary), image: p.after } : NOT_FOUND_SEO;
 };
 
-const articleSeo: ResolveFn<RouteSeo> = async (route) => {
+const articleSeo: ResolveFn<RouteSeo> = async (route, state) => {
   const { ARTICLES } = await import('./data/articles.generated');
-  const a = ARTICLES.find((x) => x.slug === route.paramMap.get('slug'));
-  return a ? { title: a.title, description: a.description } : NOT_FOUND_SEO;
+  const article = ARTICLES.find((x) => x.slug === route.paramMap.get('slug'));
+  if (!article) return NOT_FOUND_SEO;
+  return {
+    title: article.title,
+    description: article.description,
+    type: 'article',
+    publishedTime: article.date,
+    jsonLd: [
+      articleJsonLd({
+        article,
+        siteUrl: BUSINESS.siteUrl,
+        url: buildCanonical(state.url),
+        name: businessName(),
+      }),
+    ],
+  };
+};
+
+const FAQ_SEO: RouteSeo = {
+  title: 'Pyetje të shpeshta për kondicionerët',
+  description:
+    'Përgjigje të shkurtra për montimin, mirëmbajtjen, defektet dhe zgjedhjen e kondicionerit, të grupuara sipas shërbimit.',
+};
+
+/** FAQPage me të njëjtat pyetje që shfaq faqja: të përgjithshmet dhe ato të shërbimeve. */
+const faqSeo: ResolveFn<RouteSeo> = async () => {
+  const [{ FAQ }, { SERVICES }] = await Promise.all([
+    import('./data/faq'),
+    import('./data/services'),
+  ]);
+  return { ...FAQ_SEO, jsonLd: [faqJsonLd([...FAQ, ...SERVICES.flatMap((s) => s.faq)])] };
 };
 
 const notFound = {
@@ -54,7 +103,7 @@ export const routes: Routes = [
       seo: {
         title: 'Montim dhe riparim kondicioneri',
         description:
-          'Montim, riparim dhe mirëmbajtje për të gjitha sistemet e kondicionimit: split, multi-split, kanal, VRF/VRV dhe pompa nxehtësie në Tiranë, Durrës e më gjerë.',
+          'Montim, riparim dhe mirëmbajtje për çdo sistem kondicionimi: split, multi-split, kanal, VRF/VRV dhe pompa nxehtësie, në Tiranë, Durrës e më gjerë.',
       } satisfies RouteSeo,
     },
   },
@@ -137,13 +186,7 @@ export const routes: Routes = [
   {
     path: 'pyetje-te-shpeshta',
     loadComponent: () => import('./features/faq/faq-page').then((m) => m.FaqPage),
-    data: {
-      seo: {
-        title: 'Pyetje të shpeshta për kondicionerët',
-        description:
-          'Përgjigje të shkurtra për montimin, mirëmbajtjen, defektet dhe zgjedhjen e kondicionerit, të grupuara sipas shërbimit.',
-      } satisfies RouteSeo,
-    },
+    resolve: { seo: faqSeo },
   },
   {
     path: 'keshilla',

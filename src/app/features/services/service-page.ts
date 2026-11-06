@@ -10,6 +10,7 @@ import { RouterLink } from '@angular/router';
 import { TrackPhone } from '../../core/analytics/track-phone.directive';
 import { telHref } from '../../core/contact/phone';
 import { WhatsAppFlow } from '../../core/contact/whatsapp-flow.service';
+import { ARTICLES } from '../../data/articles.generated';
 import { BUSINESS } from '../../data/business';
 import { formatPrice, pricesFor } from '../../data/prices';
 import { projectsForService } from '../../data/projects';
@@ -62,6 +63,10 @@ export class ServicePage {
     pricesFor(this.slug()).map((p) => ({ ...p, amount: formatPrice(p.from ?? 0, p.currency) })),
   );
   protected readonly projects = computed(() => projectsForService(this.slug()).slice(0, 3));
+  /** Artikujt e këshillave që i referohen këtij shërbimi (lidhje në të dy drejtimet). */
+  protected readonly articles = computed(() =>
+    ARTICLES.filter((a) => a.services.includes(this.slug())).slice(0, 3),
+  );
   protected readonly crumbs = computed<Crumb[]>(() => [
     { label: UI_TEXT.breadcrumbs.home, path: '/' },
     { label: UI_TEXT.breadcrumbs.services, path: '/sherbimet' },

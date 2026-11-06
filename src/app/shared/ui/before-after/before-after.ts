@@ -1,5 +1,13 @@
 import { NgOptimizedImage } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  computed,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import type { Photo } from '../../../data/types';
 import { UI_TEXT } from '../../../i18n';
 
@@ -32,6 +40,16 @@ export class BeforeAfter {
     () =>
       `${this.position()}% ${this.t.before.toLowerCase()}, ${100 - this.position()}% ${this.t.after.toLowerCase()}`,
   );
+
+  constructor() {
+    // Nëse slider-i u tërhoq para hidratimit (hidratim i pjesshëm), pozicioni merret nga DOM-i i
+    // prerenderuar, para se render-i i parë të shkruajë vlerën fillestare (50).
+    const value =
+      inject<ElementRef<HTMLElement>>(ElementRef).nativeElement.querySelector<HTMLInputElement>(
+        '.ba__range',
+      )?.value;
+    if (value !== undefined && Number(value) !== this.position()) this.position.set(Number(value));
+  }
 
   protected onInput(event: Event): void {
     this.position.set(Number((event.target as HTMLInputElement).value));
