@@ -29,7 +29,7 @@ interface Option<T> {
 
 /**
  * Kalkulatori BTU: llogaritje live me signals (pa buton "Llogarit"), logjika në btu.ts.
- * "Konfirmo me inspektim falas" hap WhatsApp me përmbledhjen në shënime.
+ * "Kërko çmimin në WhatsApp" hap WhatsApp me përmbledhjen në shënime.
  */
 @Component({
   selector: 'app-btu-calculator',

@@ -51,7 +51,7 @@ describe('BtuCalculator', () => {
     expect(el.querySelector('.result__size')?.closest('[aria-live="polite"]')).toBeTruthy();
   });
 
-  it('"Konfirmo me inspektim" hap WhatsApp me përmbledhjen në shënime', async () => {
+  it('"Kërko çmimin" hap WhatsApp me përmbledhjen në shënime', async () => {
     const { el, type, choose } = await render();
     await type('btu-area', '28');
     await choose('btu-floor', 'fundit');
