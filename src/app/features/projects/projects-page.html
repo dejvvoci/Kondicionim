@@ -54,7 +54,7 @@
     @if (projects().length) {
       <ul class="grid">
         @for (p of projects(); track p.slug) {
-          <li><app-project-card [project]="p" /></li>
+          <li><app-project-card [project]="p" [headingLevel]="2" /></li>
         }
       </ul>
     } @else {

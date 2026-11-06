@@ -65,6 +65,16 @@ test('çdo faqe ka një H1, title, description dhe JSON-LD të vlefshëm', async
   for (const path of paths) {
     await page.goto(path);
     await expect(page.locator('h1'), path).toHaveCount(1);
+    // Hierarki e rregullt: asnjë nivel i kapërcyer (h1 → h3) teksa zbresim.
+    const levels = await page
+      .locator('main h1, main h2, main h3, main h4')
+      .evaluateAll((hs) => hs.map((h) => Number(h.tagName[1])));
+    levels.forEach((level, i) => {
+      if (i > 0)
+        expect(level, `${path}: h${levels[i - 1]} → h${level}`).toBeLessThanOrEqual(
+          levels[i - 1] + 1,
+        );
+    });
     expect((await page.title()).length, path).toBeLessThanOrEqual(60);
     const description = await page.locator('meta[name="description"]').getAttribute('content');
     expect(description?.length ?? 0, path).toBeGreaterThan(50);
