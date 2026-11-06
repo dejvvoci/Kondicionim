@@ -43,6 +43,9 @@ jobs:
         run: npm run e2e
       - name: Lighthouse CI (buxhetet e seksionit 6.2)
         run: npm run lighthouse
+      - name: Rezultatet e Lighthouse në përmbledhje
+        if: ${{ !cancelled() }}
+        run: node scripts/lighthouse-summary.ts >> "$GITHUB_STEP_SUMMARY"
       - name: Raportet e testeve
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v7
@@ -51,6 +54,7 @@ jobs:
           path: |
             playwright-report/
             .lighthouseci/
+          include-hidden-files: true
           retention-days: 14
           if-no-files-found: ignore
 

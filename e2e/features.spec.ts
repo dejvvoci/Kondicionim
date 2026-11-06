@@ -128,3 +128,26 @@ test.describe('pa JavaScript', () => {
     await expect(page.getByRole('heading', { level: 1 })).toContainText('split');
   });
 });
+
+test('vlerat e shkruara në kalkulator para nisjes së JS-së ruhen pas hidratimit', async ({
+  page,
+}) => {
+  // JS-ja mbahet deri sa të shkruajmë, si në një lidhje të ngadaltë.
+  let release!: () => void;
+  const held = new Promise<void>((r) => (release = r));
+  await page.route(/\/main-[\w-]+\.js$/, async (route) => {
+    await held;
+    await route.continue();
+  });
+
+  await page.goto('/si-te-zgjidhni-kondicionerin/');
+  await page.getByLabel('Sipërfaqja (m²)').fill('30');
+  await page.getByRole('group', { name: 'Kati' }).getByLabel('I fundit nën çati').check();
+  await page.getByRole('group', { name: 'Ekspozimi ndaj diellit' }).getByLabel('Shumë').check();
+
+  release();
+  await hydrated(page);
+  await page.getByLabel('Sipërfaqja (m²)').scrollIntoViewIfNeeded();
+  await expect(page.locator('.result__size')).toHaveText(/18000\s*BTU/);
+  await expect(page.getByLabel('Sipërfaqja (m²)')).toHaveValue('30');
+});

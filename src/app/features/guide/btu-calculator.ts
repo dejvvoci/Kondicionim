@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  afterNextRender,
   afterRenderEffect,
   computed,
   inject,
@@ -96,9 +95,10 @@ export class BtuCalculator {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
 
   constructor() {
-    // Kalkulatori hidratohet kur shfaqet në ekran. Nëse përdoruesi ka shkruar para kësaj,
-    // vlerat merren nga fushat, që rezultati të përputhet me atë që shihet.
-    afterNextRender(() => this.syncFromDom());
+    // Kalkulatori hidratohet kur shfaqet në ekran. Nëse përdoruesi ka shkruar para kësaj, vlerat
+    // merren nga fushat e prerenderuara tani, para se render-i i parë të shkruajë vlerat fillestare
+    // në to. (Pa hidratim, host-i është ende bosh këtu dhe nuk ndodh asgjë.)
+    this.syncFromDom();
 
     // Një event pasi vlera qetësohet, jo në çdo shkronjë (vetëm në browser).
     afterRenderEffect((onCleanup) => {

@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  afterNextRender,
   computed,
   inject,
   input,
@@ -43,13 +42,13 @@ export class BeforeAfter {
   );
 
   constructor() {
-    // Nëse slider-i u tërhoq para hidratimit (hidratim i pjesshëm), pozicioni merret nga DOM-i.
-    const host = inject<ElementRef<HTMLElement>>(ElementRef);
-    afterNextRender(() => {
-      const value = host.nativeElement.querySelector<HTMLInputElement>('.ba__range')?.value;
-      if (value !== undefined && Number(value) !== this.position())
-        this.position.set(Number(value));
-    });
+    // Nëse slider-i u tërhoq para hidratimit (hidratim i pjesshëm), pozicioni merret nga DOM-i i
+    // prerenderuar, para se render-i i parë të shkruajë vlerën fillestare (50).
+    const value =
+      inject<ElementRef<HTMLElement>>(ElementRef).nativeElement.querySelector<HTMLInputElement>(
+        '.ba__range',
+      )?.value;
+    if (value !== undefined && Number(value) !== this.position()) this.position.set(Number(value));
   }
 
   protected onInput(event: Event): void {

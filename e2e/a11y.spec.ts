@@ -29,7 +29,8 @@ async function revealDeferred(page: Page) {
 }
 
 test('axe: asnjë shkelje serioze ose kritike në asnjë rrugë', async ({ page, request }) => {
-  test.slow();
+  // 25+ faqe, secila e lëvizur deri në fund: më gjatë se kufiri i zakonshëm.
+  test.setTimeout(240_000);
   const sitemap = await (await request.get('/sitemap.xml')).text();
   const paths = [
     ...[...sitemap.matchAll(/<loc>https?:\/\/[^/]+([^<]*)<\/loc>/g)].map((m) => m[1]),
