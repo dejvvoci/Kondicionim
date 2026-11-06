@@ -25,10 +25,8 @@ export const GUIDE = {
     eyebrow: 'Kalkulatori BTU',
     title: 'Sa BTU ju duhen?',
     lead: 'Plotësoni të dhënat e ambientit: rezultati përditësohet menjëherë.',
-    // TODO: konfirmo me ustain që inspektimi është falas
-    note: 'Vlerë orientuese, ustai e konfirmon me inspektim falas.',
-    // TODO: konfirmo me ustain që inspektimi është falas
-    confirm: 'Konfirmo me inspektim falas',
+    note: 'Vlerë orientuese me metodën e thjeshtuar: 340 BTU/m² dhe korrigjimet e Energy Star. Ustai e konfirmon pasi sheh ambientin.',
+    confirm: 'Kërko çmimin në WhatsApp',
     resultLabel: 'Madhësia e rekomanduar',
     overTitle: 'Një aparat i vetëm nuk mjafton',
     overText:
@@ -47,9 +45,8 @@ export const GUIDE = {
     eyebrow: 'Para se të blini',
     title: 'Çfarë tjetër ka rëndësi',
   },
-  // TODO: konfirmo me ustain që inspektimi është falas
   cta: {
-    title: 'Telefononi për inspektim falas',
+    title: 'Kontaktoni për të marrë çmimin',
     lead: 'Ustai vjen, mat ambientin dhe ju thotë cili sistem dhe sa BTU ju duhen.',
   },
 } as const;

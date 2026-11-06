@@ -20,7 +20,7 @@ describe('calculateBtu', () => {
   });
 
   it('zbaton formulën e plotë sipas btu-config', () => {
-    // 28 × 340 × (3.0/2.7) × 1.15 × 1.15 × 1.2 + (4−2) × 600 + 4000
+    // 28 × 340 × (3.0/2.7) × 1.15 × 1.15 × 1.3 + (4−2) × 600 + 4000
     const input: BtuInput = {
       area: 28,
       height: 3,
@@ -30,7 +30,7 @@ describe('calculateBtu', () => {
       room: 'kuzhine',
       persons: 4,
     };
-    const exact = 28 * 340 * (3 / 2.7) * 1.15 * 1.15 * 1.2 + 2 * 600 + 4000;
+    const exact = 28 * 340 * (3 / 2.7) * 1.15 * 1.15 * 1.3 + 2 * 600 + 4000;
     const r = calculateBtu(input);
     expect(r.btu).toBe(Math.round(exact / 100) * 100);
     expect(r.size).toBe(24000);
@@ -39,7 +39,7 @@ describe('calculateBtu', () => {
       'Tavan 3.0 m: +11%',
       'Shumë diell: +15%',
       'Kati i fundit nën çati: +15%',
-      'Izolim i dobët: +20%',
+      'Izolim i dobët: +30%',
       '4 persona: +1200 BTU',
       'Kuzhinë: +4000 BTU',
     ]);
