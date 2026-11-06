@@ -10,6 +10,7 @@ import { basename, join } from 'node:path';
 import { ABOUT_PHOTOS } from '../src/app/data/about.ts';
 import { HERO_PHOTO } from '../src/app/data/business.ts';
 import { PLACEHOLDER_ALT_PREFIX, isPlaceholder } from '../src/app/data/placeholders.ts';
+import { PROJECTS } from '../src/app/data/projects.ts';
 import { SERVICES } from '../src/app/data/services.ts';
 import { STANDARDS, TOOLS_PHOTO } from '../src/app/data/standards.ts';
 import type { Photo } from '../src/app/data/types.ts';
@@ -22,6 +23,7 @@ const photos: Photo[] = [
   ...SERVICES.flatMap((s) => s.photos),
   ...STANDARDS.flatMap((s) => (s.photo ? [s.photo] : [])),
   ...(TOOLS_PHOTO ? [TOOLS_PHOTO] : []),
+  ...PROJECTS.flatMap((p) => [p.before, p.after, ...p.gallery]),
 ].filter(isPlaceholder);
 
 const escape = (s: string) =>
@@ -59,15 +61,20 @@ function svg(photo: Photo): string {
   const k = gcd(w, h);
   const realName = `${basename(photo.src, '.svg')}.avif`;
   const cx = w / 2;
+  // Para/pas me ngjyra të ndryshme, që slider-i të tregojë ndryshimin edhe me foto shembull.
+  const stage = /-para.svg$/.test(photo.src) ? 'para' : /-pas.svg$/.test(photo.src) ? 'pas' : null;
+  const bg = stage === 'para' ? '#ebe4da' : stage === 'pas' ? '#d6eeeb' : '#e6ecec';
+  const badge = stage ? `FOTO SHEMBULL · ${stage.toUpperCase()}` : 'FOTO SHEMBULL';
+  const badgeW = unit * (stage ? 17.5 : 13);
   const iconY = h * 0.3;
   const titleY = iconY + unit * 4.6;
   const descY = titleY + unit * 2.8;
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">
-<rect width="${w}" height="${h}" fill="#e6ecec"/>
+<rect width="${w}" height="${h}" fill="${bg}"/>
 <rect x="${pad / 2}" y="${pad / 2}" width="${w - pad}" height="${h - pad}" rx="${unit}" fill="none" stroke="#a9bcbe" stroke-width="${unit / 6}" stroke-dasharray="${unit} ${unit / 1.5}"/>
-<rect x="${pad}" y="${pad}" width="${unit * 13}" height="${unit * 2.8}" rx="${unit * 1.4}" fill="#10766f"/>
-<text x="${pad + unit * 6.5}" y="${pad + unit * 1.9}" text-anchor="middle" ${font} font-size="${unit * 1.35}" font-weight="700" letter-spacing="${unit / 12}" fill="#ffffff">FOTO SHEMBULL</text>
+<rect x="${cx - badgeW / 2}" y="${pad}" width="${badgeW}" height="${unit * 2.8}" rx="${unit * 1.4}" fill="#10766f"/>
+<text x="${cx}" y="${pad + unit * 1.9}" text-anchor="middle" ${font} font-size="${unit * 1.35}" font-weight="700" letter-spacing="${unit / 12}" fill="#ffffff">${badge}</text>
 <g transform="translate(${cx - unit * 2.4} ${iconY - unit * 2.4}) scale(${unit / 5})" fill="none" stroke="#7d9497" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 <path d="M5 7h1a2 2 0 0 0 2 -2a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1a2 2 0 0 0 2 2h1a2 2 0 0 1 2 2v9a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2"/><path d="M9 13a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/>
 </g>

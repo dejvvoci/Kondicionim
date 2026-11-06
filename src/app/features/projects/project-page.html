@@ -5,6 +5,9 @@
       <span class="eyebrow">{{ cityName() }} · {{ system() }}</span>
       <h1>{{ p.title }}</h1>
       <p class="lead">{{ p.summary }}</p>
+      @if (p.example) {
+        <p class="example-note" role="note">{{ t.exampleNote }}</p>
+      }
     </div>
   </header>
 

@@ -4,6 +4,9 @@
     <span class="eyebrow">{{ t.eyebrow }}</span>
     <h1>{{ t.title }}</h1>
     <p class="lead">{{ t.lead }}</p>
+    @if (hasExamples) {
+      <p class="example-note" role="note">{{ t.examplesNote }}</p>
+    }
   </div>
 </header>
 

@@ -151,3 +151,21 @@ test('vlerat e shkruara në kalkulator para nisjes së JS-së ruhen pas hidratim
   await expect(page.locator('.result__size')).toHaveText(/18000\s*BTU/);
   await expect(page.getByLabel('Sipërfaqja (m²)')).toHaveValue('30');
 });
+
+test('projektet shembull: të shënuara kudo dhe jashtë indeksit', async ({ page, request }) => {
+  await page.goto('/projektet/');
+  await expect(page.getByRole('note')).toContainText('shembuj për prezantim');
+  await expect(page.locator('.card__example')).toHaveCount(6);
+
+  await page.goto('/projektet/projekt-shembull-1/');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(/^Projekt shembull: /);
+  await expect(page.getByRole('note')).toContainText('Projekt shembull për prezantim');
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex');
+  await expect(page.locator('.project__slider').getByRole('slider')).toHaveAttribute(
+    'aria-label',
+    /Projekt shembull/,
+  );
+
+  const sitemap = await (await request.get('/sitemap.xml')).text();
+  expect(sitemap).not.toContain('projekt-shembull');
+});

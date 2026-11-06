@@ -23,6 +23,16 @@
   padding: var(--sp-4) var(--sp-5) var(--sp-5);
 }
 
+.card__example {
+  justify-self: start;
+  padding: 2px var(--sp-2);
+  border-radius: var(--radius-badge);
+  background: var(--c-placeholder);
+  color: var(--c-text-muted);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+}
+
 .card__title {
   margin: 0;
   font-size: var(--fs-lg);

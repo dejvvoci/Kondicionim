@@ -21,6 +21,9 @@ import { BeforeAfter } from '../../shared/ui/before-after/before-after';
         sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
       />
       <div class="card__body">
+        @if (p.example) {
+          <span class="card__example">{{ t.example }}</span>
+        }
         <h3 class="card__title">
           <a [routerLink]="'/projektet/' + p.slug">{{ p.title }}</a>
         </h3>

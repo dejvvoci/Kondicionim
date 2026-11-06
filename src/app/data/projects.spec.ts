@@ -51,4 +51,14 @@ describe('PROJECTS (të dhënat)', () => {
       expect(p.before.alt && p.after.alt).toBeTruthy();
     }
   });
+
+  it('projektet shembull janë të shënuara dhe pa shifra të trilluara', () => {
+    for (const p of PROJECTS.filter((x) => x.slug.startsWith('projekt-shembull'))) {
+      expect(p.example).toBe(true);
+      expect(p.title).toMatch(/^Projekt shembull: /);
+      expect(p.btu).toBeNull();
+      expect(p.duration).toBeNull();
+      expect(p.before.alt).toMatch(/^Foto shembull: /);
+    }
+  });
 });

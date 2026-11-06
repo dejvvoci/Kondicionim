@@ -127,6 +127,10 @@ export const UI_TEXT = {
     more: 'Shiko projektin',
     ctaTitle: 'Keni një projekt të ngjashëm?',
     ctaLead: 'Na tregoni ambientin dhe qytetin në WhatsApp: ju përgjigjemi me hapat e radhës.',
+    example: 'Shembull',
+    exampleNote:
+      'Projekt shembull për prezantim: fotot, teksti dhe detajet zëvendësohen me një punë reale.',
+    examplesNote: 'Projektet më poshtë janë shembuj për prezantim, derisa të shtohen punët reale.',
   },
   services: {
     eyebrow: 'Shërbimet',

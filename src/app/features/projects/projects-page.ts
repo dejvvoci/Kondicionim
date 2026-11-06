@@ -66,6 +66,7 @@ export class ProjectsPage {
     filterProjects(this.all, { city: this.qyteti(), system: this.lloji() }),
   );
   protected readonly hasProjects = this.all.length > 0;
+  protected readonly hasExamples = this.all.some((p) => p.example);
 
   protected openWhatsApp(): void {
     this.flow.open({ source: 'cta' });
