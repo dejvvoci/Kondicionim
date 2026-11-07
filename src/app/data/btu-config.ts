@@ -1,77 +1,143 @@
 /**
  * Koeficientët e kalkulatorit BTU. Ndryshohen vetëm këtu.
  *
- * Kalkulatori llogarit veçmas verën (ftohje) dhe dimrin (ngrohje) dhe rekomandon madhësinë që
- * mbulon të dyja, pra vlerën më të lartë.
+ * Kalkulatori supozon që çdo ambient përdoret edhe për verë edhe për dimër: llogarit veçmas
+ * ftohjen dhe ngrohjen dhe rekomandon madhësinë standarde që mbulon vlerën më të lartë.
  *
- * VERA:  baza = m² × perM2 × (lartësia / refHeight)
- *        BTU  = baza × dielli × kati × izolimi + max(0, persona − basePersons) × perPerson + ambienti
- * DIMRI: W    = m² × heating.perM2K[izolimi] × (heating.indoor − temperatura e zonës)
- *               × (lartësia / refHeight) × kati;  BTU = W × 3,412
- * rezultati = madhësia standarde më e afërt nga lart e max(verë, dimër);
- *             mbi madhësinë më të madhe → inspektim.
+ * Pyetjet janë vetëm qyteti, sipërfaqja, lartësia dhe numri i mureve të jashtme. Pjesa tjetër
+ * merret si ambienti më i zakonshëm:
+ * - Dhoma modelohet si katror me anë √m². Muret e jashtme janë 1–3 anë të saj.
+ * - Kat i ndërmjetëm: muret e brendshme, dyshemeja dhe tavani ndaj fqinjëve nuk shkëmbejnë
+ *   nxehtësi (fqinjët ngrohen/ftohen). Kati i fundit dhe përdhe kanë nevojë më të madhe.
+ * - Izolim i zakonshëm: mure pa termokapot dhe dritare dopio. Dritaret e vjetra me xham të
+ *   thjeshtë ose mungesa e izolimit e rrisin nevojën.
+ * - Dritaret zënë 1/8 e sipërfaqes së dyshemesë, në muret e jashtme.
+ * - 2 persona në ambient.
  *
- * Metoda e thjeshtuar, me rregullat e njohura publikisht (llogaritja e plotë e ngarkesës termike
- * bëhet me ACCA Manual J / ASHRAE ose EN 12831 dhe kërkon matje në vend):
- * - Baza 340 BTU/h për m² me tavan 2,7 m (≈ 100 W/m²), rregulli evropian për klimë mesdhetare:
- *   Bosch Home Comfort Italia, Selectra (BTU = m² × lartësia × faktor klimatik).
- *   Energy Star jep rreth 20 BTU/ft² (≈ 215 BTU/m²), por për klimën e SHBA-së dhe tavan 2,44 m.
- * - Dielli: −10% për ambient në hije, +10% shumë me diell (Energy Star); +15% me ekspozim në jug
- *   (Altroconsumo). Përdorim +15%, sepse vera në Shqipëri është e nxehtë.
- * - Kati i fundit nën çati: faktori klimatik 140 në vend të 120 te Selectra (≈ +17%); përdorim +15%.
- * - Izolimi: i dobët +30% (vlera më e ulët e intervalit 30–50% që japin burimet italiane);
- *   i mirë −10% (Selectra: 100 në vend të 120 për ambient të izoluar mirë dhe në hije).
- * - Persona: +600 BTU për çdo person mbi 2 që qëndron rregullisht në ambient (Energy Star).
- * - Kuzhina: +4000 BTU (Energy Star).
- * - Madhësitë: fuqitë standarde të aparateve split në treg (9000, 12000, 18000, 24000 BTU).
+ * DIMRI (logjika e EN 12831, nata më e ftohtë: pa diell dhe pa njerëz)
+ *   Φ = (U_mur·A_mur + U_dritare·A_dritare + 0,34·n·V) × (20 °C − T_dimër)
  *
- * Dimri, sipas logjikës së EN 12831: humbja e nxehtësisë = koeficienti × diferenca e temperaturës.
- * Llogaritja bëhet për natën më të ftohtë, ndaj dielli, personat dhe kuzhina nuk e ulin nevojën.
- * - Temperatura e zonës: ASHRAE Handbook – Fundamentals 2025, temperatura e ngrohjes 99,6%
- *   (vetëm 0,4% e orëve të vitit janë më të ftohta): Tirana Rinas −3,4 °C, Korça −7,2 °C.
- * - Brenda: 20 °C, temperatura e zakonshme e projektimit për dhoma banimi.
- * - Koeficientët W/(m²·K): kufiri i sipërm i intervaleve që japin udhëzuesit për pompa nxehtësie
- *   (izolim i mirë 35–50 W/m², mesatar 60–80, i dobët 70–100), pjesëtuar me diferencën 24 K për
- *   të cilën janë dhënë (21 °C brenda, −3 °C jashtë). Kufiri i sipërm, që aparati të mos dalë i vogël.
- * - Kati i fundit: +15%, si në verë (humbje nga çatia).
- * Në temperatura nën zero aparatet humbasin fuqi ngrohjeje sipas modelit; këtë e vlerëson ustai.
+ * VERA (dita më e nxehtë)
+ *   muret:    U·A × (T_mesatare e ditës − 26 °C + α·I_mesatar/h_e)   [temperatura "sol-air"]
+ *   dritaret: U·A × (T_verë − 26 °C) + A × g × dielli në xham
+ *   ajri:     0,34·n·V × (T_verë − 26 °C)
+ *   njerëzit: 2 persona × 600 BTU/h
+ *   Muret janë masive, ndaj për to merret mesatarja e ditës (T_verë − diapazoni/2), jo maja e
+ *   pasdites.
+ *
+ * Burimet
+ * - Klima e çdo stacioni: ASHRAE Handbook – Fundamentals 2025 (ashrae-meteo.info): ngrohja 99,6%,
+ *   ftohja 0,4%, diapazoni ditor i muajit më të nxehtë, mesatarja vjetore, rrezatimi i korrikut,
+ *   dhe τb/τd i korrikut për modelin e qiellit të kthjellët.
+ * - Brenda: 20 °C në dimër dhe 26 °C në verë (kufijtë e EN 16798-1, kategoria II).
+ * - Ajri: 0,5 ndërrime në orë (minimumi për dhoma banimi në llogaritjet sipas EN 12831,
+ *   tabela e CIBSE/MCS); 0,34 Wh/(m³·K) kapaciteti termik i ajrit.
+ * - h_e = 25 W/(m²·K): rezistenca e jashtme Rse = 0,04 m²·K/W e EN ISO 6946.
+ * - Përthithja e diellit: 0,5 për muret (ngjyrë e çelët/mesatare).
+ * - Dielli në xham: maja e rrezatimit mbi një sipërfaqe vertikale më 21 korrik, me modelin e qiellit
+ *   të kthjellët të ASHRAE (τb, τd të stacionit), mesatare e katër drejtimeve (V, L, J, P), sepse
+ *   drejtimi i dritareve nuk pyetet. Llogaritja: scripts/btu-dielli.ts.
+ * - Njerëzit: 600 BTU/h për person (Energy Star), 2 persona.
+ * - Vlerat U (W/(m²·K)) dhe g e ambientit të zakonshëm:
+ *   · muri pa termokapot: 1,3 (kufiri i poshtëm i 1,3–1,6 te tipologjia e ndërtesave publike në
+ *     Shqipëri, SLED);
+ *   · dritare dopio: U 2,8, g 0,75.
+ * Nuk llogariten: kati i fundit ose përdhe, izolimi ndryshe nga i zakonshmi, pajisjet, gatimi,
+ * personat e tjerë, lagështia e ajrit që hyn dhe rënia e fuqisë së ngrohjes së aparatit në
+ * temperatura nën zero. Këto i vlerëson ustai në vend.
  */
 
-export type Sun = 'pak' | 'mesatar' | 'shume';
-export type Zone = 'ultesire' | 'malore';
-export type Floor = 'perdhe' | 'ndermjetem' | 'fundit';
-export type Insulation = 'mire' | 'mesatar' | 'dobet';
-export type RoomType = 'gjumi' | 'ndenjie' | 'kuzhine' | 'zyre' | 'dyqan';
+export type ExteriorWalls = 1 | 2 | 3;
+export type Station = 'tirana' | 'korca' | 'shkodra' | 'kucova';
+
+export interface EnvelopeValues {
+  wall: number;
+  window: number;
+  /** Pjesa e diellit që kalon xhamin. */
+  g: number;
+}
+
+export interface StationClimate {
+  name: string;
+  /** Temperatura e ngrohjes 99,6% (°C). */
+  winter: number;
+  /** Temperatura e ftohjes 0,4% (°C). */
+  summer: number;
+  /** Diapazoni ditor i muajit më të nxehtë (K). */
+  dailyRange: number;
+  /** Rrezatimi mesatar ditor horizontal i korrikut (kWh/m²). */
+  julyRadiation: number;
+  /** Maja e diellit mbi xham vertikal, mesatare e 4 drejtimeve (W/m²), nga scripts/btu-dielli.ts. */
+  windowSun: number;
+}
 
 export const BTU_CONFIG = {
-  perM2: 340,
-  refHeight: 2.7,
-  sun: { pak: 0.9, mesatar: 1.0, shume: 1.15 } satisfies Record<Sun, number>,
-  floor: { perdhe: 1.0, ndermjetem: 1.0, fundit: 1.15 } satisfies Record<Floor, number>,
-  insulation: { mire: 0.9, mesatar: 1.0, dobet: 1.3 } satisfies Record<Insulation, number>,
-  basePersons: 2,
-  perPerson: 600,
-  /** BTU shtesë sipas ambientit (kuzhina ka burime nxehtësie). */
-  room: {
-    gjumi: 0,
-    ndenjie: 0,
-    kuzhine: 4000,
-    zyre: 0,
-    dyqan: 0,
-  } satisfies Record<RoomType, number>,
-  heating: {
-    indoor: 20,
-    /** Temperatura e jashtme e projektimit (°C), ASHRAE 2025, 99,6%. */
-    zone: { ultesire: -3.4, malore: -7.2 } satisfies Record<Zone, number>,
-    /** W për m² për çdo gradë diferencë (50/24, 80/24, 100/24). */
-    perM2K: { mire: 2.1, mesatar: 3.3, dobet: 4.2 } satisfies Record<Insulation, number>,
-  },
+  indoor: { winter: 20, summer: 26 },
+  airChangesPerHour: 0.5,
+  airHeatCapacity: 0.34,
+  windowToFloor: 1 / 8,
+  outsideConductance: 25,
+  wallAbsorptance: 0.5,
+  persons: 2,
+  btuPerPerson: 600,
+  /** Mur pa termokapot dhe dritare dopio. */
+  envelope: { wall: 1.3, window: 2.8, g: 0.75 } satisfies EnvelopeValues,
+  stations: {
+    tirana: {
+      name: 'Tirana Rinas',
+      winter: -3.4,
+      summer: 35.5,
+      dailyRange: 14.1,
+      julyRadiation: 7.38,
+      windowSun: 532,
+    },
+    korca: {
+      name: 'Korça',
+      winter: -7.2,
+      summer: 32.1,
+      dailyRange: 10.4,
+      julyRadiation: 6.96,
+      windowSun: 549,
+    },
+    shkodra: {
+      name: 'Shkodra',
+      winter: -1.9,
+      summer: 36.5,
+      dailyRange: 12.0,
+      julyRadiation: 6.94,
+      windowSun: 530,
+    },
+    kucova: {
+      name: 'Kuçova',
+      winter: -3.2,
+      summer: 36.7,
+      dailyRange: 14.3,
+      julyRadiation: 7.34,
+      windowSun: 529,
+    },
+  } satisfies Record<Station, StationClimate>,
+  /**
+   * Qyteti (slug-u te cities.ts) → stacioni ASHRAE më i afërt me klimë të ngjashme.
+   * Durrësi merr Tiranën; Elbasani, Fieri, Berati dhe Vlora marrin Kuçovën (ultësirë e brendshme,
+   * verë e nxehtë); Lezha merr Shkodrën. Për Vlorën dhe Durrësin vlera e verës del pak më e lartë se
+   * bregdeti, pra në anën e sigurt.
+   */
+  cities: {
+    tirane: 'tirana',
+    durres: 'tirana',
+    elbasan: 'kucova',
+    lezhe: 'shkodra',
+    shkoder: 'shkodra',
+    korce: 'korca',
+    fier: 'kucova',
+    berat: 'kucova',
+    vlore: 'kucova',
+  } as Record<string, Station>,
   /** Madhësitë standarde të aparateve, nga më e vogla. */
   sizes: [9000, 12000, 18000, 24000],
   limits: {
     area: { min: 5, max: 200 },
     height: { min: 2.2, max: 5, default: 2.7 },
-    persons: { min: 1, max: 30, default: 2 },
   },
 } as const;
 

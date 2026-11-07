@@ -1,22 +1,11 @@
-import {
-  BTU_CONFIG,
-  type BtuConfig,
-  type Floor,
-  type Insulation,
-  type RoomType,
-  type Sun,
-  type Zone,
-} from '../../data/btu-config';
+import { BTU_CONFIG, type BtuConfig, type ExteriorWalls } from '../../data/btu-config';
 
 export interface BtuInput {
+  /** Slug-u i qytetit (cities.ts). */
+  city: string;
   area: number;
   height: number;
-  sun: Sun;
-  floor: Floor;
-  insulation: Insulation;
-  room: RoomType;
-  persons: number;
-  zone: Zone;
+  walls: ExteriorWalls;
 }
 
 export type Season = 'vere' | 'dimer';
@@ -32,7 +21,7 @@ export interface BtuResult {
   btu: number;
   /** Madhësia standarde e rekomanduar; null = mbi aparatin më të madh (multi-split/kanal/inspektim). */
   size: number | null;
-  /** Faktorët që e ndryshuan vlerën nga baza, për shpjegimin. */
+  /** Kushtet e llogaritjes, për shpjegimin. */
   factors: string[];
 }
 
@@ -40,43 +29,24 @@ export interface BtuResult {
 const W_TO_BTU = 3.412;
 
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
-const pct = (k: number) => `${k > 1 ? '+' : '−'}${Math.round(Math.abs(k - 1) * 100)}%`;
-const fmt = (n: number) => new Intl.NumberFormat('sq-AL').format(n);
 const fmtTemp = (t: number) =>
   `${new Intl.NumberFormat('sq-AL', { maximumFractionDigits: 1 }).format(t).replace('-', '−')}\u00a0°C`;
 
-const SUN_LABEL: Record<Sun, string> = { pak: 'Pak diell', mesatar: '', shume: 'Shumë diell' };
-const FLOOR_LABEL: Record<Floor, string> = {
-  perdhe: 'Kati përdhe',
-  ndermjetem: 'Kat i ndërmjetëm',
-  fundit: 'Kati i fundit nën çati',
-};
-const INSULATION_LABEL: Record<Insulation, string> = {
-  mire: 'Izolim i mirë',
-  mesatar: '',
-  dobet: 'Izolim i dobët',
-};
-export const ZONE_LABEL: Record<Zone, string> = {
-  ultesire: 'Bregdet dhe ultësirë',
-  malore: 'Zonë kodrinore-malore',
-};
-const ROOM_LABEL: Record<RoomType, string> = {
-  gjumi: 'Dhomë gjumi',
-  ndenjie: 'Dhomë ndenjie',
-  kuzhine: 'Kuzhinë',
-  zyre: 'Zyrë',
-  dyqan: 'Dyqan',
+export const WALLS_LABEL: Record<ExteriorWalls, string> = {
+  1: '1 mur i jashtëm',
+  2: '2 mure të jashtme',
+  3: '3 mure të jashtme',
 };
 
 /** Vlerat jashtë kufijve ose jo-numerike kthehen brenda kufijve (inputet e lira të formës). */
 export function normalizeInput(input: BtuInput, config: BtuConfig = BTU_CONFIG): BtuInput {
-  const { area, height, persons } = config.limits;
+  const { area, height } = config.limits;
   const num = (v: number, fallback: number) => (Number.isFinite(v) ? v : fallback);
   return {
     ...input,
+    city: input.city in config.cities ? input.city : 'tirane',
     area: clamp(num(input.area, area.min), area.min, area.max),
     height: clamp(num(input.height, height.default), height.min, height.max),
-    persons: Math.round(clamp(num(input.persons, persons.default), persons.min, persons.max)),
   };
 }
 
@@ -85,38 +55,66 @@ export function pickSize(btu: number, sizes: readonly number[] = BTU_CONFIG.size
   return sizes.find((s) => btu <= s) ?? null;
 }
 
+/** Sipërfaqet e dhomës që shkëmbejnë nxehtësi me jashtë (m²) dhe vëllimi (m³). */
+export function geometry(input: BtuInput, config: BtuConfig = BTU_CONFIG) {
+  const side = Math.sqrt(input.area);
+  const wallsGross = input.walls * side * input.height;
+  const windows = Math.min(input.area * config.windowToFloor, wallsGross * 0.6);
+  return {
+    walls: wallsGross - windows,
+    windows,
+    volume: input.area * input.height,
+  };
+}
+
+const climateOf = (input: BtuInput, config: BtuConfig) =>
+  config.stations[config.cities[input.city] ?? 'tirana'];
+
+/** Ngrohja në natën më të ftohtë (W). */
+export function heatingWatts(input: BtuInput, config: BtuConfig = BTU_CONFIG): number {
+  const climate = climateOf(input, config);
+  const u = config.envelope;
+  const g = geometry(input, config);
+  const air = config.airHeatCapacity * config.airChangesPerHour * g.volume;
+  const delta = config.indoor.winter - climate.winter;
+  return (u.wall * g.walls + u.window * g.windows + air) * delta;
+}
+
+/** Ftohja në ditën më të nxehtë (W). */
+export function coolingWatts(input: BtuInput, config: BtuConfig = BTU_CONFIG): number {
+  const climate = climateOf(input, config);
+  const u = config.envelope;
+  const g = geometry(input, config);
+  const air = config.airHeatCapacity * config.airChangesPerHour * g.volume;
+  const peak = climate.summer - config.indoor.summer;
+  // Muret: mesatarja e ditës + dielli mbi sipërfaqen e jashtme (sol-air).
+  // Mbi muret vertikale bie afërsisht gjysma e rrezatimit horizontal.
+  const dayMean = climate.summer - climate.dailyRange / 2 - config.indoor.summer;
+  const horizontalSun = (climate.julyRadiation * 1000) / 24;
+  const wallSun = (config.wallAbsorptance * horizontalSun * 0.5) / config.outsideConductance;
+  const people = (config.persons * config.btuPerPerson) / W_TO_BTU;
+  const total =
+    u.wall * g.walls * (dayMean + wallSun) +
+    u.window * g.windows * peak +
+    g.windows * u.g * climate.windowSun +
+    air * peak +
+    people;
+  return Math.max(0, total);
+}
+
 export function calculateBtu(raw: BtuInput, config: BtuConfig = BTU_CONFIG): BtuResult {
   const input = normalizeInput(raw, config);
-  const heightK = input.height / config.refHeight;
-  const sunK = config.sun[input.sun];
-  const floorK = config.floor[input.floor];
-  const insulationK = config.insulation[input.insulation];
-  const extraPersons = Math.max(0, input.persons - config.basePersons);
-  const roomExtra = config.room[input.room];
-
-  const base = input.area * config.perM2 * heightK;
-  const cooling = base * sunK * floorK * insulationK + extraPersons * config.perPerson + roomExtra;
-
-  const { heating: h } = config;
-  const deltaT = h.indoor - h.zone[input.zone];
-  const heating = input.area * h.perM2K[input.insulation] * deltaT * heightK * floorK * W_TO_BTU;
-
+  const cooling = coolingWatts(input, config) * W_TO_BTU;
+  const heating = heatingWatts(input, config) * W_TO_BTU;
   const season: Season = heating > cooling ? 'dimer' : 'vere';
   const exact = Math.max(cooling, heating);
   const round = (v: number) => Math.round(v / 100) * 100;
 
-  const factors: string[] = [];
-  if (heightK !== 1) factors.push(`Tavan ${input.height.toFixed(1)} m: ${pct(heightK)}`);
-  if (sunK !== 1) factors.push(`${SUN_LABEL[input.sun]}: ${pct(sunK)}`);
-  if (floorK !== 1) factors.push(`${FLOOR_LABEL[input.floor]}: ${pct(floorK)}`);
-  if (insulationK !== 1) factors.push(`${INSULATION_LABEL[input.insulation]}: ${pct(insulationK)}`);
-  if (extraPersons > 0) {
-    factors.push(`${input.persons} persona: +${fmt(extraPersons * config.perPerson)} BTU`);
-  }
-  if (roomExtra > 0) factors.push(`${ROOM_LABEL[input.room]}: +${fmt(roomExtra)} BTU`);
-  if (input.zone === 'malore') {
-    factors.push(`${ZONE_LABEL.malore}: dimër deri ${fmtTemp(h.zone.malore)}`);
-  }
+  const climate = climateOf(input, config);
+  const factors = [
+    `Dimri deri ${fmtTemp(climate.winter)}, vera deri ${fmtTemp(climate.summer)}`,
+    WALLS_LABEL[input.walls],
+  ];
 
   // Rrumbullakimi në 100 shërben vetëm për shfaqje; madhësia zgjidhet nga vlera e saktë.
   return {
@@ -129,21 +127,19 @@ export function calculateBtu(raw: BtuInput, config: BtuConfig = BTU_CONFIG): Btu
   };
 }
 
-/** Përmbledhje për shënimet e WhatsApp: "Kalkulatori: 28 m², kati i fundit → 12000 BTU". */
+/** Përmbledhje për shënimet e WhatsApp: "Kalkulatori: Korçë, 28 m², ... → 9000 BTU (sipas verës)". */
 export function summarize(
   raw: BtuInput,
   result: BtuResult,
+  cityName: string,
   config: BtuConfig = BTU_CONFIG,
 ): string {
   const input = normalizeInput(raw, config);
-  const parts = [`${input.area} m²`, ROOM_LABEL[input.room].toLowerCase()];
-  if (input.height !== config.refHeight) parts.push(`tavan ${input.height.toFixed(1)} m`);
-  if (input.floor === 'fundit') parts.push('kati i fundit');
-  if (input.sun === 'shume') parts.push('shumë diell');
-  if (input.insulation === 'dobet') parts.push('izolim i dobët');
-  if (input.persons > config.basePersons) parts.push(`${input.persons} persona`);
-  if (input.zone === 'malore') parts.push('zonë malore');
+  const parts = [cityName, `${input.area} m²`];
+  if (input.height !== config.limits.height.default)
+    parts.push(`tavan ${input.height.toFixed(1)} m`);
+  parts.push(WALLS_LABEL[input.walls]);
   const size = result.size ? `${result.size} BTU` : `mbi ${config.sizes.at(-1)} BTU`;
-  const outcome = result.season === 'dimer' ? `${size} (sipas dimrit)` : size;
+  const outcome = `${size} (sipas ${result.season === 'dimer' ? 'dimrit' : 'verës'})`;
   return `Kalkulatori: ${parts.join(', ')} → ${outcome}`;
 }

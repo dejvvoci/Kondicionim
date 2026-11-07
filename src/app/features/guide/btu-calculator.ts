@@ -10,26 +10,24 @@ import {
 } from '@angular/core';
 import { AnalyticsService } from '../../core/analytics/analytics.service';
 import { WhatsAppFlow } from '../../core/contact/whatsapp-flow.service';
-import {
-  BTU_CONFIG,
-  type Floor,
-  type Insulation,
-  type RoomType,
-  type Sun,
-  type Zone,
-} from '../../data/btu-config';
+import { BTU_CONFIG, type ExteriorWalls } from '../../data/btu-config';
+import { CITIES } from '../../data/cities';
 import { GUIDE } from '../../data/guide';
 import { Button } from '../../shared/ui/button/button';
 import { Icon } from '../../shared/ui/icon/icon';
-import { type BtuInput, ZONE_LABEL, calculateBtu, summarize } from './btu';
+import { type BtuInput, calculateBtu, summarize } from './btu';
 
 interface Option<T> {
   value: T;
   label: string;
 }
 
+/** Nën këtë temperaturë dimri shfaqet shënimi për modelet që ngrohin mirë në të ftohtë. */
+const COLD_WINTER = -5;
+
 /**
  * Kalkulatori BTU: llogaritje live me signals (pa buton "Llogarit"), logjika në btu.ts.
+ * Llogarit verën dhe dimrin veçmas dhe rekomandon madhësinë që mbulon të dyja.
  * "Kërko çmimin në WhatsApp" hap WhatsApp me përmbledhjen në shënime.
  */
 @Component({
@@ -46,58 +44,36 @@ export class BtuCalculator {
   protected readonly flow = inject(WhatsAppFlow);
   private readonly analytics = inject(AnalyticsService);
 
-  protected readonly sunOptions: Option<Sun>[] = [
-    { value: 'pak', label: 'Pak' },
-    { value: 'mesatar', label: 'Mesatar' },
-    { value: 'shume', label: 'Shumë' },
-  ];
-  protected readonly floorOptions: Option<Floor>[] = [
-    { value: 'perdhe', label: 'Përdhe' },
-    { value: 'ndermjetem', label: 'I ndërmjetëm' },
-    { value: 'fundit', label: 'I fundit nën çati' },
-  ];
-  protected readonly insulationOptions: Option<Insulation>[] = [
-    { value: 'mire', label: 'I mirë' },
-    { value: 'mesatar', label: 'Mesatar' },
-    { value: 'dobet', label: 'I dobët' },
-  ];
-  protected readonly zoneOptions: Option<Zone>[] = [
-    { value: 'ultesire', label: ZONE_LABEL.ultesire },
-    { value: 'malore', label: ZONE_LABEL.malore },
-  ];
-  protected readonly roomOptions: Option<RoomType>[] = [
-    { value: 'gjumi', label: 'Dhomë gjumi' },
-    { value: 'ndenjie', label: 'Dhomë ndenjie' },
-    { value: 'kuzhine', label: 'Kuzhinë' },
-    { value: 'zyre', label: 'Zyrë' },
-    { value: 'dyqan', label: 'Dyqan' },
+  protected readonly cityOptions: Option<string>[] = CITIES.filter(
+    (c) => c.slug in BTU_CONFIG.cities,
+  ).map((c) => ({ value: c.slug, label: c.name }));
+  protected readonly wallOptions: Option<ExteriorWalls>[] = [
+    { value: 1, label: '1' },
+    { value: 2, label: '2 (qoshe)' },
+    { value: 3, label: '3' },
   ];
 
+  protected readonly city = signal('tirane');
   protected readonly area = signal(20);
   protected readonly height = signal<number>(BTU_CONFIG.limits.height.default);
-  protected readonly sun = signal<Sun>('mesatar');
-  protected readonly floor = signal<Floor>('ndermjetem');
-  protected readonly insulation = signal<Insulation>('mesatar');
-  protected readonly room = signal<RoomType>('gjumi');
-  protected readonly persons = signal<number>(BTU_CONFIG.limits.persons.default);
-  protected readonly zone = signal<Zone>('ultesire');
+  protected readonly walls = signal<ExteriorWalls>(1);
   /** Event-i btu_calculated dërgohet vetëm pasi përdoruesi ka ndryshuar diçka. */
   private readonly touched = signal(false);
 
   protected readonly input = computed<BtuInput>(() => ({
+    city: this.city(),
     area: this.area(),
     height: this.height(),
-    sun: this.sun(),
-    floor: this.floor(),
-    insulation: this.insulation(),
-    room: this.room(),
-    persons: this.persons(),
-    zone: this.zone(),
+    walls: this.walls(),
   }));
   protected readonly result = computed(() => calculateBtu(this.input()));
   private readonly fmt = new Intl.NumberFormat('sq-AL');
   protected readonly coolingLabel = computed(() => this.fmt.format(this.result().cooling));
   protected readonly heatingLabel = computed(() => this.fmt.format(this.result().heating));
+  protected readonly coldWinter = computed(() => {
+    const station = BTU_CONFIG.cities[this.city()];
+    return !!station && BTU_CONFIG.stations[station].winter <= COLD_WINTER;
+  });
 
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
 
@@ -125,23 +101,19 @@ export class BtuCalculator {
       const value = root.querySelector<HTMLInputElement>(`#${id}`)?.value;
       if (value !== undefined && value !== String(target())) this.applyNumber(target, value);
     };
-    const syncChoice = <T extends string>(
+    const syncChoice = <T extends string | number>(
       selector: string,
       options: readonly Option<T>[],
       target: WritableSignal<T>,
     ) => {
       const value = root.querySelector<HTMLInputElement | HTMLSelectElement>(selector)?.value;
-      const option = options.find((o) => o.value === value);
+      const option = options.find((o) => String(o.value) === value);
       if (option && option.value !== target()) this.setChoice(target, option.value);
     };
+    syncChoice('#btu-city', this.cityOptions, this.city);
     syncNumber('btu-area', this.area);
     syncNumber('btu-height', this.height);
-    syncNumber('btu-persons', this.persons);
-    syncChoice('[name="btu-sun"]:checked', this.sunOptions, this.sun);
-    syncChoice('[name="btu-floor"]:checked', this.floorOptions, this.floor);
-    syncChoice('[name="btu-insulation"]:checked', this.insulationOptions, this.insulation);
-    syncChoice('[name="btu-zone"]:checked', this.zoneOptions, this.zone);
-    syncChoice('#btu-room', this.roomOptions, this.room);
+    syncChoice('[name="btu-walls"]:checked', this.wallOptions, this.walls);
   }
 
   protected setNumber(target: WritableSignal<number>, event: Event): void {
@@ -159,15 +131,16 @@ export class BtuCalculator {
     this.touched.set(true);
   }
 
-  protected selectValue(event: Event): RoomType {
-    return (event.target as HTMLSelectElement).value as RoomType;
+  protected selectValue(event: Event): string {
+    return (event.target as HTMLSelectElement).value;
   }
 
   protected confirm(): void {
+    const cityName = this.cityOptions.find((c) => c.value === this.city())?.label ?? '';
     this.flow.open({
       source: 'kalkulatori',
       service: 'konsulence-dhe-zgjedhja-e-sistemit',
-      notes: summarize(this.input(), this.result()),
+      notes: summarize(this.input(), this.result(), cityName),
     });
   }
 }

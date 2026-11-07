@@ -4,26 +4,24 @@ test('kalkulatori BTU jep rezultatin e pritur', async ({ page }) => {
   await page.goto('/si-te-zgjidhni-kondicionerin/');
   const result = page.locator('.result__size');
 
-  // Vlera fillestare: 20 m², 2.7 m, kushte mesatare → 6800 BTU → 9000.
+  // Vlera fillestare: Tiranë, 20 m², 1 mur i jashtëm → verë ~5400 → 9000.
   await expect(result).toHaveText(/9000\s*BTU/);
+  await expect(page.locator('.seasons__row.is-active')).toContainText('Vera (ftohje)');
 
-  // 30 m² × 340 × 1.15 (diell) × 1.15 (kati i fundit) = 13 489.5 → 13 500 → 18000.
+  // 40 m² → verë ~9400 → 12000.
+  await page.getByLabel('Sipërfaqja (m²)').fill('40');
+  await expect(result).toHaveText(/12000\s*BTU/);
+
+  // Korçë, 30 m², tavan 3,5 m, qoshe me 3 mure: dimri ~9100 e përcakton → 12000 (vera ~8000).
   await page.getByLabel('Sipërfaqja (m²)').fill('30');
-  await page.getByRole('group', { name: 'Ekspozimi ndaj diellit' }).getByLabel('Shumë').check();
-  await page.getByRole('group', { name: 'Kati' }).getByLabel('I fundit nën çati').check();
-  await expect(result).toHaveText(/18000\s*BTU/);
-  await expect(page.locator('.seasons')).toContainText('13');
-
-  // Verë dhe dimër veçmas: në zonë malore me hije e përcakton dimri.
-  await page.getByLabel('Sipërfaqja (m²)').fill('20');
-  await page.getByRole('group', { name: 'Ekspozimi ndaj diellit' }).getByLabel('Pak').check();
-  await page.getByRole('group', { name: 'Kati' }).getByLabel('I ndërmjetëm').check();
-  await page.getByRole('group', { name: 'Zona' }).getByLabel('Zonë kodrinore-malore').check();
+  await page.getByLabel('Lartësia e tavanit (m)').fill('3.5');
+  await page.getByLabel('Qyteti').selectOption('korce');
+  await page.getByRole('group', { name: 'Sa mure të jashtme ka ambienti' }).getByLabel('3').check();
   await expect(page.locator('.seasons__row.is-active')).toContainText('Dimri (ngrohje)');
-  await expect(result).toHaveText(/9000\s*BTU/);
+  await expect(result).toHaveText(/12000\s*BTU/);
 
   // Mbi aparatin më të madh: rekomandim për multi-split/kanal/inspektim.
-  await page.getByLabel('Sipërfaqja (m²)').fill('80');
+  await page.getByLabel('Sipërfaqja (m²)').fill('120');
   await expect(result).toHaveText(/Mbi 24000\s*BTU/);
 });
 
@@ -159,15 +157,19 @@ test('vlerat e shkruara në kalkulator para nisjes së JS-së ruhen pas hidratim
   });
 
   await page.goto('/si-te-zgjidhni-kondicionerin/');
-  await page.getByLabel('Sipërfaqja (m²)').fill('30');
-  await page.getByRole('group', { name: 'Kati' }).getByLabel('I fundit nën çati').check();
-  await page.getByRole('group', { name: 'Ekspozimi ndaj diellit' }).getByLabel('Shumë').check();
+  await page.getByLabel('Qyteti').selectOption('korce');
+  await page.getByLabel('Sipërfaqja (m²)').fill('50');
+  await page.getByLabel('Lartësia e tavanit (m)').fill('4');
+  await page.getByRole('group', { name: 'Sa mure të jashtme ka ambienti' }).getByLabel('3').check();
 
   release();
   await hydrated(page);
   await page.getByLabel('Sipërfaqja (m²)').scrollIntoViewIfNeeded();
+  // Korçë, 50 m², tavan 4 m, 3 mure: dimri ~14 300 → 18000 (vlerat fillestare japin 9000).
   await expect(page.locator('.result__size')).toHaveText(/18000\s*BTU/);
-  await expect(page.getByLabel('Sipërfaqja (m²)')).toHaveValue('30');
+  await expect(page.getByLabel('Sipërfaqja (m²)')).toHaveValue('50');
+  await expect(page.getByLabel('Lartësia e tavanit (m)')).toHaveValue('4');
+  await expect(page.getByLabel('Qyteti')).toHaveValue('korce');
 });
 
 test('projektet shembull: të shënuara kudo dhe jashtë indeksit', async ({ page, request }) => {
