@@ -11,7 +11,7 @@ import { Icon } from '../icon/icon';
   imports: [Icon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <details class="item" [attr.name]="group()" [open]="open()">
+    <details class="item" [attr.name]="group()">
       <summary class="item__summary">
         <span class="item__title">{{ title() }}</span>
         <ui-icon class="item__chevron" name="chevron-down" [size]="20" />
@@ -24,5 +24,6 @@ import { Icon } from '../icon/icon';
 export class AccordionItem {
   readonly title = input.required<string>();
   readonly group = input<string>();
-  readonly open = input(false);
+  // Pa lidhje [open]: hapja/mbyllja i takon vetëm browser-it. Me [open]="false", hidratimi
+  // (që nis me klikimin e parë) e mbyllte sërish pyetjen që përdoruesi sapo kishte hapur.
 }

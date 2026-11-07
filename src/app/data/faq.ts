@@ -4,8 +4,9 @@ import type { FaqItem } from './types';
 export const FAQ: FaqItem[] = [
   {
     q: 'Sa BTU më duhen për dhomën time?',
-    a: 'Varet nga sipërfaqja, lartësia e tavanit, ekspozimi ndaj diellit, kati dhe izolimi. Për një vlerë orientuese përdorni kalkulatorin te udhëzuesi; ustai e konfirmon me inspektim në vend.',
+    a: 'Varet nga qyteti (sa i ftohtë është dimri dhe sa e nxehtë vera), sipërfaqja, lartësia e tavanit dhe sa mure të jashtme ka ambienti. Kalkulatori llogarit veçmas verën dhe dimrin dhe jep madhësinë që mbulon të dyja; ustai e konfirmon pasi sheh ambientin.',
     home: true,
+    link: { label: 'Llogaritni BTU-të me kalkulatorin', path: '/si-te-zgjidhni-kondicionerin' },
   },
   {
     q: 'Pse më pikon kondicioneri brenda?',

@@ -185,7 +185,12 @@
     <ui-accordion>
       @for (f of faq; track f.q) {
         <ui-accordion-item [title]="f.q" group="faq-home">
-          <p>{{ f.a }}</p>
+          <p>
+            {{ f.a }}
+            @if (f.link; as l) {
+              <a [routerLink]="l.path">{{ l.label }} →</a>
+            }
+          </p>
         </ui-accordion-item>
       }
     </ui-accordion>

@@ -4,7 +4,7 @@ import type { NavItem } from './types';
 const ALL_NAV: NavItem[] = [
   { label: 'Shërbimet', path: '/sherbimet' },
   { label: 'Standardet', path: '/standardet-e-montimit' },
-  { label: 'Udhëzuesi', path: '/si-te-zgjidhni-kondicionerin' },
+  { label: 'Kalkulatori BTU', path: '/si-te-zgjidhni-kondicionerin' },
   { label: 'Projektet', path: '/projektet' },
   { label: 'Çmimet', path: '/cmimet-dhe-garancia' },
   { label: 'Rreth ustait', path: '/rreth-ustait' },

@@ -15,7 +15,12 @@
       <ui-accordion>
         @for (f of general; track f.q) {
           <ui-accordion-item [title]="f.q">
-            <p>{{ f.a }}</p>
+            <p>
+              {{ f.a }}
+              @if (f.link; as l) {
+                <a [routerLink]="l.path">{{ l.label }} →</a>
+              }
+            </p>
           </ui-accordion-item>
         }
       </ui-accordion>

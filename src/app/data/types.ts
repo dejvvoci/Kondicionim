@@ -141,6 +141,8 @@ export interface FaqItem {
   a: string;
   /** Shfaqet në FAQ e shkurtër të kryefaqes. */
   home: boolean;
+  /** Lidhje në fund të përgjigjes, te një faqe tjetër e faqes. */
+  link?: { label: string; path: string };
 }
 
 export interface Brand {
