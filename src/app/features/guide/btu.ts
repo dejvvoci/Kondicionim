@@ -5,6 +5,7 @@ import {
   type Insulation,
   type RoomType,
   type Sun,
+  type Zone,
 } from '../../data/btu-config';
 
 export interface BtuInput {
@@ -15,10 +16,19 @@ export interface BtuInput {
   insulation: Insulation;
   room: RoomType;
   persons: number;
+  zone: Zone;
 }
 
+export type Season = 'vere' | 'dimer';
+
 export interface BtuResult {
-  /** Vlera e llogaritur, e rrumbullakuar në 100. */
+  /** Nevoja në verë (ftohje), e rrumbullakuar në 100. */
+  cooling: number;
+  /** Nevoja në dimër (ngrohje), e rrumbullakuar në 100. */
+  heating: number;
+  /** Sezoni që e përcakton madhësinë (ai me nevojën më të madhe). */
+  season: Season;
+  /** Vlera më e lartë e dy sezoneve, e rrumbullakuar në 100. */
   btu: number;
   /** Madhësia standarde e rekomanduar; null = mbi aparatin më të madh (multi-split/kanal/inspektim). */
   size: number | null;
@@ -26,9 +36,14 @@ export interface BtuResult {
   factors: string[];
 }
 
+/** 1 W = 3,412 BTU/h. */
+const W_TO_BTU = 3.412;
+
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
 const pct = (k: number) => `${k > 1 ? '+' : '−'}${Math.round(Math.abs(k - 1) * 100)}%`;
 const fmt = (n: number) => new Intl.NumberFormat('sq-AL').format(n);
+const fmtTemp = (t: number) =>
+  `${new Intl.NumberFormat('sq-AL', { maximumFractionDigits: 1 }).format(t).replace('-', '−')}\u00a0°C`;
 
 const SUN_LABEL: Record<Sun, string> = { pak: 'Pak diell', mesatar: '', shume: 'Shumë diell' };
 const FLOOR_LABEL: Record<Floor, string> = {
@@ -40,6 +55,10 @@ const INSULATION_LABEL: Record<Insulation, string> = {
   mire: 'Izolim i mirë',
   mesatar: '',
   dobet: 'Izolim i dobët',
+};
+export const ZONE_LABEL: Record<Zone, string> = {
+  ultesire: 'Bregdet dhe ultësirë',
+  malore: 'Zonë kodrinore-malore',
 };
 const ROOM_LABEL: Record<RoomType, string> = {
   gjumi: 'Dhomë gjumi',
@@ -76,8 +95,15 @@ export function calculateBtu(raw: BtuInput, config: BtuConfig = BTU_CONFIG): Btu
   const roomExtra = config.room[input.room];
 
   const base = input.area * config.perM2 * heightK;
-  const exact = base * sunK * floorK * insulationK + extraPersons * config.perPerson + roomExtra;
-  const btu = Math.round(exact / 100) * 100;
+  const cooling = base * sunK * floorK * insulationK + extraPersons * config.perPerson + roomExtra;
+
+  const { heating: h } = config;
+  const deltaT = h.indoor - h.zone[input.zone];
+  const heating = input.area * h.perM2K[input.insulation] * deltaT * heightK * floorK * W_TO_BTU;
+
+  const season: Season = heating > cooling ? 'dimer' : 'vere';
+  const exact = Math.max(cooling, heating);
+  const round = (v: number) => Math.round(v / 100) * 100;
 
   const factors: string[] = [];
   if (heightK !== 1) factors.push(`Tavan ${input.height.toFixed(1)} m: ${pct(heightK)}`);
@@ -88,9 +114,19 @@ export function calculateBtu(raw: BtuInput, config: BtuConfig = BTU_CONFIG): Btu
     factors.push(`${input.persons} persona: +${fmt(extraPersons * config.perPerson)} BTU`);
   }
   if (roomExtra > 0) factors.push(`${ROOM_LABEL[input.room]}: +${fmt(roomExtra)} BTU`);
+  if (input.zone === 'malore') {
+    factors.push(`${ZONE_LABEL.malore}: dimër deri ${fmtTemp(h.zone.malore)}`);
+  }
 
   // Rrumbullakimi në 100 shërben vetëm për shfaqje; madhësia zgjidhet nga vlera e saktë.
-  return { btu, size: pickSize(exact, config.sizes), factors };
+  return {
+    cooling: round(cooling),
+    heating: round(heating),
+    season,
+    btu: round(exact),
+    size: pickSize(exact, config.sizes),
+    factors,
+  };
 }
 
 /** Përmbledhje për shënimet e WhatsApp: "Kalkulatori: 28 m², kati i fundit → 12000 BTU". */
@@ -106,6 +142,8 @@ export function summarize(
   if (input.sun === 'shume') parts.push('shumë diell');
   if (input.insulation === 'dobet') parts.push('izolim i dobët');
   if (input.persons > config.basePersons) parts.push(`${input.persons} persona`);
-  const outcome = result.size ? `${result.size} BTU` : `mbi ${config.sizes.at(-1)} BTU`;
+  if (input.zone === 'malore') parts.push('zonë malore');
+  const size = result.size ? `${result.size} BTU` : `mbi ${config.sizes.at(-1)} BTU`;
+  const outcome = result.season === 'dimer' ? `${size} (sipas dimrit)` : size;
   return `Kalkulatori: ${parts.join(', ')} → ${outcome}`;
 }

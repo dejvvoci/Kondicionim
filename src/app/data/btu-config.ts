@@ -1,9 +1,15 @@
 /**
  * Koeficientët e kalkulatorit BTU. Ndryshohen vetëm këtu.
  *
- * baza   = m² × perM2 × (lartësia / refHeight)
- * BTU    = baza × dielli × kati × izolimi + max(0, persona − basePersons) × perPerson + ambienti
- * rezultati = madhësia standarde më e afërt nga lart; mbi madhësinë më të madhe → inspektim.
+ * Kalkulatori llogarit veçmas verën (ftohje) dhe dimrin (ngrohje) dhe rekomandon madhësinë që
+ * mbulon të dyja, pra vlerën më të lartë.
+ *
+ * VERA:  baza = m² × perM2 × (lartësia / refHeight)
+ *        BTU  = baza × dielli × kati × izolimi + max(0, persona − basePersons) × perPerson + ambienti
+ * DIMRI: W    = m² × heating.perM2K[izolimi] × (heating.indoor − temperatura e zonës)
+ *               × (lartësia / refHeight) × kati;  BTU = W × 3,412
+ * rezultati = madhësia standarde më e afërt nga lart e max(verë, dimër);
+ *             mbi madhësinë më të madhe → inspektim.
  *
  * Metoda e thjeshtuar, me rregullat e njohura publikisht (llogaritja e plotë e ngarkesës termike
  * bëhet me ACCA Manual J / ASHRAE ose EN 12831 dhe kërkon matje në vend):
@@ -18,9 +24,21 @@
  * - Persona: +600 BTU për çdo person mbi 2 që qëndron rregullisht në ambient (Energy Star).
  * - Kuzhina: +4000 BTU (Energy Star).
  * - Madhësitë: fuqitë standarde të aparateve split në treg (9000, 12000, 18000, 24000 BTU).
+ *
+ * Dimri, sipas logjikës së EN 12831: humbja e nxehtësisë = koeficienti × diferenca e temperaturës.
+ * Llogaritja bëhet për natën më të ftohtë, ndaj dielli, personat dhe kuzhina nuk e ulin nevojën.
+ * - Temperatura e zonës: ASHRAE Handbook – Fundamentals 2025, temperatura e ngrohjes 99,6%
+ *   (vetëm 0,4% e orëve të vitit janë më të ftohta): Tirana Rinas −3,4 °C, Korça −7,2 °C.
+ * - Brenda: 20 °C, temperatura e zakonshme e projektimit për dhoma banimi.
+ * - Koeficientët W/(m²·K): kufiri i sipërm i intervaleve që japin udhëzuesit për pompa nxehtësie
+ *   (izolim i mirë 35–50 W/m², mesatar 60–80, i dobët 70–100), pjesëtuar me diferencën 24 K për
+ *   të cilën janë dhënë (21 °C brenda, −3 °C jashtë). Kufiri i sipërm, që aparati të mos dalë i vogël.
+ * - Kati i fundit: +15%, si në verë (humbje nga çatia).
+ * Në temperatura nën zero aparatet humbasin fuqi ngrohjeje sipas modelit; këtë e vlerëson ustai.
  */
 
 export type Sun = 'pak' | 'mesatar' | 'shume';
+export type Zone = 'ultesire' | 'malore';
 export type Floor = 'perdhe' | 'ndermjetem' | 'fundit';
 export type Insulation = 'mire' | 'mesatar' | 'dobet';
 export type RoomType = 'gjumi' | 'ndenjie' | 'kuzhine' | 'zyre' | 'dyqan';
@@ -41,6 +59,13 @@ export const BTU_CONFIG = {
     zyre: 0,
     dyqan: 0,
   } satisfies Record<RoomType, number>,
+  heating: {
+    indoor: 20,
+    /** Temperatura e jashtme e projektimit (°C), ASHRAE 2025, 99,6%. */
+    zone: { ultesire: -3.4, malore: -7.2 } satisfies Record<Zone, number>,
+    /** W për m² për çdo gradë diferencë (50/24, 80/24, 100/24). */
+    perM2K: { mire: 2.1, mesatar: 3.3, dobet: 4.2 } satisfies Record<Insulation, number>,
+  },
   /** Madhësitë standarde të aparateve, nga më e vogla. */
   sizes: [9000, 12000, 18000, 24000],
   limits: {
