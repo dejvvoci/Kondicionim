@@ -24,20 +24,23 @@ export const GUIDE = {
   calculator: {
     eyebrow: 'Kalkulatori BTU',
     title: 'Sa BTU ju duhen?',
-    lead: 'Plotësoni të dhënat e ambientit: rezultati përditësohet menjëherë.',
-    note: 'Vlerë orientuese me metodë të thjeshtuar: vera me 340 BTU/m² dhe korrigjimet e Energy Star, dimri me humbjet e nxehtësisë në ditët më të ftohta të zonës (ASHRAE). Ustai e konfirmon pasi sheh ambientin.',
+    lead: 'Plotësoni të dhënat e ambientit: rezultati përditësohet menjëherë. Llogaritja supozon që aparati përdoret edhe për verë edhe për dimër.',
+    note: 'Vlerë orientuese: nxehtësia që hyn në ditën më të nxehtë dhe që del në natën më të ftohtë të qytetit tuaj (të dhënat klimatike ASHRAE), me dritare 1/8 e dyshemesë dhe 2 persona. Ustai e konfirmon pasi sheh ambientin.',
     confirm: 'Kërko çmimin në WhatsApp',
     resultLabel: 'Madhësia e rekomanduar',
     overTitle: 'Një aparat i vetëm nuk mjafton',
     overText:
       'Për këtë ambient ia vlen një sistem multi-split, me kanale ose dysheme-tavan. Ustai e përcakton saktë me inspektim.',
-    factorsTitle: 'Çfarë ndikoi',
+    factorsTitle: 'Kushtet e llogaritjes',
     summer: 'Vera (ftohje)',
     winter: 'Dimri (ngrohje)',
     bySummer: 'Madhësia mbulon të dy sezonet; e përcakton vera.',
     byWinter: 'Madhësia mbulon të dy sezonet; e përcakton dimri.',
-    zoneHelp:
-      'Ultësirë: Tiranë, Durrës, Shkodër, Vlorë, Fier. Kodrinore-malore: Korçë, Pogradec, Kukës, Dibër.',
+    cityHelp: 'Nëse qyteti juaj nuk është në listë, zgjidhni më të afërtin me klimë të ngjashme.',
+    wallsHelp: 'Muret që kanë jashtë rrugën ose oborrin, jo apartamentin fqinj.',
+    insulationHelp:
+      'I mirë: termokapot dhe dritare dopio. Mesatar: pa termokapot, dritare dopio. I dobët: pa termokapot, dritare të vjetra me xham të thjeshtë.',
+    floorHelp: 'I fundit: me tarracë ose çati sipër. Përdhe: me tokë ose bodrum poshtë.',
     coldNote:
       'Në zonat e ftohta zgjidhni një model që e ruan fuqinë e ngrohjes nën zero; ustai ju këshillon për modelin.',
   },

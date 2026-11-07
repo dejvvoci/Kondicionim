@@ -1,5 +1,20 @@
 <div class="calc">
   <form class="calc__form" (submit)="$event.preventDefault()">
+    <div class="field">
+      <label class="field__label" for="btu-city">Qyteti</label>
+      <select
+        id="btu-city"
+        class="input"
+        aria-describedby="btu-city-help"
+        (change)="setChoice(city, selectValue($event))"
+      >
+        @for (o of cityOptions; track o.value) {
+          <option [value]="o.value" [selected]="city() === o.value">{{ o.label }}</option>
+        }
+      </select>
+      <span class="field__help" id="btu-city-help">{{ t.cityHelp }}</span>
+    </div>
+
     <div class="calc__row">
       <div class="field">
         <label class="field__label" for="btu-area">Sipërfaqja (m²)</label>
@@ -36,43 +51,26 @@
       </div>
     </div>
 
-    <fieldset class="choice">
-      <legend class="field__label">Ekspozimi ndaj diellit</legend>
+    <fieldset class="choice" aria-describedby="btu-walls-help">
+      <legend class="field__label">Sa mure të jashtme ka ambienti</legend>
       <div class="choice__options">
-        @for (o of sunOptions; track o.value) {
+        @for (o of wallOptions; track o.value) {
           <label class="choice__option">
             <input
               type="radio"
-              name="btu-sun"
+              name="btu-walls"
               [value]="o.value"
-              [checked]="sun() === o.value"
-              (change)="setChoice(sun, o.value)"
+              [checked]="walls() === o.value"
+              (change)="setChoice(walls, o.value)"
             />
             <span>{{ o.label }}</span>
           </label>
         }
       </div>
+      <span class="field__help" id="btu-walls-help">{{ t.wallsHelp }}</span>
     </fieldset>
 
-    <fieldset class="choice">
-      <legend class="field__label">Kati</legend>
-      <div class="choice__options">
-        @for (o of floorOptions; track o.value) {
-          <label class="choice__option">
-            <input
-              type="radio"
-              name="btu-floor"
-              [value]="o.value"
-              [checked]="floor() === o.value"
-              (change)="setChoice(floor, o.value)"
-            />
-            <span>{{ o.label }}</span>
-          </label>
-        }
-      </div>
-    </fieldset>
-
-    <fieldset class="choice">
+    <fieldset class="choice" aria-describedby="btu-insulation-help">
       <legend class="field__label">Izolimi</legend>
       <div class="choice__options">
         @for (o of insulationOptions; track o.value) {
@@ -88,52 +86,27 @@
           </label>
         }
       </div>
+      <span class="field__help" id="btu-insulation-help">{{ t.insulationHelp }}</span>
     </fieldset>
 
-    <fieldset class="choice" aria-describedby="btu-zone-help">
-      <legend class="field__label">Zona</legend>
-      <div class="choice__options choice__options--two">
-        @for (o of zoneOptions; track o.value) {
+    <fieldset class="choice" aria-describedby="btu-floor-help">
+      <legend class="field__label">Kati</legend>
+      <div class="choice__options">
+        @for (o of floorOptions; track o.value) {
           <label class="choice__option">
             <input
               type="radio"
-              name="btu-zone"
+              name="btu-floor"
               [value]="o.value"
-              [checked]="zone() === o.value"
-              (change)="setChoice(zone, o.value)"
+              [checked]="floor() === o.value"
+              (change)="setChoice(floor, o.value)"
             />
             <span>{{ o.label }}</span>
           </label>
         }
       </div>
-      <span class="field__help" id="btu-zone-help">{{ t.zoneHelp }}</span>
+      <span class="field__help" id="btu-floor-help">{{ t.floorHelp }}</span>
     </fieldset>
-
-    <div class="calc__row">
-      <div class="field">
-        <label class="field__label" for="btu-room">Lloji i ambientit</label>
-        <select id="btu-room" class="input" (change)="setChoice(room, selectValue($event))">
-          @for (o of roomOptions; track o.value) {
-            <option [value]="o.value" [selected]="room() === o.value">{{ o.label }}</option>
-          }
-        </select>
-      </div>
-
-      <div class="field">
-        <label class="field__label" for="btu-persons">Numri i personave</label>
-        <input
-          id="btu-persons"
-          class="input"
-          type="number"
-          inputmode="numeric"
-          [min]="limits.persons.min"
-          [max]="limits.persons.max"
-          step="1"
-          [value]="persons()"
-          (input)="setNumber(persons, $event)"
-        />
-      </div>
-    </div>
   </form>
 
   <section class="result" aria-labelledby="btu-result-label">
@@ -163,16 +136,14 @@
       {{ result().season === 'vere' ? t.bySummer : t.byWinter }}
     </p>
 
-    @if (result().factors.length) {
-      <h4 class="result__factors-title">{{ t.factorsTitle }}</h4>
-      <ul class="result__factors">
-        @for (f of result().factors; track f) {
-          <li>{{ f }}</li>
-        }
-      </ul>
-    }
+    <h4 class="result__factors-title">{{ t.factorsTitle }}</h4>
+    <ul class="result__factors">
+      @for (f of result().factors; track f) {
+        <li>{{ f }}</li>
+      }
+    </ul>
 
-    @if (zone() === 'malore') {
+    @if (coldWinter()) {
       <p class="result__calc">{{ t.coldNote }}</p>
     }
     <p class="result__note">{{ t.note }}</p>
