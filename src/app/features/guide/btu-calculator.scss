@@ -41,6 +41,15 @@
   border: 1.5px solid var(--c-text-muted);
   border-radius: var(--radius-btn);
   overflow: hidden;
+
+  &--two {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.choice .field__help {
+  display: block;
+  margin-top: var(--sp-1);
 }
 
 .choice__option {
@@ -123,6 +132,37 @@
 
 .result__over {
   margin: var(--sp-2) 0 0;
+}
+
+.seasons {
+  display: grid;
+  gap: var(--sp-1);
+  margin: var(--sp-3) 0 0;
+}
+
+.seasons__row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: var(--sp-2) var(--sp-3);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-btn);
+  font-size: var(--fs-sm);
+
+  dt,
+  dd {
+    margin: 0;
+  }
+
+  dd {
+    font-variant-numeric: tabular-nums;
+  }
+
+  &.is-active {
+    border-color: var(--c-base);
+    font-weight: 600;
+    color: var(--c-base);
+  }
 }
 
 .result__calc {
