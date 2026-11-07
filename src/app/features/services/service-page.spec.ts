@@ -33,10 +33,10 @@ describe('ServicePage', () => {
   });
 
   it('butoni WhatsApp parazgjedh shërbimin', async () => {
-    const el = await render('pompa-nxehtesie');
+    const el = await render('sisteme-vrf-vrv');
     const flow = TestBed.inject(WhatsAppFlow);
     el.querySelector<HTMLButtonElement>('.actions button')?.click();
-    expect(flow.request()).toEqual({ source: 'sherbimi', service: 'pompa-nxehtesie' });
+    expect(flow.request()).toEqual({ source: 'sherbimi', service: 'sisteme-vrf-vrv' });
   });
 
   it('slug i panjohur shfaq faqen 404', async () => {

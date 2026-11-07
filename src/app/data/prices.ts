@@ -13,7 +13,7 @@ export const PRICES: Price[] = [
     label: 'Pastrim i plotë i kondicionerit',
     from: 150, // TODO: çmim shembull, vendos çmimin real
     currency: 'EUR',
-    serviceSlug: 'kontrata-mirembajtjeje-per-biznese',
+    serviceSlug: null,
     note: 'Filtrat, bateritë, ventilatori dhe kondensata.', // TODO: konfirmo çfarë përfshin
   },
   {

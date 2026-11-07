@@ -201,44 +201,6 @@ export const SERVICES: Service[] = [
     },
   },
   {
-    slug: 'pompa-nxehtesie',
-    title: 'Pompa nxehtësie',
-    short:
-      'Ngrohje efikase për dimrin, me pompë nxehtësie të zgjedhur dhe të montuar sipas ndërtesës.',
-    icon: 'temperature-sun',
-    intro:
-      'Pompa e nxehtësisë merr nxehtësinë nga ajri jashtë dhe e sjell brenda, me shumë më pak energji se ngrohja me rezistencë. Zgjedhja e fuqisë dhe montimi i saktë vendosin sa mirë ngroh në ditët më të ftohta.',
-    includes: [
-      'Vlerësimi i ndërtesës dhe i nevojës për ngrohje',
-      'Zgjedhja e pompës dhe e fuqisë sipas klimës së zonës',
-      'Montimi i njësisë së jashtme dhe lidhjet me sistemin e ngrohjes',
-      'Mbushja, testimi dhe rregullimi i temperaturave',
-      'Shpjegim i përdorimit dhe i mirëmbajtjes',
-    ],
-    audience: [
-      'Shtëpi dhe vila me ngrohje qendrore',
-      'Ndërtime të reja',
-      'Biznese që duan të ulin koston e ngrohjes',
-    ],
-    duration: null,
-    photos: servicePlaceholders('pompa-nxehtesie', 'Pompa nxehtësie'), // TODO: foto shembull, zëvendësohet me foton reale
-    faq: [
-      {
-        q: 'A ngroh pompa e nxehtësisë kur jashtë bën ftohtë?',
-        a: 'Po, por efikasiteti bie kur temperatura ulet. Prandaj fuqia zgjidhet sipas temperaturave më të ulëta të zonës suaj, jo sipas mesatares.',
-      },
-      {
-        q: 'A mund të përdoret me radiatorët ekzistues?',
-        a: 'Shpesh po, por radiatorët duhet të jenë të mjaftueshëm për të punuar me ujë më pak të nxehtë. Ustai e vlerëson këtë gjatë inspektimit.',
-      },
-    ],
-    seo: {
-      title: 'Pompa nxehtësie: zgjedhje dhe montim',
-      description:
-        'Ngrohje me pompë nxehtësie për shtëpi, vila dhe biznese: vlerësimi i ndërtesës, zgjedhja e fuqisë sipas klimës, montim dhe testim.',
-    },
-  },
-  {
     slug: 'diagnostikim-dhe-riparim',
     title: 'Diagnostikim dhe riparim',
     short:
@@ -353,47 +315,6 @@ export const SERVICES: Service[] = [
       title: 'Çmontim dhe zhvendosje kondicioneri',
       description:
         'Zhvendosje kondicioneri pa humbur gazin: pump-down, çmontim i kujdesshëm, rimontim, vakumim dhe testim në banesën ose zyrën e re.',
-    },
-  },
-  {
-    slug: 'kontrata-mirembajtjeje-per-biznese',
-    title: 'Kontrata mirëmbajtjeje për biznese',
-    short:
-      'Pastrim dhe kontroll periodik për zyra, dyqane dhe hotele, sipas një plani vjetor të rënë dakord.',
-    icon: 'calendar-check',
-    intro:
-      'Për një biznes, një kondicioner i ndalur do të thotë klientë ose punonjës të pakënaqur. Me mirëmbajtje të planifikuar, problemet kapen herët dhe aparatet harxhojnë më pak energji.',
-    includes: [
-      'Plan vizitash i rënë dakord paraprakisht',
-      'Pastrim i filtrave, baterive dhe kondensatës',
-      'Kontroll i presioneve, rrymës dhe lidhjeve elektrike',
-      'Shënim i gjendjes së çdo aparati pas vizitës',
-      'Këshilla për riparimet ose zëvendësimet e nevojshme',
-    ],
-    audience: [
-      'Zyra dhe ndërtesa administrative',
-      'Dyqane, restorante dhe bare',
-      'Hotele, klinika dhe ambiente publike',
-    ],
-    duration: null,
-    photos: servicePlaceholders(
-      'kontrata-mirembajtjeje-per-biznese',
-      'Kontrata mirëmbajtjeje për biznese',
-    ), // TODO: foto shembull, zëvendësohet me foton reale
-    faq: [
-      {
-        q: 'Sa shpesh bëhen vizitat?',
-        a: 'Varet nga lloji i ambientit dhe sa punojnë aparatet. Zakonisht para sezonit të verës dhe të dimrit, më shpesh për restorante dhe ambiente me pluhur.',
-      },
-      {
-        q: 'A përfshihen riparimet në kontratë?',
-        a: 'Kjo përcaktohet në kontratë. Ustai ju propozon një plan të qartë: çfarë përfshihet në çdo vizitë dhe çfarë llogaritet veçmas.',
-      },
-    ],
-    seo: {
-      title: 'Mirëmbajtje kondicionerësh për biznese',
-      description:
-        'Kontrata mirëmbajtjeje për zyra, dyqane, restorante dhe hotele: pastrim dhe kontroll periodik sipas një plani vjetor të rënë dakord.',
     },
   },
 ];
