@@ -1,97 +1,122 @@
 import { BTU_CONFIG } from '../../data/btu-config';
-import { type BtuInput, calculateBtu, normalizeInput, pickSize, summarize } from './btu';
+import { CITIES } from '../../data/cities';
+import {
+  type BtuInput,
+  calculateBtu,
+  coolingWatts,
+  geometry,
+  heatingWatts,
+  normalizeInput,
+  pickSize,
+  summarize,
+} from './btu';
 
 const base: BtuInput = {
+  city: 'tirane',
   area: 20,
   height: 2.7,
-  sun: 'mesatar',
-  floor: 'ndermjetem',
+  walls: 1,
   insulation: 'mesatar',
-  room: 'gjumi',
-  persons: 2,
-  zone: 'ultesire',
+  floor: 'ndermjetem',
 };
 
+describe('geometry', () => {
+  it('dhomë katrore: muret e jashtme, dritaret 1/8 e dyshemesë dhe vëllimi', () => {
+    const g = geometry(base);
+    // Ana √20 = 4,472 m; muri 4,472 × 2,7 = 12,07 m²; dritaret 20/8 = 2,5 m².
+    expect(g.windows).toBeCloseTo(2.5, 5);
+    expect(g.walls).toBeCloseTo(12.075 - 2.5, 2);
+    expect(g.volume).toBeCloseTo(54, 5);
+    expect(g.roof).toBe(0);
+    expect(g.ground).toBe(0);
+    expect(geometry({ ...base, floor: 'fundit' }).roof).toBe(20);
+    expect(geometry({ ...base, floor: 'perdhe' }).ground).toBe(20);
+  });
+});
+
 describe('calculateBtu', () => {
-  it('baza: m² × 340 pa faktorë', () => {
+  it('rasti bazë në Tiranë: dimri dhe vera sipas formulës', () => {
+    // Dimri: (1,3 × 9,575 + 2,8 × 2,5 + 0,34 × 0,5 × 54) × (20 + 3,4) = 669,9 W → 2286 BTU.
+    expect(heatingWatts(base)).toBeCloseTo(669.9, 0);
+    // Vera: mure 68,8 + xham 66,5 + diell 997,5 + ajër 87,2 + njerëz 351,7 = 1571,7 W → 5363 BTU.
+    expect(coolingWatts(base)).toBeCloseTo(1571.7, 0);
     const r = calculateBtu(base);
-    expect(r.btu).toBe(6800);
-    expect(r.size).toBe(9000);
-    expect(r.factors).toEqual([]);
-  });
-
-  it('zbaton formulën e plotë sipas btu-config', () => {
-    // 28 × 340 × (3.0/2.7) × 1.15 × 1.15 × 1.3 + (4−2) × 600 + 4000
-    const input: BtuInput = {
-      area: 28,
-      height: 3,
-      sun: 'shume',
-      floor: 'fundit',
-      insulation: 'dobet',
-      room: 'kuzhine',
-      persons: 4,
-      zone: 'ultesire',
-    };
-    const exact = 28 * 340 * (3 / 2.7) * 1.15 * 1.15 * 1.3 + 2 * 600 + 4000;
-    const r = calculateBtu(input);
-    expect(r.btu).toBe(Math.round(exact / 100) * 100);
-    expect(r.size).toBe(24000);
-    // Shqipja nuk ndan mijëshet te numrat me 4 shifra (CLDR): 1200, por 15 000.
-    expect(r.factors).toEqual([
-      'Tavan 3.0 m: +11%',
-      'Shumë diell: +15%',
-      'Kati i fundit nën çati: +15%',
-      'Izolim i dobët: +30%',
-      '4 persona: +1200 BTU',
-      'Kuzhinë: +4000 BTU',
-    ]);
-  });
-
-  it('faktorët që ulin vlerën shfaqen me minus', () => {
-    const r = calculateBtu({ ...base, sun: 'pak', insulation: 'mire' });
-    expect(r.factors).toEqual(['Pak diell: −10%', 'Izolim i mirë: −10%']);
-    expect(r.btu).toBe(Math.round((20 * 340 * 0.9 * 0.9) / 100) * 100);
-  });
-
-  it('dimri: m² × W/(m²·K) × (20 °C − temperatura e zonës) × 3,412', () => {
-    const r = calculateBtu(base);
-    // Tiranë: 20 × 3,3 × 23,4 × 3,412 = 5269,7 → 5300; vera (6800) e përcakton madhësinë.
-    expect(r.heating).toBe(5300);
-    expect(r.cooling).toBe(6800);
+    expect(r.heating).toBe(2300);
+    expect(r.cooling).toBe(5400);
     expect(r.season).toBe('vere');
-    expect(r.btu).toBe(6800);
+    expect(r.btu).toBe(5400);
+    expect(r.size).toBe(9000);
   });
 
-  it('dielli, personat dhe kuzhina nuk e ndryshojnë dimrin', () => {
-    const r = calculateBtu({ ...base, sun: 'shume', room: 'kuzhine', persons: 5 });
-    expect(r.heating).toBe(calculateBtu(base).heating);
-    expect(r.cooling).toBeGreaterThan(calculateBtu(base).cooling);
+  it('Korça ka verë më të freskët dhe dimër më të ftohtë se Tirana', () => {
+    const tirane = calculateBtu(base);
+    const korce = calculateBtu({ ...base, city: 'korce' });
+    expect(korce.cooling).toBeLessThan(tirane.cooling);
+    expect(korce.heating).toBeGreaterThan(tirane.heating);
   });
 
-  it('në zonë malore me hije e përcakton dimri', () => {
-    // Vera: 20 × 340 × 0,9 = 6120. Dimri: 20 × 3,3 × 27,2 × 3,412 = 6125,2.
-    const r = calculateBtu({ ...base, sun: 'pak', zone: 'malore' });
+  it('dhomë e izoluar mirë në Korçë: e përcakton vera, por më pak se në Tiranë', () => {
+    const input: BtuInput = { ...base, city: 'korce', area: 35, insulation: 'mire' };
+    const r = calculateBtu(input);
+    expect(r.season).toBe('vere');
+    expect(r.size).toBe(9000);
+    expect(r.cooling).toBeLessThan(calculateBtu({ ...input, city: 'tirane' }).cooling);
+  });
+
+  it('qoshe në katin e fundit, pa izolim, në Korçë: e përcakton dimri', () => {
+    const r = calculateBtu({
+      ...base,
+      city: 'korce',
+      walls: 3,
+      insulation: 'dobet',
+      floor: 'fundit',
+    });
     expect(r.season).toBe('dimer');
-    expect(r.heating).toBe(6100);
-    expect(r.btu).toBe(r.heating);
-    expect(r.factors).toContain('Zonë kodrinore-malore: dimër deri −7,2\u00a0°C');
-  });
-
-  it('madhësia zgjidhet nga sezoni me nevojën më të madhe', () => {
-    // Me një dimër shumë të ftohtë (konfigurim testi), dimri kalon verën dhe rrit madhësinë.
-    const config = {
-      ...BTU_CONFIG,
-      heating: { ...BTU_CONFIG.heating, zone: { ultesire: -3.4, malore: -25 } },
-    };
-    const r = calculateBtu({ ...base, area: 25, zone: 'malore' }, config);
-    // Vera: 25 × 340 = 8500 → 9000. Dimri: 25 × 3,3 × 45 × 3,412 = 12 667 → 18000.
-    expect(r.season).toBe('dimer');
+    expect(r.heating).toBeGreaterThan(r.cooling);
     expect(r.size).toBe(18000);
   });
 
+  it('çdo mur i jashtëm, izolimi më i dobët dhe kati i fundit rrisin të dy sezonet', () => {
+    const r = calculateBtu(base);
+    for (const change of [
+      { walls: 2 as const },
+      { insulation: 'dobet' as const },
+      { floor: 'fundit' as const },
+    ]) {
+      const c = calculateBtu({ ...base, ...change });
+      expect(c.heating).toBeGreaterThan(r.heating);
+      expect(c.cooling).toBeGreaterThan(r.cooling);
+    }
+  });
+
+  it('kati përdhe rrit vetëm dimrin (dyshemeja mbi tokë)', () => {
+    const r = calculateBtu(base);
+    const ground = calculateBtu({ ...base, floor: 'perdhe' });
+    expect(ground.heating).toBeGreaterThan(r.heating);
+    expect(ground.cooling).toBe(r.cooling);
+  });
+
+  it('tregon kushtet e llogaritjes', () => {
+    expect(calculateBtu({ ...base, city: 'korce' }).factors).toEqual([
+      'Dimri deri −7,2\u00a0°C, vera deri 32,1\u00a0°C',
+      '1 mur i jashtëm',
+      'Izolim mesatar',
+      'Kat i ndërmjetëm',
+    ]);
+  });
+
   it('mbi madhësinë më të madhe nuk jep aparat të vetëm', () => {
-    const r = calculateBtu({ ...base, area: 80 });
-    expect(r.size).toBeNull();
+    expect(calculateBtu({ ...base, area: 150, walls: 3 }).size).toBeNull();
+  });
+});
+
+describe('qytetet', () => {
+  it('çdo qytet ku punojmë ka një stacion klimatik', () => {
+    for (const c of CITIES) expect(BTU_CONFIG.cities[c.slug]).toBeDefined();
+  });
+
+  it('qyteti i panjohur llogaritet si Tirana', () => {
+    expect(calculateBtu({ ...base, city: 'nuk-ekziston' })).toEqual(calculateBtu(base));
   });
 });
 
@@ -109,59 +134,41 @@ describe('pickSize: kufijtë e rrumbullakimit', () => {
   ])('%d BTU → %s', (btu, size) => {
     expect(pickSize(btu)).toBe(size);
   });
-
-  it('përdor vlerën e saktë, jo atë të rrumbullakuar për shfaqje', () => {
-    // 26.5 × 340 = 9010: shfaqet 9000, por kalon 9000 → 12000
-    const r = calculateBtu({ ...base, area: 26.5 });
-    expect(r.btu).toBe(9000);
-    expect(r.size).toBe(12000);
-  });
-
-  it('pikërisht në kufi mbetet në madhësinë e vogël', () => {
-    // 12000 / 340 m² japin saktësisht 12000 BTU
-    const r = calculateBtu({ ...base, area: 12000 / 340 });
-    expect(r.size).toBe(12000);
-  });
 });
 
 describe('normalizeInput', () => {
-  const { area, height, persons } = BTU_CONFIG.limits;
+  const { area, height } = BTU_CONFIG.limits;
 
   it('kthen vlerat brenda kufijve', () => {
-    const n = normalizeInput({ ...base, area: 1, height: 9, persons: 0 });
+    const n = normalizeInput({ ...base, area: 1, height: 9 });
     expect(n.area).toBe(area.min);
     expect(n.height).toBe(height.max);
-    expect(n.persons).toBe(persons.min);
     expect(normalizeInput({ ...base, area: 999 }).area).toBe(area.max);
   });
 
   it('fusha bosh (NaN) merr vlerën e paracaktuar ose minimumin', () => {
-    const n = normalizeInput({ ...base, area: NaN, height: NaN, persons: NaN });
+    const n = normalizeInput({ ...base, area: NaN, height: NaN });
     expect(n.area).toBe(area.min);
     expect(n.height).toBe(height.default);
-    expect(n.persons).toBe(persons.default);
   });
 });
 
 describe('summarize', () => {
-  it('shënon zonën malore dhe kur e përcakton dimri', () => {
-    const input: BtuInput = { ...base, sun: 'pak', zone: 'malore' };
-    expect(summarize(input, calculateBtu(input))).toBe(
-      'Kalkulatori: 20 m², dhomë gjumi, zonë malore → 9000 BTU (sipas dimrit)',
+  it('përmbledh të dhënat dhe sezonin vendimtar', () => {
+    const input: BtuInput = { ...base, city: 'korce', area: 28, floor: 'fundit' };
+    expect(summarize(input, calculateBtu(input), 'Korçë')).toBe(
+      'Kalkulatori: Korçë, 28 m², 1 mur i jashtëm, izolim mesatar, kati i fundit → 9000 BTU (sipas verës)',
     );
   });
 
-  it('përmbledh vetëm faktorët që kanë rëndësi', () => {
-    const input: BtuInput = { ...base, area: 28, floor: 'fundit' };
-    expect(summarize(input, calculateBtu(input))).toBe(
-      'Kalkulatori: 28 m², dhomë gjumi, kati i fundit → 12000 BTU',
-    );
-  });
-
-  it('mbi madhësinë maksimale', () => {
-    const input: BtuInput = { ...base, area: 100, room: 'dyqan' };
-    expect(summarize(input, calculateBtu(input))).toBe(
-      'Kalkulatori: 100 m², dyqan → mbi 24000 BTU',
-    );
+  it('shënon kur e përcakton dimri', () => {
+    const input: BtuInput = {
+      ...base,
+      city: 'korce',
+      walls: 3,
+      insulation: 'dobet',
+      floor: 'fundit',
+    };
+    expect(summarize(input, calculateBtu(input), 'Korçë')).toContain('(sipas dimrit)');
   });
 });
