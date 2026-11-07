@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { AUTHORIZED_LABEL, BRANDS, BRANDS_NOTE } from '../../../data/brands';
 
 /**
@@ -10,7 +10,7 @@ import { AUTHORIZED_LABEL, BRANDS, BRANDS_NOTE } from '../../../data/brands';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <ul class="brands">
-      @for (b of brands; track b.name) {
+      @for (b of shown(); track b.name) {
         <li class="brand">
           @if (b.logo) {
             <img
@@ -81,7 +81,9 @@ import { AUTHORIZED_LABEL, BRANDS, BRANDS_NOTE } from '../../../data/brands';
   `,
 })
 export class BrandList {
-  protected readonly brands = BRANDS;
+  /** Sa marka të shfaqen (kryefaqja tregon më pak); pa vlerë = të gjitha. */
+  readonly limit = input<number>();
+  protected readonly shown = computed(() => BRANDS.slice(0, this.limit() ?? BRANDS.length));
   protected readonly authorizedLabel = AUTHORIZED_LABEL;
   protected readonly note = BRANDS_NOTE;
 }

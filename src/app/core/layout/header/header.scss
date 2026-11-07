@@ -55,28 +55,6 @@
   }
 }
 
-.header__toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--tap-min);
-  height: var(--tap-min);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-btn);
-  background: transparent;
-  color: var(--c-base);
-  cursor: pointer;
-
-  &:hover {
-    background: var(--c-bg-soft);
-  }
-
-  @include nav-wide {
-    display: none;
-  }
-}
-
 .header__list {
   display: flex;
   margin: 0;
@@ -109,32 +87,50 @@
   }
 }
 
-// Celular dhe tablet: menu që hapet poshtë header-it.
+// Celular dhe tablet: tab-et gjithmonë të dukshme, në një rresht poshtë logos. Kur nuk nxënë,
+// rreshti rrëshqet anash dhe zbehet në skaj, që të duket se ka edhe të tjera.
 @include below-nav-wide {
-  .header__nav {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    padding: var(--sp-2) var(--gutter) var(--sp-5);
-    background: var(--c-white);
-    border-top: 1px solid var(--c-border);
-    border-bottom: 1px solid var(--c-border);
-    box-shadow: 0 8px 16px rgb(14 59 67 / 0.08);
+  .header__inner {
+    flex-wrap: wrap;
+    row-gap: 0;
+  }
 
-    &.is-open {
-      display: block;
-    }
+  // Rreshti i logos me lartësinë e vet; tab-et zënë rreshtin e dytë.
+  .header__logo {
+    min-height: 60px;
+  }
+
+  .header__nav {
+    order: 3;
+    flex: 0 0 auto;
+    width: calc(100% + 2 * var(--gutter));
+    margin-inline: calc(-1 * var(--gutter));
   }
 
   .header__list {
-    flex-direction: column;
+    gap: var(--sp-1);
+    height: var(--header-tabs-h);
+    padding: 0 var(--gutter) var(--sp-1);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    mask-image: linear-gradient(to right, #000 calc(100% - 2.5rem), transparent);
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   .header__link {
-    min-height: var(--tap-min);
-    font-size: var(--fs-lg);
+    min-height: 40px;
+    padding: var(--sp-2) var(--sp-3);
+    border-radius: var(--radius-badge);
+    font-size: var(--fs-sm);
+
+    &.is-active {
+      background: var(--c-bg-soft);
+      text-decoration: none;
+    }
   }
 }
 

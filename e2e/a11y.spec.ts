@@ -54,13 +54,8 @@ test('axe: sheet-i WhatsApp i hapur', async ({ page }) => {
   expect(await seriousViolations(page)).toEqual([]);
 });
 
-test('menuja e celularit dhe tooltip-i i hartës', async ({ page }, testInfo) => {
+test('tooltip-i i hartës', async ({ page }) => {
   await page.goto('/');
-  if (testInfo.project.name === 'celular') {
-    await page.getByRole('button', { name: /Menu/i }).click();
-    expect(await seriousViolations(page)).toEqual([]);
-    await page.keyboard.press('Escape');
-  }
   await page.getByRole('heading', { name: 'Ku punojmë', exact: true }).scrollIntoViewIfNeeded();
   await page.getByRole('button', { name: 'Tiranë' }).click();
   expect(await seriousViolations(page)).toEqual([]);

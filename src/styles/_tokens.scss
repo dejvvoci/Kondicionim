@@ -49,6 +49,8 @@
   --container: 1200px;
   --gutter: 1rem;
   --header-h: 64px;
+  // Rreshti i tab-eve poshtë logos në celular dhe tablet (0 kur menuja është në rreshtin e logos).
+  --header-tabs-h: 44px;
   --mobile-bar-h: 64px;
   --tap-min: 48px;
 
@@ -62,5 +64,11 @@
   :root {
     --gutter: 1.5rem;
     --header-h: 72px;
+  }
+}
+
+@media (min-width: 1200px) {
+  :root {
+    --header-tabs-h: 0px;
   }
 }

@@ -3,7 +3,6 @@
  * Për një ikonë të re: kopjo atributet `d` nga icons/outline/<emri>.svg.
  */
 export const ICONS = {
-  'menu-2': ['M4 6l16 0', 'M4 12l16 0', 'M4 18l16 0'],
   x: ['M18 6l-12 12', 'M6 6l12 12'],
   phone: [
     'M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2',

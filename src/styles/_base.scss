@@ -9,7 +9,7 @@
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  scroll-padding-top: calc(var(--header-h) + var(--sp-4));
+  scroll-padding-top: calc(var(--header-h) + var(--header-tabs-h) + var(--sp-4));
 
   // Faqja nuk lëviz pas sheet-it/modal-it të hapur.
   &.has-modal {

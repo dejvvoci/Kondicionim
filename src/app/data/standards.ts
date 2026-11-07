@@ -30,7 +30,7 @@ export const STANDARDS: InstallStandard[] = [
     title: 'Saldim me azot',
     text: 'Gjatë saldimit kalon azot brenda tubit, që bakri të mos oksidohet nga brenda. Përndryshe ashklat e oksidit qarkullojnë në sistem dhe bllokojnë valvulat dhe filtrat.',
     icon: 'tool',
-    featured: true,
+    featured: false,
     photo: placeholder('standard-saldim-me-azot', 'saldimi i tubit të bakrit me azot'), // TODO: foto shembull, zëvendësohet me foton reale
   },
   {

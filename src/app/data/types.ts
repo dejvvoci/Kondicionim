@@ -81,6 +81,8 @@ export interface Service {
   /** Pjesë e URL-së: /sherbimet/{slug}. Pa ë/ç. */
   slug: string;
   category: ServiceCategory;
+  /** Shfaqet në kryefaqe (3 për secilin seksion); të gjitha janë te /sherbimet. */
+  home: boolean;
   title: string;
   /** Një fjali për kartën. */
   short: string;

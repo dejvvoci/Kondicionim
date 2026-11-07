@@ -7,6 +7,7 @@ export const SERVICES: Service[] = [
   {
     slug: 'konsulence-dhe-zgjedhja-e-sistemit',
     category: 'kondicionim',
+    home: false,
     title: 'Konsulencë dhe zgjedhja e sistemit',
     short:
       'Inspektim në vend, llogaritja e fuqisë dhe rekomandimi i sistemit të duhur për ambientin dhe buxhetin tuaj.',
@@ -40,6 +41,7 @@ export const SERVICES: Service[] = [
   {
     slug: 'montim-split',
     category: 'kondicionim',
+    home: true,
     title: 'Montim split',
     short:
       'Një njësi e brendshme dhe një e jashtme, e montuar me vakumim të plotë dhe testim me matje.',
@@ -79,6 +81,7 @@ export const SERVICES: Service[] = [
   {
     slug: 'montim-multi-split',
     category: 'kondicionim',
+    home: true,
     title: 'Montim multi-split',
     short:
       'Një njësi e jashtme me disa koka të brendshme, për apartamente dhe vila me shumë ambiente.',
@@ -118,6 +121,7 @@ export const SERVICES: Service[] = [
   {
     slug: 'sisteme-vrf-vrv',
     category: 'kondicionim',
+    home: false,
     title: 'Sisteme VRF/VRV',
     short:
       'Sisteme qendrore për ndërtesa, hotele dhe zyra, me kontroll të veçantë për çdo ambient.',
@@ -153,6 +157,7 @@ export const SERVICES: Service[] = [
   {
     slug: 'diagnostikim-dhe-riparim',
     category: 'kondicionim',
+    home: true,
     title: 'Diagnostikim dhe riparim',
     short:
       'Kodet e gabimeve, kompresori, pllakat elektronike: gjejmë shkakun para se të ndërrojmë pjesë.',
@@ -192,6 +197,7 @@ export const SERVICES: Service[] = [
   {
     slug: 'kontroll-rrjedhjeje-dhe-rimbushje-gazi',
     category: 'kondicionim',
+    home: false,
     title: 'Kontroll rrjedhjeje dhe rimbushje gazi',
     short:
       'Gjejmë dhe riparojmë rrjedhjen me detektor dhe test me azot, pastaj rimbushim gazin në sasinë e saktë.',
@@ -234,6 +240,7 @@ export const SERVICES: Service[] = [
   {
     slug: 'cmontim-dhe-zhvendosje',
     category: 'kondicionim',
+    home: false,
     title: 'Çmontim dhe zhvendosje',
     short:
       'Gazi mblidhet në njësinë e jashtme, aparati çmontohet pa dëmtime dhe rimontohet në vendin e ri.',
@@ -275,6 +282,7 @@ export const SERVICES: Service[] = [
   {
     slug: 'instalime-elektrike',
     category: 'elektrike',
+    home: true,
     title: 'Instalime elektrike',
     short:
       'Rrjet elektrik i ri ose i rinovuar për apartamente, shtëpi dhe zyra, i ndarë në qarqe sipas përdorimit.',
@@ -314,6 +322,7 @@ export const SERVICES: Service[] = [
   {
     slug: 'paneli-elektrik-dhe-siguresat',
     category: 'elektrike',
+    home: true,
     title: 'Paneli elektrik dhe siguresat',
     short:
       'Montim ose përmirësim i panelit, siguresa automatike për çdo qark dhe salvavita për mbrojtjen nga goditja elektrike.',
@@ -353,6 +362,7 @@ export const SERVICES: Service[] = [
   {
     slug: 'priza-celesa-dhe-ndricim',
     category: 'elektrike',
+    home: false,
     title: 'Priza, çelësa dhe ndriçim',
     short:
       'Shtim ose zhvendosje prizash dhe çelësash, montim ndriçuesish dhe ndriçim LED brenda dhe jashtë.',
@@ -392,6 +402,7 @@ export const SERVICES: Service[] = [
   {
     slug: 'defekte-elektrike',
     category: 'elektrike',
+    home: true,
     title: 'Defekte elektrike',
     short:
       'Siguresa që hidhen, priza pa rrymë, drita që fiken: gjejmë shkakun me matje dhe e riparojmë.',
@@ -449,3 +460,7 @@ export const SERVICE_CATEGORIES: { key: ServiceCategory; title: string; lead: st
 
 export const servicesIn = (category: ServiceCategory): Service[] =>
   SERVICES.filter((s) => s.category === category);
+
+/** Shërbimet e një seksioni që shfaqen në kryefaqe. */
+export const homeServicesIn = (category: ServiceCategory): Service[] =>
+  servicesIn(category).filter((s) => s.home);

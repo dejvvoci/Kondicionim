@@ -147,9 +147,15 @@
   }
 }
 
-.process {
+.standards {
   @include lg {
     grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.process {
+  @include lg {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 

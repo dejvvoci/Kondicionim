@@ -21,7 +21,7 @@ export const FAQ: FaqItem[] = [
   {
     q: 'A ia vlen ngrohja me kondicioner në dimër?',
     a: 'Kondicionerët inverter ngrohin si pompë nxehtësie dhe zakonisht harxhojnë më pak energji se ngrohësit me rezistencë elektrike. Në zona shumë të ftohta ka rëndësi modeli dhe fuqia në temperatura të ulëta; ustai ju këshillon sipas rastit.',
-    home: true,
+    home: false,
   },
 ];
 
