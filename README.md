@@ -51,6 +51,9 @@ e2e/             # testet Playwright + axe
 
 ## Komponentët UI
 
+`ng serve` punon pa HMR (`"hmr": false` te `angular.json`): me HMR, blloqet `@defer` me
+hidratim graduale dyfishonin faqen në development. Pas çdo ndryshimi faqja ringarkohet e plotë.
+
 Katalogu i të gjithë komponentëve shfaqet te **http://localhost:4200/stili** (vetëm me `npm start`,
 nuk përfshihet në build-in e prodhimit).
 
