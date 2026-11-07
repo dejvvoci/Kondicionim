@@ -121,14 +121,14 @@ function exampleProjects(): Project[] {
       after: 'kaseta e montuar në tavan',
     }),
     example(6, {
-      title: 'shtëpi me pompë nxehtësie',
+      title: 'restorant me dysheme-tavan',
       city: 'lezhe',
-      system: 'pompe-nxehtesie',
-      services: ['pompa-nxehtesie'],
+      system: 'dysheme-tavan',
+      services: ['sisteme-me-kanale-dhe-dysheme-tavan'],
       featured: false,
-      place: 'shtëpia',
-      before: 'dhoma teknike para instalimit',
-      after: 'pompa e nxehtësisë e instaluar',
+      place: 'restoranti',
+      before: 'salla e restorantit para montimit',
+      after: 'njësia dysheme-tavan e montuar në sallë',
     }),
   ];
 }
@@ -140,7 +140,6 @@ export const SYSTEM_LABELS: Record<SystemKind, string> = {
   kasete: 'Kasetë',
   'dysheme-tavan': 'Dysheme-tavan',
   vrf: 'VRF/VRV',
-  'pompe-nxehtesie': 'Pompë nxehtësie',
 };
 
 /** Më të rejat të parat. */

@@ -2,7 +2,7 @@
 title: A ia vlen ngrohja me kondicioner në dimër?
 description: Si ngroh një kondicioner inverter, kur është më ekonomik se ngrohësit elektrikë dhe çfarë të kontrolloni nëse jetoni në një zonë të ftohtë.
 date: 2026-11-05
-services: pompa-nxehtesie, konsulence-dhe-zgjedhja-e-sistemit
+services: konsulence-dhe-zgjedhja-e-sistemit
 ---
 
 <!-- TODO: rishikim nga ustai para publikimit -->
@@ -23,6 +23,6 @@ Gjatë dimrit aparati bën edhe cikle të shkurtra shkrirjeje të akullit në nj
 
 ## Si të zgjidhni
 
-Shikoni vlerën **SCOP** (efikasiteti sezonal në ngrohje) në etiketën e energjisë dhe fuqinë në ngrohje, jo vetëm në ftohje. Për shtëpi me ngrohje qendrore ekziston edhe zgjidhja e [pompës së nxehtësisë](/sherbimet/pompa-nxehtesie) që ngroh ujin e radiatorëve.
+Shikoni vlerën **SCOP** (efikasiteti sezonal në ngrohje) në etiketën e energjisë dhe fuqinë në ngrohje, jo vetëm në ftohje.
 
 Nëse nuk jeni të sigurt, ustai e vlerëson ambientin dhe ju këshillon për modelin dhe fuqinë e duhur.

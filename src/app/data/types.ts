@@ -100,8 +100,8 @@ export interface Price {
   /** Çmimi "duke filluar nga". null = nuk shfaqet. */
   from: number | null;
   currency: 'ALL' | 'EUR';
-  /** Shërbimi ku shfaqet çmimi. */
-  serviceSlug: string;
+  /** Shërbimi ku shfaqet çmimi; null = vetëm te faqja e çmimeve, pa lidhje. */
+  serviceSlug: string | null;
   /** Çfarë përfshin çmimi, me pak fjalë. */
   note: string;
 }
@@ -148,8 +148,7 @@ export interface Brand {
 }
 
 /** Lloji i sistemit për filtrat e projekteve. */
-export type SystemKind =
-  'split' | 'multi-split' | 'kanal' | 'kasete' | 'dysheme-tavan' | 'vrf' | 'pompe-nxehtesie';
+export type SystemKind = 'split' | 'multi-split' | 'kanal' | 'kasete' | 'dysheme-tavan' | 'vrf';
 
 export interface ProjectVideo {
   platform: 'youtube' | 'instagram' | 'tiktok';

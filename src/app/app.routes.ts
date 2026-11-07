@@ -105,7 +105,7 @@ export const routes: Routes = [
       seo: {
         title: 'Montim dhe riparim kondicioneri',
         description:
-          'Montim, riparim dhe mirëmbajtje për çdo sistem kondicionimi: split, multi-split, kanal, VRF/VRV dhe pompa nxehtësie, në Tiranë, Durrës e më gjerë.',
+          'Montim, riparim dhe mirëmbajtje për çdo sistem kondicionimi: split, multi-split, kanal, kasetë dhe VRF/VRV, në Tiranë, Durrës e më gjerë.',
       } satisfies RouteSeo,
     },
   },
@@ -116,7 +116,7 @@ export const routes: Routes = [
       seo: {
         title: 'Shërbimet e kondicionimit',
         description:
-          'Konsulencë, montim split dhe multi-split, sisteme me kanale, VRF/VRV, pompa nxehtësie, riparim, rimbushje gazi dhe kontrata mirëmbajtjeje.',
+          'Konsulencë, montim split dhe multi-split, sisteme me kanale, VRF/VRV, riparim, rimbushje gazi, çmontim dhe zhvendosje.',
       } satisfies RouteSeo,
     },
   },

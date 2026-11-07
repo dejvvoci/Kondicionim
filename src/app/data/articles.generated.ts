@@ -8,7 +8,6 @@ export const ARTICLES: Article[] = [
     "description": "Si ngroh një kondicioner inverter, kur është më ekonomik se ngrohësit elektrikë dhe çfarë të kontrolloni nëse jetoni në një zonë të ftohtë.",
     "date": "2026-11-05",
     "services": [
-      "pompa-nxehtesie",
       "konsulence-dhe-zgjedhja-e-sistemit"
     ],
     "readingMinutes": 2
@@ -51,7 +50,6 @@ export const ARTICLES: Article[] = [
     "description": "Çfarë pastroni vetë dhe çfarë pastron ustai, sa shpesh, dhe pse pastrimi i rregullt ul konsumin dhe parandalon erërat dhe defektet.",
     "date": "2026-11-05",
     "services": [
-      "kontrata-mirembajtjeje-per-biznese",
       "diagnostikim-dhe-riparim"
     ],
     "readingMinutes": 2
