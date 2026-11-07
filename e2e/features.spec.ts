@@ -188,3 +188,11 @@ test('projektet janë të fikura: asnjë lidhje, faqe apo rresht në sitemap', a
   const sitemap = await (await request.get('/sitemap.xml')).text();
   expect(sitemap).not.toContain('/projektet');
 });
+
+test('pyetja për BTU lidhet me kalkulatorin', async ({ page }) => {
+  await page.goto('/pyetje-te-shpeshta/');
+  await page.locator('summary', { hasText: 'Sa BTU më duhen për dhomën time?' }).click();
+  await page.getByRole('link', { name: /Llogaritni BTU-të me kalkulatorin/ }).click();
+  await expect(page).toHaveURL(/\/si-te-zgjidhni-kondicionerin\/?$/);
+  await expect(page.getByLabel('Sipërfaqja (m²)')).toBeVisible();
+});
