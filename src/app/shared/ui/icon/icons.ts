@@ -139,12 +139,6 @@ export const ICONS = {
     'M9 16a5 5 0 1 1 6 0a3.5 3.5 0 0 0 -1 3a2 2 0 0 1 -4 0a3.5 3.5 0 0 0 -1 -3',
     'M9.7 17l4.6 0',
   ],
-  plug: [
-    'M9.785 6l8.215 8.215l-2.054 2.054a5.81 5.81 0 1 1 -8.215 -8.215l2.054 -2.054z',
-    'M4 20l3.5 -3.5',
-    'M15 4l-3.5 3.5',
-    'M20 9l-3.5 3.5',
-  ],
 } as const satisfies Record<string, readonly string[]>;
 
 export type IconName = keyof typeof ICONS;

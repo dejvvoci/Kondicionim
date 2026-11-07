@@ -174,19 +174,6 @@
   color: var(--c-teal-text);
 }
 
-.brands {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--sp-3) var(--sp-6);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  font-family: var(--font-heading);
-  font-size: var(--fs-lg);
-  font-weight: 600;
-  color: var(--c-text-muted);
-}
-
 .more {
   margin-top: var(--sp-2);
 }

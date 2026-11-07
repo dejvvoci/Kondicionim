@@ -7,7 +7,6 @@
  */
 import { mkdirSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { basename, join } from 'node:path';
-import { ABOUT_PHOTOS } from '../src/app/data/about.ts';
 import { HERO_PHOTO } from '../src/app/data/business.ts';
 import { PLACEHOLDER_ALT_PREFIX, isPlaceholder } from '../src/app/data/placeholders.ts';
 import { PROJECTS } from '../src/app/data/projects.ts';
@@ -19,7 +18,6 @@ const dir = join(import.meta.dirname, '..', 'public', 'images', 'shembull');
 
 const photos: Photo[] = [
   ...(HERO_PHOTO ? [HERO_PHOTO] : []),
-  ...ABOUT_PHOTOS,
   ...SERVICES.flatMap((s) => s.photos),
   ...STANDARDS.flatMap((s) => (s.photo ? [s.photo] : [])),
   ...(TOOLS_PHOTO ? [TOOLS_PHOTO] : []),

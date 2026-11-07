@@ -390,45 +390,6 @@ export const SERVICES: Service[] = [
     },
   },
   {
-    slug: 'linja-per-pajisje-me-fuqi',
-    category: 'elektrike',
-    title: 'Linjë për pajisje me fuqi',
-    short:
-      'Linjë dhe siguresë e veçantë për kondicionerin, boilerin, furrën ose pllakën e gatimit.',
-    icon: 'plug',
-    intro:
-      'Pajisjet me fuqi të madhe nuk duhet të ndajnë qarkun me prizat e tjera. Një linjë e veçantë, me kabllo dhe siguresë sipas fuqisë së pajisjes, e shmang ngrohjen e kabllove dhe hedhjen e siguresave.',
-    includes: [
-      'Llogaritja e kabllos dhe e siguresës sipas fuqisë',
-      'Linjë e re nga paneli te pajisja',
-      'Prizë ose lidhje fikse sipas pajisjes',
-      'Lidhja me tokëzimin',
-      'Testim me pajisjen në punë',
-    ],
-    audience: [
-      'Kondicionerë, sidomos kur montohen të rinj',
-      'Boilerë, furra dhe pllaka induksioni',
-      'Pajisje pune në zyra dhe dyqane',
-    ],
-    duration: null,
-    photos: servicePlaceholders('linja-per-pajisje-me-fuqi', 'Linjë për pajisje me fuqi'), // TODO: foto shembull, zëvendësohet me foton reale
-    faq: [
-      {
-        q: 'A ka nevojë kondicioneri për linjë të veçantë?',
-        a: 'Për aparatet me fuqi të madhe po, dhe në çdo rast kablloja dhe siguresa duhet t’i përshtaten fuqisë së aparatit. E kontrollojmë gjithmonë gjatë montimit të kondicionerit.',
-      },
-      {
-        q: 'Pse më ngrohet priza e boilerit ose e furrës?',
-        a: 'Zakonisht nga një lidhje e lirshme ose nga kablloja e hollë për atë fuqi. Është shenjë rreziku: mos e përdorni derisa të kontrollohet.',
-      },
-    ],
-    seo: {
-      title: 'Linjë elektrike për kondicioner dhe boiler',
-      description:
-        'Linjë e veçantë me kabllo dhe siguresë sipas fuqisë për kondicionerin, boilerin, furrën ose pllakën e gatimit, me tokëzim dhe testim.',
-    },
-  },
-  {
     slug: 'defekte-elektrike',
     category: 'elektrike',
     title: 'Defekte elektrike',

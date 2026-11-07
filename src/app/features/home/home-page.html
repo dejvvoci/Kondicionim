@@ -171,11 +171,7 @@
   <!-- 8. Markat -->
   @if (brands.length) {
     <ui-section [eyebrow]="home.brands.eyebrow" [title]="home.brands.title">
-      <ul class="brands">
-        @for (b of brands; track b.name) {
-          <li>{{ b.name }}</li>
-        }
-      </ul>
+      <ui-brand-list />
     </ui-section>
   } @else if (showTodo) {
     <ui-section [eyebrow]="home.brands.eyebrow" [title]="home.brands.title">

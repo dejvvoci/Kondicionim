@@ -151,7 +151,9 @@ export interface FaqItem {
 
 export interface Brand {
   name: string;
-  /** Partner/servis i autorizuar (vetëm atëherë lejohet logoja). */
+  /** Logoja (SVG te public/images/markat/); null = shfaqet emri me tekst. */
+  logo: string | null;
+  /** Partner/servis i autorizuar: shfaqet shënimi "Partner i autorizuar". */
   authorized: boolean;
 }
 

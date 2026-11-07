@@ -3,10 +3,10 @@ import { slugify } from '../shared/utils/slugify';
 import { SERVICES, servicesIn } from './services';
 
 describe('SERVICES', () => {
-  it('ka 12 shërbime (7 kondicionim, 5 elektrike) me slug unik dhe pa ë/ç', () => {
-    expect(SERVICES).toHaveLength(12);
+  it('ka 11 shërbime (7 kondicionim, 4 elektrike) me slug unik dhe pa ë/ç', () => {
+    expect(SERVICES).toHaveLength(11);
     expect(servicesIn('kondicionim')).toHaveLength(7);
-    expect(servicesIn('elektrike')).toHaveLength(5);
+    expect(servicesIn('elektrike')).toHaveLength(4);
     const slugs = SERVICES.map((s) => s.slug);
     expect(new Set(slugs).size).toBe(slugs.length);
     for (const slug of slugs) expect(slug).toBe(slugify(slug));
