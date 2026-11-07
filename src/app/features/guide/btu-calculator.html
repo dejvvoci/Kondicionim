@@ -90,6 +90,25 @@
       </div>
     </fieldset>
 
+    <fieldset class="choice" aria-describedby="btu-zone-help">
+      <legend class="field__label">Zona</legend>
+      <div class="choice__options choice__options--two">
+        @for (o of zoneOptions; track o.value) {
+          <label class="choice__option">
+            <input
+              type="radio"
+              name="btu-zone"
+              [value]="o.value"
+              [checked]="zone() === o.value"
+              (change)="setChoice(zone, o.value)"
+            />
+            <span>{{ o.label }}</span>
+          </label>
+        }
+      </div>
+      <span class="field__help" id="btu-zone-help">{{ t.zoneHelp }}</span>
+    </fieldset>
+
     <div class="calc__row">
       <div class="field">
         <label class="field__label" for="btu-room">Lloji i ambientit</label>
@@ -130,7 +149,19 @@
       }
     </div>
 
-    <p class="result__calc">{{ t.calculated }}: ~{{ btuLabel() }} BTU</p>
+    <dl class="seasons">
+      <div class="seasons__row" [class.is-active]="result().season === 'vere'">
+        <dt>{{ t.summer }}</dt>
+        <dd>~{{ coolingLabel() }} BTU</dd>
+      </div>
+      <div class="seasons__row" [class.is-active]="result().season === 'dimer'">
+        <dt>{{ t.winter }}</dt>
+        <dd>~{{ heatingLabel() }} BTU</dd>
+      </div>
+    </dl>
+    <p class="result__calc">
+      {{ result().season === 'vere' ? t.bySummer : t.byWinter }}
+    </p>
 
     @if (result().factors.length) {
       <h4 class="result__factors-title">{{ t.factorsTitle }}</h4>
@@ -141,6 +172,9 @@
       </ul>
     }
 
+    @if (zone() === 'malore') {
+      <p class="result__calc">{{ t.coldNote }}</p>
+    }
     <p class="result__note">{{ t.note }}</p>
     @if (flow.available) {
       <button ui-button variant="primary" type="button" class="result__cta" (click)="confirm()">

@@ -16,11 +16,12 @@ import {
   type Insulation,
   type RoomType,
   type Sun,
+  type Zone,
 } from '../../data/btu-config';
 import { GUIDE } from '../../data/guide';
 import { Button } from '../../shared/ui/button/button';
 import { Icon } from '../../shared/ui/icon/icon';
-import { type BtuInput, calculateBtu, summarize } from './btu';
+import { type BtuInput, ZONE_LABEL, calculateBtu, summarize } from './btu';
 
 interface Option<T> {
   value: T;
@@ -60,6 +61,10 @@ export class BtuCalculator {
     { value: 'mesatar', label: 'Mesatar' },
     { value: 'dobet', label: 'I dobët' },
   ];
+  protected readonly zoneOptions: Option<Zone>[] = [
+    { value: 'ultesire', label: ZONE_LABEL.ultesire },
+    { value: 'malore', label: ZONE_LABEL.malore },
+  ];
   protected readonly roomOptions: Option<RoomType>[] = [
     { value: 'gjumi', label: 'Dhomë gjumi' },
     { value: 'ndenjie', label: 'Dhomë ndenjie' },
@@ -75,6 +80,7 @@ export class BtuCalculator {
   protected readonly insulation = signal<Insulation>('mesatar');
   protected readonly room = signal<RoomType>('gjumi');
   protected readonly persons = signal<number>(BTU_CONFIG.limits.persons.default);
+  protected readonly zone = signal<Zone>('ultesire');
   /** Event-i btu_calculated dërgohet vetëm pasi përdoruesi ka ndryshuar diçka. */
   private readonly touched = signal(false);
 
@@ -86,11 +92,12 @@ export class BtuCalculator {
     insulation: this.insulation(),
     room: this.room(),
     persons: this.persons(),
+    zone: this.zone(),
   }));
   protected readonly result = computed(() => calculateBtu(this.input()));
-  protected readonly btuLabel = computed(() =>
-    new Intl.NumberFormat('sq-AL').format(this.result().btu),
-  );
+  private readonly fmt = new Intl.NumberFormat('sq-AL');
+  protected readonly coolingLabel = computed(() => this.fmt.format(this.result().cooling));
+  protected readonly heatingLabel = computed(() => this.fmt.format(this.result().heating));
 
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
 
@@ -133,6 +140,7 @@ export class BtuCalculator {
     syncChoice('[name="btu-sun"]:checked', this.sunOptions, this.sun);
     syncChoice('[name="btu-floor"]:checked', this.floorOptions, this.floor);
     syncChoice('[name="btu-insulation"]:checked', this.insulationOptions, this.insulation);
+    syncChoice('[name="btu-zone"]:checked', this.zoneOptions, this.zone);
     syncChoice('#btu-room', this.roomOptions, this.room);
   }
 

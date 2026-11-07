@@ -12,7 +12,15 @@ test('kalkulatori BTU jep rezultatin e pritur', async ({ page }) => {
   await page.getByRole('group', { name: 'Ekspozimi ndaj diellit' }).getByLabel('Shumë').check();
   await page.getByRole('group', { name: 'Kati' }).getByLabel('I fundit nën çati').check();
   await expect(result).toHaveText(/18000\s*BTU/);
-  await expect(page.locator('.result__calc')).toContainText('13');
+  await expect(page.locator('.seasons')).toContainText('13');
+
+  // Verë dhe dimër veçmas: në zonë malore me hije e përcakton dimri.
+  await page.getByLabel('Sipërfaqja (m²)').fill('20');
+  await page.getByRole('group', { name: 'Ekspozimi ndaj diellit' }).getByLabel('Pak').check();
+  await page.getByRole('group', { name: 'Kati' }).getByLabel('I ndërmjetëm').check();
+  await page.getByRole('group', { name: 'Zona' }).getByLabel('Zonë kodrinore-malore').check();
+  await expect(page.locator('.seasons__row.is-active')).toContainText('Dimri (ngrohje)');
+  await expect(result).toHaveText(/9000\s*BTU/);
 
   // Mbi aparatin më të madh: rekomandim për multi-split/kanal/inspektim.
   await page.getByLabel('Sipërfaqja (m²)').fill('80');

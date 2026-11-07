@@ -46,6 +46,18 @@ describe('BtuCalculator', () => {
     expect(el.querySelector('.result__over')?.textContent).toContain('multi-split');
   });
 
+  it('tregon verën dhe dimrin veçmas dhe theksohet sezoni që e përcakton madhësinë', async () => {
+    const { el, choose } = await render();
+    const active = () => el.querySelector('.seasons__row.is-active dt')?.textContent?.trim();
+    expect(el.querySelectorAll('.seasons__row')).toHaveLength(2);
+    expect(active()).toBe('Vera (ftohje)');
+
+    await choose('btu-zone', 'malore');
+    await choose('btu-sun', 'pak');
+    expect(active()).toBe('Dimri (ngrohje)');
+    expect(el.textContent).toContain('e përcakton dimri');
+  });
+
   it('rezultati është në aria-live', async () => {
     const { el } = await render();
     expect(el.querySelector('.result__size')?.closest('[aria-live="polite"]')).toBeTruthy();

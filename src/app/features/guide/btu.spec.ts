@@ -9,6 +9,7 @@ const base: BtuInput = {
   insulation: 'mesatar',
   room: 'gjumi',
   persons: 2,
+  zone: 'ultesire',
 };
 
 describe('calculateBtu', () => {
@@ -29,6 +30,7 @@ describe('calculateBtu', () => {
       insulation: 'dobet',
       room: 'kuzhine',
       persons: 4,
+      zone: 'ultesire',
     };
     const exact = 28 * 340 * (3 / 2.7) * 1.15 * 1.15 * 1.3 + 2 * 600 + 4000;
     const r = calculateBtu(input);
@@ -49,6 +51,42 @@ describe('calculateBtu', () => {
     const r = calculateBtu({ ...base, sun: 'pak', insulation: 'mire' });
     expect(r.factors).toEqual(['Pak diell: −10%', 'Izolim i mirë: −10%']);
     expect(r.btu).toBe(Math.round((20 * 340 * 0.9 * 0.9) / 100) * 100);
+  });
+
+  it('dimri: m² × W/(m²·K) × (20 °C − temperatura e zonës) × 3,412', () => {
+    const r = calculateBtu(base);
+    // Tiranë: 20 × 3,3 × 23,4 × 3,412 = 5269,7 → 5300; vera (6800) e përcakton madhësinë.
+    expect(r.heating).toBe(5300);
+    expect(r.cooling).toBe(6800);
+    expect(r.season).toBe('vere');
+    expect(r.btu).toBe(6800);
+  });
+
+  it('dielli, personat dhe kuzhina nuk e ndryshojnë dimrin', () => {
+    const r = calculateBtu({ ...base, sun: 'shume', room: 'kuzhine', persons: 5 });
+    expect(r.heating).toBe(calculateBtu(base).heating);
+    expect(r.cooling).toBeGreaterThan(calculateBtu(base).cooling);
+  });
+
+  it('në zonë malore me hije e përcakton dimri', () => {
+    // Vera: 20 × 340 × 0,9 = 6120. Dimri: 20 × 3,3 × 27,2 × 3,412 = 6125,2.
+    const r = calculateBtu({ ...base, sun: 'pak', zone: 'malore' });
+    expect(r.season).toBe('dimer');
+    expect(r.heating).toBe(6100);
+    expect(r.btu).toBe(r.heating);
+    expect(r.factors).toContain('Zonë kodrinore-malore: dimër deri −7,2\u00a0°C');
+  });
+
+  it('madhësia zgjidhet nga sezoni me nevojën më të madhe', () => {
+    // Me një dimër shumë të ftohtë (konfigurim testi), dimri kalon verën dhe rrit madhësinë.
+    const config = {
+      ...BTU_CONFIG,
+      heating: { ...BTU_CONFIG.heating, zone: { ultesire: -3.4, malore: -25 } },
+    };
+    const r = calculateBtu({ ...base, area: 25, zone: 'malore' }, config);
+    // Vera: 25 × 340 = 8500 → 9000. Dimri: 25 × 3,3 × 45 × 3,412 = 12 667 → 18000.
+    expect(r.season).toBe('dimer');
+    expect(r.size).toBe(18000);
   });
 
   it('mbi madhësinë më të madhe nuk jep aparat të vetëm', () => {
@@ -106,6 +144,13 @@ describe('normalizeInput', () => {
 });
 
 describe('summarize', () => {
+  it('shënon zonën malore dhe kur e përcakton dimri', () => {
+    const input: BtuInput = { ...base, sun: 'pak', zone: 'malore' };
+    expect(summarize(input, calculateBtu(input))).toBe(
+      'Kalkulatori: 20 m², dhomë gjumi, zonë malore → 9000 BTU (sipas dimrit)',
+    );
+  });
+
   it('përmbledh vetëm faktorët që kanë rëndësi', () => {
     const input: BtuInput = { ...base, area: 28, floor: 'fundit' };
     expect(summarize(input, calculateBtu(input))).toBe(

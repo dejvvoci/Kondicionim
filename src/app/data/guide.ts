@@ -25,14 +25,21 @@ export const GUIDE = {
     eyebrow: 'Kalkulatori BTU',
     title: 'Sa BTU ju duhen?',
     lead: 'Plotësoni të dhënat e ambientit: rezultati përditësohet menjëherë.',
-    note: 'Vlerë orientuese me metodën e thjeshtuar: 340 BTU/m² dhe korrigjimet e Energy Star. Ustai e konfirmon pasi sheh ambientin.',
+    note: 'Vlerë orientuese me metodë të thjeshtuar: vera me 340 BTU/m² dhe korrigjimet e Energy Star, dimri me humbjet e nxehtësisë në ditët më të ftohta të zonës (ASHRAE). Ustai e konfirmon pasi sheh ambientin.',
     confirm: 'Kërko çmimin në WhatsApp',
     resultLabel: 'Madhësia e rekomanduar',
     overTitle: 'Një aparat i vetëm nuk mjafton',
     overText:
       'Për këtë ambient ia vlen një sistem multi-split, me kanale ose dysheme-tavan. Ustai e përcakton saktë me inspektim.',
     factorsTitle: 'Çfarë ndikoi',
-    calculated: 'Vlera e llogaritur',
+    summer: 'Vera (ftohje)',
+    winter: 'Dimri (ngrohje)',
+    bySummer: 'Madhësia mbulon të dy sezonet; e përcakton vera.',
+    byWinter: 'Madhësia mbulon të dy sezonet; e përcakton dimri.',
+    zoneHelp:
+      'Ultësirë: Tiranë, Durrës, Shkodër, Vlorë, Fier. Kodrinore-malore: Korçë, Pogradec, Kukës, Dibër.',
+    coldNote:
+      'Në zonat e ftohta zgjidhni një model që e ruan fuqinë e ngrohjes nën zero; ustai ju këshillon për modelin.',
   },
   comparison: {
     eyebrow: 'Llojet e sistemeve',
