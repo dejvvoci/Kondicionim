@@ -120,6 +120,31 @@ export const ICONS = {
     'M20 12l2 0',
     'M2 12l2 0',
   ],
+  // Punimet elektrike
+  bolt: ['M13 3l0 7l6 0l-8 11l0 -7l-6 0l8 -11'],
+  'home-bolt': [
+    'M19 10l-7 -7l-9 9h2v7a2 2 0 0 0 2 2h7.5',
+    'M9 21v-6a2 2 0 0 1 2 -2h2c.661 0 1.248 .32 1.612 .815',
+    'M19 14l-2 4h4l-2 4',
+  ],
+  'circuit-switch-open': [
+    'M2 12h2',
+    'M20 12h2',
+    'M6 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0',
+    'M18 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0',
+    'M7.5 10.5l7.5 -5.5',
+  ],
+  bulb: [
+    'M3 12h1m8 -9v1m8 8h1m-15.4 -6.4l.7 .7m12.1 -.7l-.7 .7',
+    'M9 16a5 5 0 1 1 6 0a3.5 3.5 0 0 0 -1 3a2 2 0 0 1 -4 0a3.5 3.5 0 0 0 -1 -3',
+    'M9.7 17l4.6 0',
+  ],
+  plug: [
+    'M9.785 6l8.215 8.215l-2.054 2.054a5.81 5.81 0 1 1 -8.215 -8.215l2.054 -2.054z',
+    'M4 20l3.5 -3.5',
+    'M15 4l-3.5 3.5',
+    'M20 9l-3.5 3.5',
+  ],
 } as const satisfies Record<string, readonly string[]>;
 
 export type IconName = keyof typeof ICONS;

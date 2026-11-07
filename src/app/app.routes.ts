@@ -106,7 +106,7 @@ export const routes: Routes = [
       seo: {
         title: 'Montim dhe riparim kondicioneri',
         description:
-          'Montim, riparim dhe mirëmbajtje për çdo sistem kondicionimi: split, multi-split, kanal, kasetë dhe VRF/VRV, në Tiranë, Durrës e më gjerë.',
+          'Montim, riparim dhe mirëmbajtje kondicionerësh split, multi-split dhe VRF/VRV, dhe punime elektrike, në Tiranë, Durrës e më gjerë.',
       } satisfies RouteSeo,
     },
   },
@@ -115,9 +115,9 @@ export const routes: Routes = [
     loadComponent: () => import('./features/services/services-page').then((m) => m.ServicesPage),
     data: {
       seo: {
-        title: 'Shërbimet e kondicionimit',
+        title: 'Shërbimet: kondicionim dhe punime elektrike',
         description:
-          'Konsulencë, montim split dhe multi-split, sisteme me kanale, VRF/VRV, riparim, rimbushje gazi, çmontim dhe zhvendosje.',
+          'Montim dhe riparim kondicionerësh split, multi-split dhe VRF/VRV, dhe punime elektrike: instalime, panele, priza, ndriçim dhe defekte.',
       } satisfies RouteSeo,
     },
   },
@@ -144,7 +144,7 @@ export const routes: Routes = [
       seo: {
         title: 'Si të zgjidhni kondicionerin: kalkulatori BTU',
         description:
-          'Llogaritni BTU-të e nevojshme për ambientin tuaj dhe krahasoni split, multi-split, kanal, kasetë dhe VRF para se të blini.',
+          'Llogaritni BTU-të e nevojshme për ambientin tuaj dhe krahasoni split, multi-split dhe VRF para se të blini.',
       } satisfies RouteSeo,
     },
   },

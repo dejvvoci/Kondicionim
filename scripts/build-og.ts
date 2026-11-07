@@ -53,7 +53,7 @@ const html = `<!doctype html>
     <div class="text">
       <div class="eyebrow">Montim · Riparim · Mirëmbajtje</div>
       <h1>${heading}</h1>
-      <p>Kondicionerë split, multi-split, kanal, kasetë dhe VRF/VRV</p>
+      <p>Kondicionerë split, multi-split dhe VRF/VRV, punime elektrike</p>
       <div class="cities">${area}</div>
     </div>
     <img class="logo" src="${logo}" alt="">

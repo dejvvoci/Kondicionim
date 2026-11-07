@@ -20,7 +20,7 @@ test('kalkulatori BTU jep rezultatin e pritur', async ({ page }) => {
   await expect(page.locator('.seasons__row.is-active')).toContainText('Dimri (ngrohje)');
   await expect(result).toHaveText(/12000\s*BTU/);
 
-  // Mbi aparatin më të madh: rekomandim për multi-split/kanal/inspektim.
+  // Mbi aparatin më të madh: rekomandim për multi-split/VRF/inspektim.
   await page.getByLabel('Sipërfaqja (m²)').fill('120');
   await expect(result).toHaveText(/Mbi 24000\s*BTU/);
 });
@@ -85,9 +85,10 @@ test('çdo faqe ka një H1, title, description dhe JSON-LD të vlefshëm', async
 
     const blocks = await page.locator('script[type="application/ld+json"]').allTextContents();
     const types = blocks.flatMap((b) =>
-      [JSON.parse(b)].flat().map((x: { '@type': string }) => x['@type']),
+      [JSON.parse(b)].flat().flatMap((x: { '@type': string | string[] }) => [x['@type']].flat()),
     );
     expect(types, path).toContain('HVACBusiness');
+    expect(types, path).toContain('Electrician');
     if (path !== '/') expect(types, path).toContain('BreadcrumbList');
     if (path.startsWith('/sherbimet/') && path !== '/sherbimet/')
       expect(types, path).toContain('Service');
@@ -113,8 +114,11 @@ test('navigimi pas hidratimit bëhet brenda faqes, pa rifreskim', async ({ page 
   await nav.getByRole('link', { name: 'Shërbimet' }).click();
 
   await expect(page).toHaveURL(/\/sherbimet$/);
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText(/Shërbimet/);
-  await expect(page).toHaveTitle(/^Shërbimet e kondicionimit/);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+    /Kondicionim dhe punime elektrike/,
+  );
+  await expect(page).toHaveTitle(/^Shërbimet: kondicionim dhe punime elektrike/);
+  await expect(page.getByRole('heading', { level: 2, name: 'Punime elektrike' })).toBeVisible();
   // Blloqet @defer shfaqen edhe kur faqja ndërtohet në browser.
   await expect(page.getByRole('link', { name: /Montim split/ }).first()).toBeVisible();
   // Header-i hidratohet pas navigimit, që lidhja aktive të ndryshojë (në celular menuja

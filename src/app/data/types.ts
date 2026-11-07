@@ -74,9 +74,13 @@ export interface QA {
   a: string;
 }
 
+/** Seksioni ku shfaqet shërbimi te /sherbimet dhe në kryefaqe. */
+export type ServiceCategory = 'kondicionim' | 'elektrike';
+
 export interface Service {
   /** Pjesë e URL-së: /sherbimet/{slug}. Pa ë/ç. */
   slug: string;
+  category: ServiceCategory;
   title: string;
   /** Një fjali për kartën. */
   short: string;
@@ -152,7 +156,7 @@ export interface Brand {
 }
 
 /** Lloji i sistemit për filtrat e projekteve. */
-export type SystemKind = 'split' | 'multi-split' | 'kanal' | 'kasete' | 'dysheme-tavan' | 'vrf';
+export type SystemKind = 'split' | 'multi-split' | 'vrf';
 
 export interface ProjectVideo {
   platform: 'youtube' | 'instagram' | 'tiktok';

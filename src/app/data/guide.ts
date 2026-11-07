@@ -30,7 +30,7 @@ export const GUIDE = {
     resultLabel: 'Madhësia e rekomanduar',
     overTitle: 'Një aparat i vetëm nuk mjafton',
     overText:
-      'Për këtë ambient ia vlen një sistem multi-split, me kanale ose dysheme-tavan. Ustai e përcakton saktë me inspektim.',
+      'Për këtë ambient ia vlen një sistem multi-split ose VRF. Ustai e përcakton saktë me inspektim.',
     factorsTitle: 'Kushtet e llogaritjes',
     summer: 'Vera (ftohje)',
     winter: 'Dimri (ngrohje)',
@@ -43,7 +43,7 @@ export const GUIDE = {
   },
   comparison: {
     eyebrow: 'Llojet e sistemeve',
-    title: 'Split, multi-split, kanal, kasetë apo VRF?',
+    title: 'Split, multi-split apo VRF?',
     bestFor: 'Kur ia vlen',
     pros: 'Avantazhet',
     limits: 'Kufizimet',
@@ -87,32 +87,6 @@ export const SYSTEM_TYPES: SystemType[] = [
       'Kërkon planifikim të linjave që në fillim',
     ],
     serviceSlug: 'montim-multi-split',
-  },
-  {
-    slug: 'kanal',
-    title: 'Me kanale',
-    icon: 'wind',
-    bestFor: 'Ndërtime të reja ose rikonstruksione me tavan të rënë.',
-    pros: [
-      'Pothuajse i padukshëm: vetëm grila',
-      'Ajër i shpërndarë njëtrajtësisht',
-      'Zhurmë e ulët në ambiente',
-    ],
-    limits: ['Kërkon hapësirë në tavan', 'Duhet planifikuar para punimeve të gipsit'],
-    serviceSlug: 'sisteme-me-kanale-dhe-dysheme-tavan',
-  },
-  {
-    slug: 'kasete',
-    title: 'Kasetë',
-    icon: 'layout-grid',
-    bestFor: 'Dyqane, zyra dhe salla me tavan të rënë dhe sipërfaqe të madhe.',
-    pros: [
-      'Ajër në 4 drejtime nga qendra e tavanit',
-      'Nuk zë vend në mure',
-      'E përshtatshme për ambiente të hapura',
-    ],
-    limits: ['Kërkon tavan të rënë', 'Paneli duket në tavan'],
-    serviceSlug: 'sisteme-me-kanale-dhe-dysheme-tavan',
   },
   {
     slug: 'vrf',

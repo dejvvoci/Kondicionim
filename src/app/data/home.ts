@@ -6,7 +6,7 @@ export const HOME = {
   },
   services: {
     eyebrow: 'Shërbimet',
-    title: 'Çdo sistem, nga konsulenca te mirëmbajtja',
+    title: 'Kondicionim dhe punime elektrike',
     lead: 'Zgjidhni shërbimin për të parë çfarë përfshin, sa zgjat dhe kujt i shërben.',
   },
   coverage: {

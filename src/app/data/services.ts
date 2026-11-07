@@ -1,4 +1,4 @@
-import type { Service } from './types';
+import type { Service, ServiceCategory } from './types';
 import { servicePlaceholders } from './placeholders';
 
 // TODO: konfirmo me ustain tekstet e shërbimeve (çdo fakt teknik rishikohet para publikimit)
@@ -6,6 +6,7 @@ import { servicePlaceholders } from './placeholders';
 export const SERVICES: Service[] = [
   {
     slug: 'konsulence-dhe-zgjedhja-e-sistemit',
+    category: 'kondicionim',
     title: 'Konsulencë dhe zgjedhja e sistemit',
     short:
       'Inspektim në vend, llogaritja e fuqisë dhe rekomandimi i sistemit të duhur për ambientin dhe buxhetin tuaj.',
@@ -15,7 +16,7 @@ export const SERVICES: Service[] = [
     includes: [
       'Inspektim në vend dhe matja e ambienteve',
       'Llogaritja e fuqisë (BTU) për çdo ambient',
-      'Krahasim i opsioneve: split, multi-split, kanal ose VRF',
+      'Krahasim i opsioneve: split, multi-split ose VRF',
       'Pozicioni i njësive dhe rruga e tubave',
       'Rekomandim për modelin dhe fuqinë',
     ],
@@ -29,24 +30,16 @@ export const SERVICES: Service[] = [
       'konsulence-dhe-zgjedhja-e-sistemit',
       'Konsulencë dhe zgjedhja e sistemit',
     ), // TODO: foto shembull, zëvendësohet me foton reale
-    faq: [
-      {
-        q: 'A duhet ta blej aparatin para inspektimit?',
-        a: 'Më mirë jo. Pas inspektimit e dini fuqinë dhe llojin e duhur, dhe shmangni një aparat të vogël që punon pa pushim ose një të madh që ndizet e fiket shpesh.',
-      },
-      {
-        q: 'Çfarë duhet të përgatis për inspektimin?',
-        a: 'Mjafton që ustai të ketë qasje në ambientet, në ballkon ose tarracë dhe te paneli elektrik. Nëse keni plan të shtëpisë, mbajeni gati edhe atë.',
-      },
-    ],
+    faq: [],
     seo: {
       title: 'Konsulencë dhe zgjedhja e kondicionerit',
       description:
-        'Inspektim në vend, llogaritja e BTU-ve dhe rekomandim i sistemit të duhur: split, multi-split, kanal ose VRF, para se të blini.',
+        'Inspektim në vend, llogaritja e BTU-ve dhe rekomandim i sistemit të duhur: split, multi-split ose VRF, para se të blini.',
     },
   },
   {
     slug: 'montim-split',
+    category: 'kondicionim',
     title: 'Montim split',
     short:
       'Një njësi e brendshme dhe një e jashtme, e montuar me vakumim të plotë dhe testim me matje.',
@@ -85,6 +78,7 @@ export const SERVICES: Service[] = [
   },
   {
     slug: 'montim-multi-split',
+    category: 'kondicionim',
     title: 'Montim multi-split',
     short:
       'Një njësi e jashtme me disa koka të brendshme, për apartamente dhe vila me shumë ambiente.',
@@ -122,48 +116,8 @@ export const SERVICES: Service[] = [
     },
   },
   {
-    slug: 'sisteme-me-kanale-dhe-dysheme-tavan',
-    title: 'Sisteme me kanale dhe dysheme-tavan',
-    short:
-      'Ajër i shpërndarë në mënyrë të padukshme përmes kanaleve, ose njësi dysheme-tavan për ambiente të mëdha.',
-    icon: 'wind',
-    intro:
-      'Sistemet me kanale fshihen në tavan të rënë dhe e shpërndajnë ajrin me grila në disa ambiente. Njësitë dysheme-tavan janë zgjidhje e fortë për salla, dyqane dhe ambiente me tavan të lartë.',
-    includes: [
-      'Përzgjedhja e njësisë dhe llogaritja e prurjes së ajrit',
-      'Projektimi i kanaleve, grilave dhe kthimit të ajrit',
-      'Montimi i njësisë, tubave dhe kondensatës',
-      'Koordinim me punimet e gipsit dhe të elektrikut',
-      'Testim i prurjes dhe i temperaturave në çdo grilë',
-    ],
-    audience: [
-      'Shtëpi dhe vila në ndërtim ose rikonstruksion',
-      'Dyqane, restorante dhe salla',
-      'Zyra me tavan të rënë',
-    ],
-    duration: null,
-    photos: servicePlaceholders(
-      'sisteme-me-kanale-dhe-dysheme-tavan',
-      'Sisteme me kanale dhe dysheme-tavan',
-    ), // TODO: foto shembull, zëvendësohet me foton reale
-    faq: [
-      {
-        q: 'Kur duhet planifikuar sistemi me kanale?',
-        a: 'Para se të mbyllet tavani i rënë. Kanalet, grilat dhe kondensata kanë nevojë për hapësirë dhe pjerrësi, prandaj ustai duhet të jetë në objekt që në fazën e punimeve.',
-      },
-      {
-        q: 'A bën zhurmë sistemi me kanale?',
-        a: 'Njësia ndodhet larg ambienteve dhe ajri del nga grilat, prandaj zakonisht është më i qetë se një split në mur, kur kanalet janë të dimensionuara mirë.',
-      },
-    ],
-    seo: {
-      title: 'Kondicionim me kanale dhe dysheme-tavan',
-      description:
-        'Sisteme me kanale të fshehura në tavan dhe njësi dysheme-tavan për shtëpi, dyqane, restorante dhe zyra: projektim, montim dhe testim.',
-    },
-  },
-  {
     slug: 'sisteme-vrf-vrv',
+    category: 'kondicionim',
     title: 'Sisteme VRF/VRV',
     short:
       'Sisteme qendrore për ndërtesa, hotele dhe zyra, me kontroll të veçantë për çdo ambient.',
@@ -189,10 +143,6 @@ export const SERVICES: Service[] = [
         q: 'Çfarë e dallon VRF nga multi-split?',
         a: 'VRF mban shumë më tepër njësi të brendshme dhe linja më të gjata, dhe e rregullon fuqinë vazhdimisht sipas kërkesës. Është ndërtuar për ndërtesa të mëdha dhe punë të gjatë çdo ditë.',
       },
-      {
-        q: 'A mund të ndahet konsumi për çdo ambient ose apartament?',
-        a: 'Shumë sisteme VRF e mundësojnë me kontroll qendror dhe matës të veçantë. Kjo vendoset në fazën e projektimit, sipas modelit.',
-      },
     ],
     seo: {
       title: 'Sisteme VRF/VRV për hotele dhe zyra',
@@ -202,6 +152,7 @@ export const SERVICES: Service[] = [
   },
   {
     slug: 'diagnostikim-dhe-riparim',
+    category: 'kondicionim',
     title: 'Diagnostikim dhe riparim',
     short:
       'Kodet e gabimeve, kompresori, pllakat elektronike: gjejmë shkakun para se të ndërrojmë pjesë.',
@@ -240,6 +191,7 @@ export const SERVICES: Service[] = [
   },
   {
     slug: 'kontroll-rrjedhjeje-dhe-rimbushje-gazi',
+    category: 'kondicionim',
     title: 'Kontroll rrjedhjeje dhe rimbushje gazi',
     short:
       'Gjejmë dhe riparojmë rrjedhjen me detektor dhe test me azot, pastaj rimbushim gazin në sasinë e saktë.',
@@ -281,6 +233,7 @@ export const SERVICES: Service[] = [
   },
   {
     slug: 'cmontim-dhe-zhvendosje',
+    category: 'kondicionim',
     title: 'Çmontim dhe zhvendosje',
     short:
       'Gazi mblidhet në njësinë e jashtme, aparati çmontohet pa dëmtime dhe rimontohet në vendin e ri.',
@@ -317,7 +270,221 @@ export const SERVICES: Service[] = [
         'Zhvendosje kondicioneri pa humbur gazin: pump-down, çmontim i kujdesshëm, rimontim, vakumim dhe testim në banesën ose zyrën e re.',
     },
   },
+  // ── Punime elektrike ──
+  // TODO: konfirmo me ustain shërbimet elektrike dhe tekstet e tyre
+  {
+    slug: 'instalime-elektrike',
+    category: 'elektrike',
+    title: 'Instalime elektrike',
+    short:
+      'Rrjet elektrik i ri ose i rinovuar për apartamente, shtëpi dhe zyra, i ndarë në qarqe sipas përdorimit.',
+    icon: 'home-bolt',
+    intro:
+      'Një instalim i mirë nis me planin: sa qarqe duhen, ku shkojnë prizat dhe dritat, dhe çfarë fuqie do të kenë pajisjet. Kabllot vendosen me seksionin e duhur, çdo qark ka siguresën e vet dhe në fund gjithçka testohet.',
+    includes: [
+      'Planifikimi i qarqeve sipas ambienteve dhe pajisjeve',
+      'Tubacione dhe kabllo me seksion sipas ngarkesës',
+      'Kuti shpërndarëse, priza dhe çelësa',
+      'Lidhja me panelin elektrik dhe tokëzimi',
+      'Testim i çdo qarku para dorëzimit',
+    ],
+    audience: [
+      'Apartamente dhe shtëpi në rikonstruksion',
+      'Ndërtime të reja, para suvasë',
+      'Zyra dhe dyqane',
+    ],
+    duration: null,
+    photos: servicePlaceholders('instalime-elektrike', 'Instalime elektrike'), // TODO: foto shembull, zëvendësohet me foton reale
+    faq: [
+      {
+        q: 'Kur ia vlen të rinovohet instalimi elektrik?',
+        a: 'Kur kabllot janë të vjetra, siguresat hidhen shpesh, prizat ngrohen ose shtëpia po rikonstruktohet. Rikonstruksioni është momenti më i mirë, sepse kabllot kalojnë në mur para suvasë.',
+      },
+      {
+        q: 'A mund të punohet pa thyer gjithë muret?',
+        a: 'Shpesh po: një pjesë e kabllove kalon nëpër tubacionet ekzistuese ose në kanalina të jashtme. Pasi e shohim instalimin, ju themi çfarë mund të ruhet dhe çfarë duhet ndërruar.',
+      },
+    ],
+    seo: {
+      title: 'Instalime elektrike për shtëpi dhe zyra',
+      description:
+        'Instalime elektrike të reja ose të rinovuara për apartamente, shtëpi dhe zyra: qarqe të ndara, kabllo sipas ngarkesës, tokëzim dhe testim.',
+    },
+  },
+  {
+    slug: 'paneli-elektrik-dhe-siguresat',
+    category: 'elektrike',
+    title: 'Paneli elektrik dhe siguresat',
+    short:
+      'Montim ose përmirësim i panelit, siguresa automatike për çdo qark dhe salvavita për mbrojtjen nga goditja elektrike.',
+    icon: 'circuit-switch-open',
+    intro:
+      'Paneli elektrik mbron gjithë shtëpinë. Çdo qark duhet të ketë siguresën që i përshtatet kabllos, dhe salvavita (mbrojtja diferenciale) e ndërpret rrymën kur ajo rrjedh aty ku nuk duhet, përfshirë trupin e njeriut.',
+    includes: [
+      'Montim i panelit të ri ose zëvendësim i të vjetrit',
+      'Siguresa automatike sipas qarqeve dhe kabllove',
+      'Salvavita (mbrojtje diferenciale)',
+      'Kontroll i tokëzimit',
+      'Etiketim i qarqeve në panel',
+    ],
+    audience: [
+      'Shtëpi me panel të vjetër ose me siguresa me tela',
+      'Apartamente ku siguresat hidhen shpesh',
+      'Zyra dhe dyqane që shtojnë pajisje',
+    ],
+    duration: null,
+    photos: servicePlaceholders('paneli-elektrik-dhe-siguresat', 'Paneli elektrik dhe siguresat'), // TODO: foto shembull, zëvendësohet me foton reale
+    faq: [
+      {
+        q: 'Çfarë është salvavita?',
+        a: 'Është mbrojtja diferenciale: e ndërpret rrymën kur një pjesë e saj rrjedh drejt tokës, për shembull përmes një pajisjeje me defekt ose përmes trupit të njeriut. Është mbrojtja kryesore nga goditja elektrike.',
+      },
+      {
+        q: 'Pse duhen etiketuar qarqet?',
+        a: 'Që në një defekt ose riparim të dini menjëherë cilën siguresë të fikni, pa e lënë gjithë shtëpinë pa rrymë.',
+      },
+    ],
+    seo: {
+      title: 'Panel elektrik, siguresa dhe salvavita',
+      description:
+        'Montim ose përmirësim i panelit elektrik: siguresa automatike për çdo qark, salvavita kundër goditjes elektrike, tokëzim dhe etiketim.',
+    },
+  },
+  {
+    slug: 'priza-celesa-dhe-ndricim',
+    category: 'elektrike',
+    title: 'Priza, çelësa dhe ndriçim',
+    short:
+      'Shtim ose zhvendosje prizash dhe çelësash, montim ndriçuesish dhe ndriçim LED brenda dhe jashtë.',
+    icon: 'bulb',
+    intro:
+      'Priza aty ku ju duhen, drita që ndizen nga vendi i duhur dhe ndriçim që i përshtatet ambientit. Çdo pikë e re lidhet me qarkun e duhur, që të mos mbingarkohet.',
+    includes: [
+      'Shtim, zhvendosje ose ndërrim prizash dhe çelësash',
+      'Montim llambadarësh, spotesh dhe ndriçuesish LED',
+      'Çelësa nga dy vende (korridor, shkallë)',
+      'Ndriçim i jashtëm për ballkone, oborre dhe hyrje',
+      'Kontroll që qarku e mban ngarkesën e re',
+    ],
+    audience: [
+      'Apartamente dhe shtëpi',
+      'Zyra dhe dyqane',
+      'Ambiente të jashtme: ballkone, oborre, hyrje',
+    ],
+    duration: null,
+    photos: servicePlaceholders('priza-celesa-dhe-ndricim', 'Priza, çelësa dhe ndriçim'), // TODO: foto shembull, zëvendësohet me foton reale
+    faq: [
+      {
+        q: 'A mund të shtoj priza pa thyer murin?',
+        a: 'Po, me kanalina të jashtme që vendosen në mur pa thyerje. Nëse muri do të suvatohet ose lyhet, prizat mund të futen edhe brenda tij.',
+      },
+      {
+        q: 'Sa priza mund të lidhen në një qark?',
+        a: 'Varet nga pajisjet që do të përdoren, jo vetëm nga numri i prizave. Pajisjet me fuqi të madhe kanë nevojë për qark të vetin.',
+      },
+    ],
+    seo: {
+      title: 'Priza, çelësa dhe ndriçim LED',
+      description:
+        'Shtim dhe zhvendosje prizash e çelësash, montim llambadarësh, spotesh dhe ndriçimi LED për shtëpi, zyra dhe ambiente të jashtme.',
+    },
+  },
+  {
+    slug: 'linja-per-pajisje-me-fuqi',
+    category: 'elektrike',
+    title: 'Linjë për pajisje me fuqi',
+    short:
+      'Linjë dhe siguresë e veçantë për kondicionerin, boilerin, furrën ose pllakën e gatimit.',
+    icon: 'plug',
+    intro:
+      'Pajisjet me fuqi të madhe nuk duhet të ndajnë qarkun me prizat e tjera. Një linjë e veçantë, me kabllo dhe siguresë sipas fuqisë së pajisjes, e shmang ngrohjen e kabllove dhe hedhjen e siguresave.',
+    includes: [
+      'Llogaritja e kabllos dhe e siguresës sipas fuqisë',
+      'Linjë e re nga paneli te pajisja',
+      'Prizë ose lidhje fikse sipas pajisjes',
+      'Lidhja me tokëzimin',
+      'Testim me pajisjen në punë',
+    ],
+    audience: [
+      'Kondicionerë, sidomos kur montohen të rinj',
+      'Boilerë, furra dhe pllaka induksioni',
+      'Pajisje pune në zyra dhe dyqane',
+    ],
+    duration: null,
+    photos: servicePlaceholders('linja-per-pajisje-me-fuqi', 'Linjë për pajisje me fuqi'), // TODO: foto shembull, zëvendësohet me foton reale
+    faq: [
+      {
+        q: 'A ka nevojë kondicioneri për linjë të veçantë?',
+        a: 'Për aparatet me fuqi të madhe po, dhe në çdo rast kablloja dhe siguresa duhet t’i përshtaten fuqisë së aparatit. E kontrollojmë gjithmonë gjatë montimit të kondicionerit.',
+      },
+      {
+        q: 'Pse më ngrohet priza e boilerit ose e furrës?',
+        a: 'Zakonisht nga një lidhje e lirshme ose nga kablloja e hollë për atë fuqi. Është shenjë rreziku: mos e përdorni derisa të kontrollohet.',
+      },
+    ],
+    seo: {
+      title: 'Linjë elektrike për kondicioner dhe boiler',
+      description:
+        'Linjë e veçantë me kabllo dhe siguresë sipas fuqisë për kondicionerin, boilerin, furrën ose pllakën e gatimit, me tokëzim dhe testim.',
+    },
+  },
+  {
+    slug: 'defekte-elektrike',
+    category: 'elektrike',
+    title: 'Defekte elektrike',
+    short:
+      'Siguresa që hidhen, priza pa rrymë, drita që fiken: gjejmë shkakun me matje dhe e riparojmë.',
+    icon: 'bolt',
+    intro:
+      'Një siguresë që hidhet vazhdimisht ose një prizë pa rrymë ka gjithmonë një shkak: mbingarkesë, qark i shkurtër ose rrjedhje drejt tokës. Me matje e gjejmë ku është defekti para se të ndërrojmë diçka.',
+    includes: [
+      'Kontroll i panelit, siguresave dhe salvavitës',
+      'Gjetja e qarkut dhe e pikës me defekt',
+      'Matje e izolimit dhe e tokëzimit',
+      'Riparim ose zëvendësim i kabllove, prizave dhe çelësave',
+      'Shpjegim i shkakut dhe çfarë duhet bërë më tej',
+    ],
+    audience: [
+      'Shtëpi dhe zyra ku hidhen siguresat',
+      'Priza ose drita që nuk punojnë',
+      'Kabllo, priza ose çelësa që ngrohen ose bëjnë shkëndija',
+    ],
+    duration: null,
+    photos: servicePlaceholders('defekte-elektrike', 'Defekte elektrike'), // TODO: foto shembull, zëvendësohet me foton reale
+    faq: [
+      {
+        q: 'Pse më hidhet siguresa?',
+        a: 'Shkaqet kryesore janë shumë pajisje në të njëjtin qark, një qark i shkurtër ose një rrjedhje që e kap salvavita. Mos e ngrini siguresën vazhdimisht: shkëputni pajisjet dhe na kontaktoni.',
+      },
+      {
+        q: 'Çfarë të bëj kur ndiej erë djegieje nga një prizë?',
+        a: 'Fikni siguresën e atij qarku dhe mos e përdorni prizën. Era e djegies ose ngjyra e nxirë tregon mbinxehje, që duhet kontrolluar sa më shpejt.',
+      },
+    ],
+    seo: {
+      title: 'Riparim defektesh elektrike',
+      description:
+        'Siguresa që hidhen, priza pa rrymë, kabllo që ngrohen: gjejmë defektin me matje dhe e riparojmë në shtëpi, apartament ose zyrë.',
+    },
+  },
 ];
 
 export const serviceBySlug = (slug: string): Service | undefined =>
   SERVICES.find((s) => s.slug === slug);
+
+/** Seksionet e shërbimeve, në rendin që shfaqen. */
+export const SERVICE_CATEGORIES: { key: ServiceCategory; title: string; lead: string }[] = [
+  {
+    key: 'kondicionim',
+    title: 'Kondicionim',
+    lead: 'Zgjedhja, montimi, riparimi dhe mirëmbajtja e kondicionerëve, nga split-i te sistemet VRF.',
+  },
+  {
+    key: 'elektrike',
+    title: 'Punime elektrike',
+    lead: 'Instalime, panele, priza dhe ndriçim, dhe zgjidhja e defekteve në shtëpi, apartamente dhe zyra.',
+  },
+];
+
+export const servicesIn = (category: ServiceCategory): Service[] =>
+  SERVICES.filter((s) => s.category === category);

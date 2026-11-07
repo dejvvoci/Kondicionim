@@ -32,7 +32,7 @@ describe('businessJsonLd', () => {
     const ld = businessJsonLd({ business: empty, name: 'Usta kondicionimi', cities: CITIES });
     expect(ld).toEqual({
       '@context': 'https://schema.org',
-      '@type': 'HVACBusiness',
+      '@type': ['HVACBusiness', 'Electrician'],
       '@id': `${SITE}/#business`,
       name: 'Usta kondicionimi',
       url: `${SITE}/`,

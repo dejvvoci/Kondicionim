@@ -37,6 +37,6 @@ import { Card } from '../../shared/ui/card/card';
 })
 export class ServiceGrid {
   readonly services = input<Service[]>(SERVICES);
-  /** 3 brenda një seksioni me titull (h2); 2 kur grid-i vjen direkt pas h1 (/sherbimet). */
-  readonly headingLevel = input<2 | 3>(3);
+  /** 3 brenda një seksioni me titull (h2); 4 nën titullin e grupit (h3) në kryefaqe. */
+  readonly headingLevel = input<2 | 3 | 4>(3);
 }

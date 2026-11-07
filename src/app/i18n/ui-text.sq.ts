@@ -78,7 +78,7 @@ export const UI_TEXT = {
   faq: {
     eyebrow: 'Pyetje të shpeshta',
     title: 'Pyetje të shpeshta',
-    lead: 'Përgjigje të shkurtra për montimin, mirëmbajtjen, defektet dhe zgjedhjen e kondicionerit.',
+    lead: 'Përgjigje të shkurtra për kondicionerët dhe punimet elektrike: montimi, mirëmbajtja, defektet dhe zgjedhja.',
     general: 'Të përgjithshme',
     aboutService: 'Më shumë për shërbimin',
     ctaTitle: 'Nuk e gjetët përgjigjen?',
@@ -133,8 +133,8 @@ export const UI_TEXT = {
   },
   services: {
     eyebrow: 'Shërbimet',
-    title: 'Shërbimet e kondicionimit',
-    lead: 'Nga zgjedhja e sistemit te mirëmbajtja: çdo shërbim kryhet me matje dhe sipas standardeve tona të montimit.',
+    title: 'Kondicionim dhe punime elektrike',
+    lead: 'Nga zgjedhja e kondicionerit te paneli elektrik: çdo punë kryhet me matje dhe testohet para dorëzimit.',
     serviceEyebrow: 'Shërbimi',
     includes: 'Çfarë përfshin',
     audience: 'Kujt i shërben',
