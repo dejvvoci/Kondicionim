@@ -9,5 +9,6 @@
  * faqet e projekteve, seksioni në kryefaqe, projektet te faqja e çdo shërbimi dhe lidhjet nga
  * harta dhe lista e qyteteve. Komponentët (slider-i para/pas, kartat, filtrat) dhe të dhënat
  * (projects.ts) mbeten në kod; slider-i para/pas shihet në development te /stili.
+ * Kur ndizen, shto sërish /projektet/ te lighthouserc.json dhe testet e projekteve në e2e.
  */
 export const PROJECTS_ENABLED = false;
