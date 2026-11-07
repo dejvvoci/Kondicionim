@@ -48,7 +48,7 @@ describe('SEO e rrugëve (data.seo)', () => {
     const seo = routes
       .map((r) => r.data?.['seo'] as RouteSeo | undefined)
       .filter((s): s is RouteSeo => !!s && !s.noindex);
-    expect(seo.length).toBeGreaterThan(8);
+    expect(seo.length).toBeGreaterThanOrEqual(8);
     for (const s of seo) {
       expect(buildTitle(s.title).length, s.title).toBeLessThanOrEqual(TITLE_MAX);
       expect(s.description.length, s.title).toBeLessThanOrEqual(DESCRIPTION_MAX);

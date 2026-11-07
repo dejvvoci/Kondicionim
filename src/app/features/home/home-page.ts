@@ -9,6 +9,7 @@ import { activeCities } from '../../data/cities';
 import { homeFaq } from '../../data/faq';
 import { HOME } from '../../data/home';
 import { PROCESS } from '../../data/process';
+import { PROJECTS_ENABLED } from '../../data/features';
 import { featuredProjects } from '../../data/projects';
 import { STANDARDS } from '../../data/standards';
 import { TRUST_BADGES } from '../../data/stats';
@@ -60,7 +61,8 @@ export class HomePage {
   protected readonly mapRatio = `${ALBANIA_MAP_SIZE.width} / ${ALBANIA_MAP_SIZE.height}`;
   protected readonly standards = STANDARDS.filter((s) => s.featured);
   protected readonly process = PROCESS;
-  protected readonly projects = featuredProjects();
+  protected readonly projectsEnabled = PROJECTS_ENABLED;
+  protected readonly projects = PROJECTS_ENABLED ? featuredProjects() : [];
   protected readonly brands = BRANDS;
   protected readonly faq = homeFaq();
 

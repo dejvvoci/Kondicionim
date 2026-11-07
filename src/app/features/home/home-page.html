@@ -90,9 +90,13 @@
       <ul class="cities">
         @for (c of cities; track c.slug) {
           <li>
-            <a class="cities__item" routerLink="/projektet" [queryParams]="{ qyteti: c.slug }">
-              <ui-icon name="map-pin" [size]="20" />{{ c.name }}
-            </a>
+            @if (projectsEnabled) {
+              <a class="cities__item" routerLink="/projektet" [queryParams]="{ qyteti: c.slug }">
+                <ui-icon name="map-pin" [size]="20" />{{ c.name }}
+              </a>
+            } @else {
+              <span class="cities__item"><ui-icon name="map-pin" [size]="20" />{{ c.name }}</span>
+            }
           </li>
         }
       </ul>
@@ -153,7 +157,7 @@
       }
       <a ui-button variant="link" routerLink="/projektet" class="more">{{ home.projects.link }}</a>
     </ui-section>
-  } @else if (showTodo) {
+  } @else if (showTodo && projectsEnabled) {
     <ui-section tone="soft" [eyebrow]="home.projects.eyebrow" [title]="home.projects.title">
       <p><span class="todo">TODO: projekte me featured: true (projects.ts)</span></p>
     </ui-section>
