@@ -11,12 +11,7 @@
       />
     </a>
 
-    <nav
-      class="header__nav"
-      [class.is-open]="menuOpen()"
-      id="main-nav"
-      [attr.aria-label]="t.nav.label"
-    >
+    <nav class="header__nav" id="main-nav" [attr.aria-label]="t.nav.label">
       <ul class="header__list">
         @for (item of nav; track item.path) {
           <li>
@@ -47,17 +42,6 @@
       } @else if (showTodo) {
         <span class="header__call todo">TODO: telefoni</span>
       }
-
-      <button
-        type="button"
-        class="header__toggle"
-        aria-controls="main-nav"
-        [attr.aria-expanded]="menuOpen()"
-        [attr.aria-label]="menuOpen() ? t.nav.closeMenu : t.nav.openMenu"
-        (click)="toggle()"
-      >
-        <ui-icon [name]="menuOpen() ? 'x' : 'menu-2'" />
-      </button>
     </div>
   </div>
 </header>

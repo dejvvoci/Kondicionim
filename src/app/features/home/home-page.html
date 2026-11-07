@@ -72,6 +72,7 @@
       <h3 class="service-group">{{ c.title }}</h3>
       <app-service-grid [services]="servicesIn(c.key)" [headingLevel]="4" />
     }
+    <a ui-button variant="link" routerLink="/sherbimet" class="more">{{ allServicesLabel }}</a>
   </ui-section>
 }
 
@@ -171,7 +172,7 @@
   <!-- 8. Markat -->
   @if (brands.length) {
     <ui-section [eyebrow]="home.brands.eyebrow" [title]="home.brands.title">
-      <ui-brand-list />
+      <ui-brand-list [limit]="6" />
     </ui-section>
   } @else if (showTodo) {
     <ui-section [eyebrow]="home.brands.eyebrow" [title]="home.brands.title">

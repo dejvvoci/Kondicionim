@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  afterNextRender,
+  inject,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter, map, skip } from 'rxjs';
@@ -54,6 +60,19 @@ export class App {
 
   constructor() {
     inject(SeoService).init();
+
+    // Në celular tab-et e menusë rrëshqasin anash: tab-i i faqes aktuale sillet në pamje. Bëhet
+    // këtu dhe jo te header-i, sepse header-i hidratohet vonë (me ndërveprimin e parë), ndërsa
+    // HTML-ja e tij me lidhjen aktive është gati që në fillim. Vetëm në browser.
+    const router = inject(Router);
+    const destroyRef = inject(DestroyRef);
+    afterNextRender(() => {
+      revealActiveTab();
+      const sub = router.events
+        .pipe(filter((e) => e instanceof NavigationEnd))
+        .subscribe(() => requestAnimationFrame(revealActiveTab));
+      destroyRef.onDestroy(() => sub.unsubscribe());
+    });
   }
 
   /** href="#main" me <base href="/"> do të çonte te kryefaqja, prandaj fokusi lëviz me dorë. */
@@ -63,4 +82,12 @@ export class App {
     main?.focus();
     main?.scrollIntoView();
   }
+}
+
+/** Lëviz vetëm rreshtin e tab-eve (jo faqen) që tab-i aktiv të jetë në mes, kur rreshti nuk nxë. */
+function revealActiveTab(): void {
+  const list = document.querySelector<HTMLElement>('app-header .header__list');
+  const active = list?.querySelector<HTMLElement>('.header__link.is-active');
+  if (!list || !active || list.scrollWidth <= list.clientWidth) return;
+  list.scrollTo({ left: active.offsetLeft - (list.clientWidth - active.offsetWidth) / 2 });
 }

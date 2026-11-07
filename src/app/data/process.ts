@@ -7,24 +7,14 @@ export const PROCESS: ProcessStep[] = [
     icon: 'message-circle',
   },
   {
-    title: 'Inspektimi dhe konsulenca',
-    text: 'Shohim ambientin, bëjmë matjet dhe ju shpjegojmë cili sistem ka kuptim dhe pse.',
+    title: 'Inspektimi dhe oferta',
+    text: 'Shohim ambientin, bëjmë matjet dhe ju japim një ofertë me shkrim: çfarë përfshihet dhe sa zgjat puna.',
     icon: 'clipboard-check',
   },
   {
-    title: 'Oferta e qartë',
-    text: 'Merrni një ofertë me shkrim: çfarë përfshihet, çfarë paguhet veçmas dhe sa zgjat puna.',
-    icon: 'file-description',
-  },
-  {
-    title: 'Montimi',
-    text: 'Montim sipas standardeve tona: vakumim, test me azot, tuba dhe kabllo sipas aparatit.',
+    title: 'Montimi dhe testimi',
+    text: 'Punojmë sipas standardeve tona dhe para dorëzimit bëjmë matjet, pastaj ju tregojmë si ta përdorni.',
     icon: 'tool',
-  },
-  {
-    title: 'Testimi dhe dorëzimi',
-    text: 'Matim presionet, temperaturat dhe rrymën, pastaj ju tregojmë si ta përdorni dhe mirëmbani.',
-    icon: 'gauge',
   },
   {
     title: 'Mirëmbajtja e mëvonshme',

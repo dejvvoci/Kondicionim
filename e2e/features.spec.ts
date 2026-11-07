@@ -101,16 +101,15 @@ test('çdo faqe ka një H1, title, description dhe JSON-LD të vlefshëm', async
 /** JS nis pas eventit load; hidratimi mbaron kur app-root humbet atributin ngh. */
 const hydrated = (page: Page) => page.waitForSelector('app-root:not([ngh])', { state: 'attached' });
 
-test('navigimi pas hidratimit bëhet brenda faqes, pa rifreskim', async ({ page }, testInfo) => {
+test('navigimi pas hidratimit bëhet brenda faqes, pa rifreskim', async ({ page }) => {
   await page.goto('/');
   await hydrated(page);
   // Shënjë në window: zhduket nëse faqja rifreskohet krejt.
   await page.evaluate(() => ((window as unknown as { spa: boolean }).spa = true));
 
-  if (testInfo.project.name === 'celular') {
-    await page.getByRole('button', { name: 'Hap menunë' }).click();
-  }
+  // Edhe në celular tab-et janë gjithmonë të dukshme (pa buton ☰).
   const nav = page.getByRole('navigation', { name: 'Navigimi kryesor' });
+  await expect(nav.getByRole('link', { name: 'Kalkulatori BTU' })).toBeVisible();
   await nav.getByRole('link', { name: 'Shërbimet' }).click();
 
   await expect(page).toHaveURL(/\/sherbimet$/);
@@ -121,8 +120,7 @@ test('navigimi pas hidratimit bëhet brenda faqes, pa rifreskim', async ({ page 
   await expect(page.getByRole('heading', { level: 2, name: 'Punime elektrike' })).toBeVisible();
   // Blloqet @defer shfaqen edhe kur faqja ndërtohet në browser.
   await expect(page.getByRole('link', { name: /Montim split/ }).first()).toBeVisible();
-  // Header-i hidratohet pas navigimit, që lidhja aktive të ndryshojë (në celular menuja
-  // mbyllet pas klikimit, ndaj lidhja kontrollohet direkt në DOM).
+  // Header-i hidratohet pas navigimit, që lidhja aktive të ndryshojë.
   await expect(page.locator('#main-nav a[href="/sherbimet"]')).toHaveAttribute(
     'aria-current',
     'page',

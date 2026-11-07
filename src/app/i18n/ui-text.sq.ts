@@ -11,8 +11,6 @@ export const UI_TEXT = {
   },
   nav: {
     label: 'Navigimi kryesor',
-    openMenu: 'Hap menunë',
-    closeMenu: 'Mbyll menunë',
     home: 'Kryefaqja',
   },
   contact: {
