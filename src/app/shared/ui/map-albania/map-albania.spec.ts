@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { activeCities } from '../../../data/cities';
+import { PROJECTS_ENABLED } from '../../../data/features';
 import { ALBANIA_MAP } from './albania-map.generated';
 import { MapAlbania } from './map-albania';
 import { project } from './projection';
@@ -22,7 +23,7 @@ describe('MapAlbania', () => {
     );
   });
 
-  it('klikimi hap tooltip-in me lidhjen te projektet; Esc e mbyll', async () => {
+  it('klikimi hap tooltip-in (me lidhjen te projektet vetëm kur janë të ndezura); Esc e mbyll', async () => {
     const { fixture, el } = await render();
     const durres = [...el.querySelectorAll<HTMLButtonElement>('.pin__dot')].find((b) =>
       b.textContent?.includes('Durrës'),
@@ -34,8 +35,13 @@ describe('MapAlbania', () => {
     await fixture.whenStable();
     expect(durres?.getAttribute('aria-expanded')).toBe('true');
     expect(tip?.hidden).toBe(false);
-    expect(tip?.querySelector('a')?.getAttribute('href')).toBe('/projektet?qyteti=durres');
-    expect(tip?.textContent).toContain('Shiko projektet në Durrës');
+    expect(tip?.textContent).toContain('Durrës');
+    if (PROJECTS_ENABLED) {
+      expect(tip?.querySelector('a')?.getAttribute('href')).toBe('/projektet?qyteti=durres');
+      expect(tip?.textContent).toContain('Shiko projektet në Durrës');
+    } else {
+      expect(tip?.querySelector('a')).toBeNull();
+    }
 
     el.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
     await fixture.whenStable();

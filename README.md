@@ -74,6 +74,9 @@ Të gjitha tekstet dhe të dhënat që ndryshojnë janë në `src/app/data/`. Nu
   `src/app/data/business.ts`
 - **Një qytet i ri**: një rresht i ri në `src/app/data/cities.ts`
 - **Menuja**: `src/app/data/navigation.ts`
+- **Projektet** (foto para/pas) janë të fikura derisa të kemi punë tonat të dokumentuara:
+  ndizen me `PROJECTS_ENABLED = true` te `src/app/data/features.ts` (menuja, faqet, kryefaqja,
+  shërbimet dhe harta shfaqen sërish).
 - **Një projekt i ri**: foto para/pas në `public/images/projektet/` (emër përshkrues, p.sh.
   `vile-multi-split-tirane-para.avif`) dhe një objekt në `src/app/data/projects.ts`. Faqja
   `/projektet/{slug}` krijohet vetë; me `featured: true` del edhe në kryefaqe.

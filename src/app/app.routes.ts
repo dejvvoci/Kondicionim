@@ -2,6 +2,7 @@ import { ResolveFn, Routes } from '@angular/router';
 import { articleJsonLd, faqJsonLd, serviceJsonLd } from './core/seo/json-ld';
 import { type RouteSeo, buildCanonical, truncate } from './core/seo/seo';
 import { BUSINESS, businessName } from './data/business';
+import { PROJECTS_ENABLED } from './data/features';
 
 const NOT_FOUND_SEO: RouteSeo = { title: 'Faqja nuk u gjet', description: '', noindex: true };
 
@@ -158,22 +159,29 @@ export const routes: Routes = [
       } satisfies RouteSeo,
     },
   },
-  {
-    path: 'projektet',
-    loadComponent: () => import('./features/projects/projects-page').then((m) => m.ProjectsPage),
-    data: {
-      seo: {
-        title: 'Projektet: para dhe pas montimit',
-        description:
-          'Projekte reale montimi kondicionerësh në shtëpi, vila, zyra dhe hotele, me foto para dhe pas dhe detaje teknike.',
-      } satisfies RouteSeo,
-    },
-  },
-  {
-    path: 'projektet/:slug',
-    loadComponent: () => import('./features/projects/project-page').then((m) => m.ProjectPage),
-    resolve: { seo: projectSeo },
-  },
+  // Projektet me foto para/pas: vetëm kur janë të ndezura (data/features.ts).
+  ...(PROJECTS_ENABLED
+    ? [
+        {
+          path: 'projektet',
+          loadComponent: () =>
+            import('./features/projects/projects-page').then((m) => m.ProjectsPage),
+          data: {
+            seo: {
+              title: 'Projektet: para dhe pas montimit',
+              description:
+                'Projekte reale montimi kondicionerësh në shtëpi, vila, zyra dhe hotele, me foto para dhe pas dhe detaje teknike.',
+            } satisfies RouteSeo,
+          },
+        },
+        {
+          path: 'projektet/:slug',
+          loadComponent: () =>
+            import('./features/projects/project-page').then((m) => m.ProjectPage),
+          resolve: { seo: projectSeo },
+        },
+      ]
+    : []),
   {
     path: 'cmimet-dhe-garancia',
     loadComponent: () => import('./features/prices/prices-page').then((m) => m.PricesPage),

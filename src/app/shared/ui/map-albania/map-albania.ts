@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, input, signal } f
 import { RouterLink } from '@angular/router';
 import { AnalyticsService } from '../../../core/analytics/analytics.service';
 import { activeCities } from '../../../data/cities';
+import { PROJECTS_ENABLED } from '../../../data/features';
 import type { City } from '../../../data/types';
 import { UI_TEXT } from '../../../i18n';
 import { ALBANIA_MAP } from './albania-map.generated';
@@ -23,6 +24,8 @@ export class MapAlbania {
   readonly cities = input<City[]>(activeCities());
 
   protected readonly t = UI_TEXT.map;
+  /** Lidhja "Shiko projektet në …" vetëm kur projektet janë të ndezura (features.ts). */
+  protected readonly projectsEnabled = PROJECTS_ENABLED;
   protected readonly map = ALBANIA_MAP;
   protected readonly ratio = `${ALBANIA_MAP.width} / ${ALBANIA_MAP.height}`;
   protected readonly openSlug = signal<string | null>(null);

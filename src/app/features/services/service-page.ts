@@ -13,6 +13,7 @@ import { WhatsAppFlow } from '../../core/contact/whatsapp-flow.service';
 import { ARTICLES } from '../../data/articles.generated';
 import { BUSINESS } from '../../data/business';
 import { formatPrice, pricesFor } from '../../data/prices';
+import { PROJECTS_ENABLED } from '../../data/features';
 import { projectsForService } from '../../data/projects';
 import { SERVICES, serviceBySlug } from '../../data/services';
 import { UI_TEXT } from '../../i18n';
@@ -62,7 +63,9 @@ export class ServicePage {
   protected readonly prices = computed(() =>
     pricesFor(this.slug()).map((p) => ({ ...p, amount: formatPrice(p.from ?? 0, p.currency) })),
   );
-  protected readonly projects = computed(() => projectsForService(this.slug()).slice(0, 3));
+  protected readonly projects = computed(() =>
+    PROJECTS_ENABLED ? projectsForService(this.slug()).slice(0, 3) : [],
+  );
   /** Artikujt e këshillave që i referohen këtij shërbimi (lidhje në të dy drejtimet). */
   protected readonly articles = computed(() =>
     ARTICLES.filter((a) => a.services.includes(this.slug())).slice(0, 3),

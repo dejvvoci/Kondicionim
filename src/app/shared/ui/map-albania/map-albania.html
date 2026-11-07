@@ -41,9 +41,11 @@
         @if (projectsText(p.city); as count) {
           <span class="tip__count">{{ count }}</span>
         }
-        <a class="tip__link" routerLink="/projektet" [queryParams]="{ qyteti: p.city.slug }">
-          {{ t.seeProjects }} {{ p.city.name }} →
-        </a>
+        @if (projectsEnabled) {
+          <a class="tip__link" routerLink="/projektet" [queryParams]="{ qyteti: p.city.slug }">
+            {{ t.seeProjects }} {{ p.city.name }} →
+          </a>
+        }
       </div>
     </div>
   }

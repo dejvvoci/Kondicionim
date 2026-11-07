@@ -35,14 +35,6 @@ test('axe: asnjë shkelje serioze ose kritike në asnjë rrugë', async ({ page,
   const paths = [
     ...[...sitemap.matchAll(/<loc>https?:\/\/[^/]+([^<]*)<\/loc>/g)].map((m) => m[1]),
     '/kjo-faqe-nuk-ekziston/',
-    // Projektet shembull (noindex, ndaj jo në sitemap).
-    ...(await page
-      .goto('/projektet/')
-      .then(() =>
-        page
-          .locator('a[href^="/projektet/projekt-shembull"]')
-          .evaluateAll((as) => [...new Set(as.map((a) => a.getAttribute('href') + '/'))]),
-      )),
   ];
 
   const report: Record<string, unknown> = {};

@@ -117,7 +117,8 @@
     color: var(--c-teal);
   }
 
-  &:hover {
+  // Vetëm kur është lidhje (projektet e ndezura), jo kur është thjesht emri i qytetit.
+  &:is(a):hover {
     border-color: var(--c-teal);
   }
 }

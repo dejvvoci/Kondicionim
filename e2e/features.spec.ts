@@ -42,9 +42,6 @@ test('harta navigohet me tastierë', async ({ page }) => {
     'true',
   );
 
-  await page.keyboard.press('Tab');
-  await expect(tip.getByRole('link', { name: /Shiko projektet në Lezhë/ })).toBeFocused();
-
   await page.keyboard.press('Escape');
   await expect(tip).toBeHidden();
 });
@@ -172,20 +169,22 @@ test('vlerat e shkruara në kalkulator para nisjes së JS-së ruhen pas hidratim
   await expect(page.getByLabel('Qyteti')).toHaveValue('korce');
 });
 
-test('projektet shembull: të shënuara kudo dhe jashtë indeksit', async ({ page, request }) => {
-  await page.goto('/projektet/');
-  await expect(page.getByRole('note')).toContainText('shembuj për prezantim');
-  await expect(page.locator('.card__example')).toHaveCount(6);
+test('projektet janë të fikura: asnjë lidhje, faqe apo rresht në sitemap', async ({
+  page,
+  request,
+}) => {
+  // Kur të ndizen (src/app/data/features.ts), ky test zëvendësohet me testet e projekteve.
+  await page.goto('/');
+  await expect(page.locator('a[href^="/projektet"]')).toHaveCount(0);
+  await expect(page.getByRole('navigation').first()).not.toContainText('Projektet');
 
-  await page.goto('/projektet/projekt-shembull-1/');
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText(/^Projekt shembull: /);
-  await expect(page.getByRole('note')).toContainText('Projekt shembull për prezantim');
-  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex');
-  await expect(page.locator('.project__slider').getByRole('slider')).toHaveAttribute(
-    'aria-label',
-    /Projekt shembull/,
-  );
+  await page.goto('/sherbimet/montim-split/');
+  await expect(page.locator('a[href^="/projektet"]')).toHaveCount(0);
 
+  for (const path of ['/projektet/', '/projektet/projekt-shembull-1/']) {
+    const res = await request.get(path);
+    expect(res.status(), path).toBe(404);
+  }
   const sitemap = await (await request.get('/sitemap.xml')).text();
-  expect(sitemap).not.toContain('projekt-shembull');
+  expect(sitemap).not.toContain('/projektet');
 });
