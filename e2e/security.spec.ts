@@ -64,7 +64,12 @@ test('ikonat dhe manifesti', async ({ page, request }) => {
   const json = (await res.json()) as { icons: { src: string }[]; lang: string };
   expect(json.lang).toBe('sq');
   for (const icon of json.icons) expect((await request.get(icon.src)).ok()).toBe(true);
-  for (const href of ['/favicon.ico', '/favicon.svg', '/apple-touch-icon.png']) {
+  for (const href of [
+    '/favicon.ico',
+    '/apple-touch-icon.png',
+    '/images/logo/logo-header.webp',
+    '/images/logo/logo.png',
+  ]) {
     expect((await request.get(href)).ok(), href).toBe(true);
   }
 });

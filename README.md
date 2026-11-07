@@ -171,8 +171,11 @@ të vogla të Angular-it dhe testi `e2e/security.spec.ts` kontrollon që faqja p
 Kur zgjidhet analitika, domeni i saj shtohet te `script-src`/`connect-src` (shih komentet në
 `_headers`).
 
-Ikonat (favicon, Apple touch, manifest) ndërtohen me `npm run build:icons`; riekzekutoje kur
-ndryshon emri i biznesit ose kur ka logo. Hapat e publikimit në domenin final janë te
+Logoja origjinale është te `branding/logo.png`. `npm run build:logo` nxjerr prej saj versionet
+për faqen (`public/images/logo/`: logoja për header-in dhe për Google) dhe simbolin për ikonat
+(`branding/simboli.png`). Ikonat (favicon, Apple touch, manifest) ndërtohen me
+`npm run build:icons` dhe imazhi i ndarjes së linkut me `npm run build:og`. Kur ndryshon logoja,
+ekzekuto të treja me radhë; kur ndryshon emri i biznesit, `build:icons` dhe `build:og`. Hapat e publikimit në domenin final janë te
 [PUBLIKIMI.md](PUBLIKIMI.md).
 
 Deploy-i bëhet nga GitHub Actions (`.github/workflows/ci.yml`): çdo PR merr një preview me URL të

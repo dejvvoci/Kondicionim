@@ -7,9 +7,11 @@
   display: block;
 }
 
+// Header i bardhë, që logoja të shfaqet me ngjyrat e veta.
 .header {
-  background: var(--c-base);
-  color: var(--c-white);
+  background: var(--c-white);
+  color: var(--c-base);
+  border-bottom: 1px solid var(--c-border);
 }
 
 .header__inner {
@@ -23,21 +25,19 @@
 .header__logo {
   display: inline-flex;
   align-items: center;
+  flex-shrink: 0;
   min-height: 44px;
   margin-right: auto;
-  font-family: var(--font-heading);
-  // Emri i gjatë kalon në dy rreshta të balancuar, pa e shtyrë menunë.
-  flex-shrink: 0;
-  max-width: 11.5em;
-  font-size: var(--fs-lg);
-  font-weight: 600;
-  line-height: 1.2;
-  text-wrap: balance;
-  color: var(--c-white);
-  text-decoration: none;
+}
 
-  &:focus-visible {
-    outline-color: var(--c-white);
+// Simboli majtas dhe emri djathtas (public/images/logo, nga `npm run build:logo`).
+.header__logo-img {
+  display: block;
+  width: auto;
+  height: 44px;
+
+  @include md {
+    height: 52px;
   }
 }
 
@@ -65,15 +65,11 @@
   border: 0;
   border-radius: var(--radius-btn);
   background: transparent;
-  color: var(--c-white);
+  color: var(--c-base);
   cursor: pointer;
 
   &:hover {
-    background: rgb(255 255 255 / 0.1);
-  }
-
-  &:focus-visible {
-    outline-color: var(--c-white);
+    background: var(--c-bg-soft);
   }
 
   @include nav-wide {
@@ -98,19 +94,18 @@
   font-size: var(--fs-base);
   font-weight: 500;
   white-space: nowrap;
-  color: var(--c-white);
+  color: var(--c-base);
   text-decoration: none;
 
   &:hover {
-    background: rgb(255 255 255 / 0.08);
-  }
-
-  &:focus-visible {
-    outline-color: var(--c-white);
+    background: var(--c-bg-soft);
   }
 
   &.is-active {
-    color: var(--c-cta);
+    color: var(--c-teal-text);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 6px;
   }
 }
 
@@ -123,8 +118,10 @@
     left: 0;
     right: 0;
     padding: var(--sp-2) var(--gutter) var(--sp-5);
-    background: var(--c-base);
-    border-top: 1px solid rgb(255 255 255 / 0.12);
+    background: var(--c-white);
+    border-top: 1px solid var(--c-border);
+    border-bottom: 1px solid var(--c-border);
+    box-shadow: 0 8px 16px rgb(14 59 67 / 0.08);
 
     &.is-open {
       display: block;
