@@ -6,7 +6,6 @@ export const STATS: Stat[] = [
   { label: 'Montime të kryera', value: '~100' },
   { label: 'Pajisje të riparuara, në repart dhe në terren', value: '350+' },
   { label: 'Garanci mbi montimin', value: '3 vjet' },
-  { label: 'Koha e reagimit', value: null }, // TODO: koha e zakonshme e reagimit, p.sh. "brenda ditës"
 ];
 
 /** Badge-t poshtë butonave në seksionin kryesor. Vetëm fakte të konfirmuara nga ustai. */
