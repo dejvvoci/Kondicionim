@@ -25,6 +25,8 @@ export interface Business {
   name: string | null;
   /** Emri që përdoret kur `name` mungon (title, logo). */
   fallbackName: string;
+  /** Logoja e plotë për Google (PNG katror, nga `npm run build:logo`). null = pa logo. */
+  logo: string | null;
   /** URL-ja finale e faqes, pa / në fund. */
   siteUrl: string;
   /** Format ndërkombëtar me +, p.sh. "+3556XXXXXXXX". */

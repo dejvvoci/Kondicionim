@@ -58,6 +58,7 @@ export function businessJsonLd({ business: b, name, cities, image }: BusinessJso
     name,
     url: `${b.siteUrl}/`,
     image: absoluteUrl(b.siteUrl, (image ?? OG_IMAGE).src),
+    logo: b.logo ? absoluteUrl(b.siteUrl, b.logo) : null,
     telephone: b.phone,
     email: b.email,
     address: compact({

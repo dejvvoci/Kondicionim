@@ -1,11 +1,11 @@
 {
-  "name": "Montim dhe servis kondicioneri Ardit",
-  "short_name": "Ardit",
+  "name": "Ardit Klima & Elektrik",
+  "short_name": "Ardit Klima",
   "lang": "sq",
   "start_url": "/",
   "display": "browser",
   "background_color": "#ffffff",
-  "theme_color": "#0e3b43",
+  "theme_color": "#ffffff",
   "icons": [
     {
       "src": "/icon-192.png",
