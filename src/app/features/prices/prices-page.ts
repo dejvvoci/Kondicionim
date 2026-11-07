@@ -30,7 +30,7 @@ export class PricesPage {
   protected readonly prices = PRICES.filter((x) => x.from !== null).map((x) => ({
     ...x,
     amount: formatPrice(x.from ?? 0, x.currency),
-    service: serviceBySlug(x.serviceSlug),
+    service: x.serviceSlug ? serviceBySlug(x.serviceSlug) : undefined,
   }));
   protected readonly w = PRICE_PAGE.warranty;
   protected readonly hasWarranty = !!(this.w.duration || this.w.covers.length);

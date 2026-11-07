@@ -57,7 +57,7 @@ const html = `<!doctype html>
     <div class="text">
       <div class="eyebrow">Montim · Riparim · Mirëmbajtje</div>
       <h1>${businessName()}</h1>
-      <p>Kondicionerë split, multi-split, kanal, VRF/VRV dhe pompa nxehtësie</p>
+      <p>Kondicionerë split, multi-split, kanal, kasetë dhe VRF/VRV</p>
       <div class="cities">${area}</div>
     </div>
     <svg viewBox="0 0 ${ALBANIA_MAP.width} ${ALBANIA_MAP.height}" aria-hidden="true">

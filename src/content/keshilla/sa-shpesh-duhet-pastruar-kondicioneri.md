@@ -2,7 +2,7 @@
 title: Sa shpesh duhet pastruar kondicioneri?
 description: Çfarë pastroni vetë dhe çfarë pastron ustai, sa shpesh, dhe pse pastrimi i rregullt ul konsumin dhe parandalon erërat dhe defektet.
 date: 2026-11-05
-services: kontrata-mirembajtjeje-per-biznese, diagnostikim-dhe-riparim
+services: diagnostikim-dhe-riparim
 ---
 
 <!-- TODO: rishikim nga ustai para publikimit -->
@@ -22,7 +22,7 @@ Të paktën një herë në vit, mirë është para sezonit të verës:
 - njësia e jashtme, që të nxjerrë nxehtësinë pa pengesë;
 - kontrolli i lidhjeve elektrike dhe matja e presioneve.
 
-Në restorante, dyqane me pluhur ose ambiente ku aparati punon gjithë ditën, pastrimi i plotë duhet më shpesh. Për bizneset ia vlen një [plan mirëmbajtjeje](/sherbimet/kontrata-mirembajtjeje-per-biznese).
+Në restorante, dyqane me pluhur ose ambiente ku aparati punon gjithë ditën, pastrimi i plotë duhet më shpesh.
 
 ## Shenjat që aparati ka nevojë për pastrim
 
