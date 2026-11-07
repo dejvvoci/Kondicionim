@@ -17,6 +17,7 @@
     "e2e": "playwright test",
     "lighthouse": "npx --yes @lhci/cli@0.15.1 autorun",
     "build:og": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/register-ts.mjs scripts/build-og.ts",
+    "build:logo": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/register-ts.mjs scripts/build-logo.ts",
     "build:icons": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/register-ts.mjs scripts/build-icons.ts",
     "build:placeholders": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./scripts/register-ts.mjs scripts/build-placeholders.ts"
   },

@@ -14,6 +14,7 @@ const SITE = 'https://shembull.al';
 const empty: Business = {
   name: null,
   fallbackName: 'Usta kondicionimi',
+  logo: null,
   siteUrl: SITE,
   phone: null,
   whatsapp: null,
@@ -46,6 +47,7 @@ describe('businessJsonLd', () => {
     const ld = businessJsonLd({
       business: {
         ...empty,
+        logo: '/images/logo/logo.png',
         phone: '+355690000000',
         locality: 'Tiranë',
         priceRange: '$$',
@@ -67,6 +69,7 @@ describe('businessJsonLd', () => {
       name: 'Klima X',
       telephone: '+355690000000',
       image: `${SITE}/images/usta.avif`,
+      logo: `${SITE}/images/logo/logo.png`,
       address: { addressLocality: 'Tiranë', addressCountry: 'AL' },
       openingHours: ['Mo-Sa 08:00-19:00'],
       priceRange: '$$',

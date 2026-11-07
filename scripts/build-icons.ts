@@ -1,47 +1,41 @@
 /**
- * Ikonat e faqes → public/: favicon.svg, favicon.ico (16 + 32 px), apple-touch-icon.png (180),
- * icon-192.png dhe icon-512.png (për manifest.webmanifest).
+ * Ikonat e faqes → public/: favicon.ico (16 + 32 px), apple-touch-icon.png (180), icon-192.png
+ * dhe icon-512.png (për manifest.webmanifest).
  * Ekzekutimi: `npm run build:icons` (kërkon `npx playwright install chromium`).
  *
- * Motivi: ikona "air-conditioning" e Tabler (MIT) mbi ngjyrën bazë të faqes. Kur të ketë logo
- * reale, zëvendëso SVG-në më poshtë dhe riekzekuto skriptin.
+ * Motivi: simboli i logos (branding/simboli.png, nga `npm run build:logo`) mbi sfond të bardhë.
  */
 import { chromium } from '@playwright/test';
-import { writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { businessName } from '../src/app/data/business.ts';
-import { ICONS } from '../src/app/shared/ui/icon/icons.ts';
 
-const out = (file: string) => join(import.meta.dirname, '..', 'public', file);
-
-/** Sfond katror (pa kënde, që sistemi ta presë si të dojë) dhe ikona brenda zonës së sigurt 60%. */
-function svg(rounded: boolean): string {
-  const paths = ICONS['air-conditioning'].map((d) => `<path d="${d}"/>`).join('');
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-<rect width="64" height="64"${rounded ? ' rx="14"' : ''} fill="#0e3b43"/>
-<g transform="translate(13 13) scale(1.583)" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${paths}</g>
-</svg>
-`;
-}
-
-writeFileSync(out('favicon.svg'), svg(true));
+const root = join(import.meta.dirname, '..');
+const out = (file: string) => join(root, 'public', file);
+const symbol = `data:image/png;base64,${readFileSync(join(root, 'branding/simboli.png')).toString('base64')}`;
 
 const browser = await chromium.launch();
 const page = await browser.newPage();
-async function png(size: number, rounded: boolean): Promise<Buffer> {
+/**
+ * Katror i bardhë (pa kënde, që sistemi ta presë si të dojë) me simbolin në mes.
+ * @param fill pjesa e anës që zë simboli
+ */
+async function png(size: number, fill: number): Promise<Buffer> {
   await page.setViewportSize({ width: size, height: size });
   await page.setContent(
-    `<style>*{margin:0}svg{display:block;width:${size}px;height:${size}px}</style>${svg(rounded)}`,
+    `<style>*{margin:0}body{display:grid;place-items:center;width:${size}px;height:${size}px;background:#fff}img{width:${size * fill}px;height:${size * fill}px}</style><img src="${symbol}">`,
   );
-  return page.screenshot({ omitBackground: true, type: 'png' });
+  await page.evaluate(() => document.images[0].decode());
+  return page.screenshot({ type: 'png' });
 }
 
-writeFileSync(out('apple-touch-icon.png'), await png(180, false));
-writeFileSync(out('icon-192.png'), await png(192, false));
-writeFileSync(out('icon-512.png'), await png(512, false));
+writeFileSync(out('apple-touch-icon.png'), await png(180, 0.8));
+writeFileSync(out('icon-192.png'), await png(192, 0.8));
+// Edhe ikona "maskable": simboli brenda rrethit të sigurt (80% e diametrit) që mos pritet.
+writeFileSync(out('icon-512.png'), await png(512, 0.7));
 
-// favicon.ico: format ICO me dy imazhe PNG brenda (16 dhe 32 px).
-const images = [await png(16, true), await png(32, true)];
+// favicon.ico: format ICO me dy imazhe PNG brenda (16 dhe 32 px); simboli zë gjithë katrorin.
+const images = [await png(16, 1), await png(32, 1)];
 const header = Buffer.alloc(6 + 16 * images.length);
 header.writeUInt16LE(0, 0); // rezervuar
 header.writeUInt16LE(1, 2); // tipi: ikonë
@@ -64,14 +58,17 @@ writeFileSync(out('favicon.ico'), Buffer.concat([header, ...images]));
 
 await browser.close();
 
-/** Emri nën ikonën në ekranin e telefonit (≤ 12 shkronja): fjalët e fundit që nxënë, pa prerë fjalë. */
+/**
+ * Emri nën ikonën në ekranin e telefonit (≤ 12 shkronja): fjalët e para që nxënë, pa prerë fjalë
+ * dhe pa "&" në fund ("Ardit Klima & Elektrik" → "Ardit Klima").
+ */
 function shortName(name: string): string {
   const words = name.split(' ');
-  for (let i = 0; i < words.length; i++) {
-    const tail = words.slice(i).join(' ');
-    if (tail.length <= 12) return tail;
+  for (let n = words.length; n > 1; n--) {
+    const head = words.slice(0, n).join(' ').replace(/\s*&$/, '');
+    if (head.length <= 12) return head;
   }
-  return words[words.length - 1];
+  return words[0];
 }
 
 writeFileSync(
@@ -84,7 +81,7 @@ writeFileSync(
       start_url: '/',
       display: 'browser',
       background_color: '#ffffff',
-      theme_color: '#0e3b43',
+      theme_color: '#ffffff',
       icons: [
         { src: '/icon-192.png', sizes: '192x192', type: 'image/png' },
         { src: '/icon-512.png', sizes: '512x512', type: 'image/png' },
@@ -96,5 +93,5 @@ writeFileSync(
   ) + '\n',
 );
 console.log(
-  'build-icons: favicon.svg, favicon.ico, apple-touch-icon.png, icon-192.png, icon-512.png, manifest.webmanifest',
+  'build-icons: favicon.ico, apple-touch-icon.png, icon-192.png, icon-512.png, manifest.webmanifest',
 );

@@ -1,7 +1,14 @@
 <header class="header">
   <div class="container header__inner">
     <a class="header__logo" routerLink="/" [attr.aria-label]="name + ' – ' + t.nav.home">
-      {{ name }}
+      <img
+        class="header__logo-img"
+        src="/images/logo/logo-header.webp"
+        alt=""
+        width="212"
+        height="52"
+        fetchpriority="high"
+      />
     </a>
 
     <nav

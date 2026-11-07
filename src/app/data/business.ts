@@ -3,8 +3,9 @@ import { placeholder } from './placeholders';
 import type { Business, Photo } from './types';
 
 export const BUSINESS: Business = {
-  name: 'Montim dhe servis kondicioneri Ardit',
+  name: 'Ardit Klima & Elektrik',
   fallbackName: 'Usta kondicionimi',
+  logo: '/images/logo/logo.png',
   siteUrl: 'https://montimkondicioneri.al',
   phone: '06xxxxxxxxx', // TODO: numër shembull, vendos numrin real, p.sh. "+3556XXXXXXXX"
   whatsapp: '06xxxxxxxxx', // TODO: numër shembull, vendos numrin real, p.sh. "3556XXXXXXXX"
