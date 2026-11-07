@@ -32,7 +32,7 @@ describe('BtuCalculator', () => {
     return { fixture, el, size, active, type, choose, select };
   }
 
-  it('ka vetëm pesë pyetjet: qyteti, sipërfaqja dhe lartësia, muret, izolimi, kati', async () => {
+  it('ka vetëm pyetjet: qyteti, sipërfaqja dhe lartësia, muret e jashtme', async () => {
     const { el } = await render();
     const labels = [...el.querySelectorAll('.field__label')].map((l) => l.textContent?.trim());
     expect(labels).toEqual([
@@ -40,8 +40,6 @@ describe('BtuCalculator', () => {
       'Sipërfaqja (m²)',
       'Lartësia e tavanit (m)',
       'Sa mure të jashtme ka ambienti',
-      'Izolimi',
-      'Kati',
     ]);
   });
 
@@ -53,16 +51,17 @@ describe('BtuCalculator', () => {
   });
 
   it('tregon verën dhe dimrin veçmas dhe theksohet sezoni që e përcakton madhësinë', async () => {
-    const { el, active, choose, select } = await render();
+    const { el, active, type, choose, select } = await render();
     expect(el.querySelectorAll('.seasons__row')).toHaveLength(2);
     expect(active()).toBe('Vera (ftohje)');
 
-    // Korçë, qoshe me 3 mure, pa izolim, kati i fundit: dimri ~14 100, vera ~8700.
+    // Korçë, 30 m², tavan 3,5 m, qoshe me 3 mure: dimri ~9100, vera ~8000.
     await select('btu-city', 'korce');
+    await type('btu-area', '30');
+    await type('btu-height', '3.5');
     await choose('btu-walls', '3');
-    await choose('btu-insulation', 'dobet');
-    await choose('btu-floor', 'fundit');
     expect(active()).toBe('Dimri (ngrohje)');
+    expect(el.querySelector('.result__size')?.textContent).toContain('12000');
     expect(el.textContent).toContain('e përcakton dimri');
     expect(el.querySelector('.result__factors')?.textContent).toContain('−7,2');
   });
@@ -89,16 +88,14 @@ describe('BtuCalculator', () => {
   });
 
   it('"Kërko çmimin" hap WhatsApp me përmbledhjen në shënime', async () => {
-    const { el, type, choose, select } = await render();
+    const { el, type, select } = await render();
     await select('btu-city', 'korce');
     await type('btu-area', '28');
-    await choose('btu-floor', 'fundit');
     el.querySelector<HTMLButtonElement>('.result__cta')?.click();
     expect(TestBed.inject(WhatsAppFlow).request()).toEqual({
       source: 'kalkulatori',
       service: 'konsulence-dhe-zgjedhja-e-sistemit',
-      notes:
-        'Kalkulatori: Korçë, 28 m², 1 mur i jashtëm, izolim mesatar, kati i fundit → 9000 BTU (sipas verës)',
+      notes: 'Kalkulatori: Korçë, 28 m², 1 mur i jashtëm → 9000 BTU (sipas verës)',
     });
   });
 });

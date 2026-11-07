@@ -1,10 +1,4 @@
-import {
-  BTU_CONFIG,
-  type BtuConfig,
-  type ExteriorWalls,
-  type Floor,
-  type Insulation,
-} from '../../data/btu-config';
+import { BTU_CONFIG, type BtuConfig, type ExteriorWalls } from '../../data/btu-config';
 
 export interface BtuInput {
   /** Slug-u i qytetit (cities.ts). */
@@ -12,8 +6,6 @@ export interface BtuInput {
   area: number;
   height: number;
   walls: ExteriorWalls;
-  insulation: Insulation;
-  floor: Floor;
 }
 
 export type Season = 'vere' | 'dimer';
@@ -37,7 +29,6 @@ export interface BtuResult {
 const W_TO_BTU = 3.412;
 
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
-const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 const fmtTemp = (t: number) =>
   `${new Intl.NumberFormat('sq-AL', { maximumFractionDigits: 1 }).format(t).replace('-', '−')}\u00a0°C`;
 
@@ -45,16 +36,6 @@ export const WALLS_LABEL: Record<ExteriorWalls, string> = {
   1: '1 mur i jashtëm',
   2: '2 mure të jashtme',
   3: '3 mure të jashtme',
-};
-export const INSULATION_LABEL: Record<Insulation, string> = {
-  mire: 'izolim i mirë',
-  mesatar: 'izolim mesatar',
-  dobet: 'izolim i dobët',
-};
-export const FLOOR_LABEL: Record<Floor, string> = {
-  perdhe: 'kati përdhe',
-  ndermjetem: 'kat i ndërmjetëm',
-  fundit: 'kati i fundit',
 };
 
 /** Vlerat jashtë kufijve ose jo-numerike kthehen brenda kufijve (inputet e lira të formës). */
@@ -82,8 +63,6 @@ export function geometry(input: BtuInput, config: BtuConfig = BTU_CONFIG) {
   return {
     walls: wallsGross - windows,
     windows,
-    roof: input.floor === 'fundit' ? input.area : 0,
-    ground: input.floor === 'perdhe' ? input.area : 0,
     volume: input.area * input.height,
   };
 }
@@ -94,32 +73,28 @@ const climateOf = (input: BtuInput, config: BtuConfig) =>
 /** Ngrohja në natën më të ftohtë (W). */
 export function heatingWatts(input: BtuInput, config: BtuConfig = BTU_CONFIG): number {
   const climate = climateOf(input, config);
-  const u = config.insulation[input.insulation];
+  const u = config.envelope;
   const g = geometry(input, config);
   const air = config.airHeatCapacity * config.airChangesPerHour * g.volume;
   const delta = config.indoor.winter - climate.winter;
-  const envelope = u.wall * g.walls + u.window * g.windows + u.slab * g.roof + air;
-  const ground = u.slab * g.ground * (config.indoor.winter - climate.annualMean);
-  return envelope * delta + ground;
+  return (u.wall * g.walls + u.window * g.windows + air) * delta;
 }
 
 /** Ftohja në ditën më të nxehtë (W). */
 export function coolingWatts(input: BtuInput, config: BtuConfig = BTU_CONFIG): number {
   const climate = climateOf(input, config);
-  const u = config.insulation[input.insulation];
+  const u = config.envelope;
   const g = geometry(input, config);
   const air = config.airHeatCapacity * config.airChangesPerHour * g.volume;
   const peak = climate.summer - config.indoor.summer;
-  // Muret dhe tarraca: mesatarja e ditës + dielli mbi sipërfaqen e jashtme (sol-air).
+  // Muret: mesatarja e ditës + dielli mbi sipërfaqen e jashtme (sol-air).
   // Mbi muret vertikale bie afërsisht gjysma e rrezatimit horizontal.
   const dayMean = climate.summer - climate.dailyRange / 2 - config.indoor.summer;
   const horizontalSun = (climate.julyRadiation * 1000) / 24;
-  const wallSun = (config.absorptance.wall * horizontalSun * 0.5) / config.outsideConductance;
-  const roofSun = (config.absorptance.slab * horizontalSun) / config.outsideConductance;
+  const wallSun = (config.wallAbsorptance * horizontalSun * 0.5) / config.outsideConductance;
   const people = (config.persons * config.btuPerPerson) / W_TO_BTU;
   const total =
     u.wall * g.walls * (dayMean + wallSun) +
-    u.slab * g.roof * (dayMean + roofSun) +
     u.window * g.windows * peak +
     g.windows * u.g * climate.windowSun +
     air * peak +
@@ -138,9 +113,7 @@ export function calculateBtu(raw: BtuInput, config: BtuConfig = BTU_CONFIG): Btu
   const climate = climateOf(input, config);
   const factors = [
     `Dimri deri ${fmtTemp(climate.winter)}, vera deri ${fmtTemp(climate.summer)}`,
-    capitalize(WALLS_LABEL[input.walls]),
-    capitalize(INSULATION_LABEL[input.insulation]),
-    capitalize(FLOOR_LABEL[input.floor]),
+    WALLS_LABEL[input.walls],
   ];
 
   // Rrumbullakimi në 100 shërben vetëm për shfaqje; madhësia zgjidhet nga vlera e saktë.
@@ -165,11 +138,7 @@ export function summarize(
   const parts = [cityName, `${input.area} m²`];
   if (input.height !== config.limits.height.default)
     parts.push(`tavan ${input.height.toFixed(1)} m`);
-  parts.push(
-    WALLS_LABEL[input.walls],
-    INSULATION_LABEL[input.insulation],
-    FLOOR_LABEL[input.floor],
-  );
+  parts.push(WALLS_LABEL[input.walls]);
   const size = result.size ? `${result.size} BTU` : `mbi ${config.sizes.at(-1)} BTU`;
   const outcome = `${size} (sipas ${result.season === 'dimer' ? 'dimrit' : 'verës'})`;
   return `Kalkulatori: ${parts.join(', ')} → ${outcome}`;

@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { AnalyticsService } from '../../core/analytics/analytics.service';
 import { WhatsAppFlow } from '../../core/contact/whatsapp-flow.service';
-import { BTU_CONFIG, type ExteriorWalls, type Floor, type Insulation } from '../../data/btu-config';
+import { BTU_CONFIG, type ExteriorWalls } from '../../data/btu-config';
 import { CITIES } from '../../data/cities';
 import { GUIDE } from '../../data/guide';
 import { Button } from '../../shared/ui/button/button';
@@ -52,23 +52,11 @@ export class BtuCalculator {
     { value: 2, label: '2 (qoshe)' },
     { value: 3, label: '3' },
   ];
-  protected readonly insulationOptions: Option<Insulation>[] = [
-    { value: 'mire', label: 'I mirë' },
-    { value: 'mesatar', label: 'Mesatar' },
-    { value: 'dobet', label: 'I dobët' },
-  ];
-  protected readonly floorOptions: Option<Floor>[] = [
-    { value: 'perdhe', label: 'Përdhe' },
-    { value: 'ndermjetem', label: 'I ndërmjetëm' },
-    { value: 'fundit', label: 'I fundit' },
-  ];
 
   protected readonly city = signal('tirane');
   protected readonly area = signal(20);
   protected readonly height = signal<number>(BTU_CONFIG.limits.height.default);
   protected readonly walls = signal<ExteriorWalls>(1);
-  protected readonly insulation = signal<Insulation>('mesatar');
-  protected readonly floor = signal<Floor>('ndermjetem');
   /** Event-i btu_calculated dërgohet vetëm pasi përdoruesi ka ndryshuar diçka. */
   private readonly touched = signal(false);
 
@@ -77,8 +65,6 @@ export class BtuCalculator {
     area: this.area(),
     height: this.height(),
     walls: this.walls(),
-    insulation: this.insulation(),
-    floor: this.floor(),
   }));
   protected readonly result = computed(() => calculateBtu(this.input()));
   private readonly fmt = new Intl.NumberFormat('sq-AL');
@@ -128,8 +114,6 @@ export class BtuCalculator {
     syncNumber('btu-area', this.area);
     syncNumber('btu-height', this.height);
     syncChoice('[name="btu-walls"]:checked', this.wallOptions, this.walls);
-    syncChoice('[name="btu-insulation"]:checked', this.insulationOptions, this.insulation);
-    syncChoice('[name="btu-floor"]:checked', this.floorOptions, this.floor);
   }
 
   protected setNumber(target: WritableSignal<number>, event: Event): void {

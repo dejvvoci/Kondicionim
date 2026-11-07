@@ -11,14 +11,10 @@ import {
   summarize,
 } from './btu';
 
-const base: BtuInput = {
-  city: 'tirane',
-  area: 20,
-  height: 2.7,
-  walls: 1,
-  insulation: 'mesatar',
-  floor: 'ndermjetem',
-};
+const base: BtuInput = { city: 'tirane', area: 20, height: 2.7, walls: 1 };
+
+/** Korçë, 30 m², tavan 3,5 m, qoshe me 3 mure: dimri ~9100, vera ~8000. */
+const coldCorner: BtuInput = { city: 'korce', area: 30, height: 3.5, walls: 3 };
 
 describe('geometry', () => {
   it('dhomë katrore: muret e jashtme, dritaret 1/8 e dyshemesë dhe vëllimi', () => {
@@ -27,10 +23,6 @@ describe('geometry', () => {
     expect(g.windows).toBeCloseTo(2.5, 5);
     expect(g.walls).toBeCloseTo(12.075 - 2.5, 2);
     expect(g.volume).toBeCloseTo(54, 5);
-    expect(g.roof).toBe(0);
-    expect(g.ground).toBe(0);
-    expect(geometry({ ...base, floor: 'fundit' }).roof).toBe(20);
-    expect(geometry({ ...base, floor: 'perdhe' }).ground).toBe(20);
   });
 });
 
@@ -55,58 +47,33 @@ describe('calculateBtu', () => {
     expect(korce.heating).toBeGreaterThan(tirane.heating);
   });
 
-  it('dhomë e izoluar mirë në Korçë: e përcakton vera, por më pak se në Tiranë', () => {
-    const input: BtuInput = { ...base, city: 'korce', area: 35, insulation: 'mire' };
-    const r = calculateBtu(input);
-    expect(r.season).toBe('vere');
-    expect(r.size).toBe(9000);
-    expect(r.cooling).toBeLessThan(calculateBtu({ ...input, city: 'tirane' }).cooling);
-  });
-
-  it('qoshe në katin e fundit, pa izolim, në Korçë: e përcakton dimri', () => {
-    const r = calculateBtu({
-      ...base,
-      city: 'korce',
-      walls: 3,
-      insulation: 'dobet',
-      floor: 'fundit',
-    });
+  it('qoshe me tavan të lartë në Korçë: e përcakton dimri', () => {
+    const r = calculateBtu(coldCorner);
     expect(r.season).toBe('dimer');
     expect(r.heating).toBeGreaterThan(r.cooling);
-    expect(r.size).toBe(18000);
+    // Vera vetëm do jepte 9000; dimri e çon në 12000.
+    expect(pickSize(r.cooling)).toBe(9000);
+    expect(r.size).toBe(12000);
   });
 
-  it('çdo mur i jashtëm, izolimi më i dobët dhe kati i fundit rrisin të dy sezonet', () => {
+  it('çdo mur i jashtëm, sipërfaqja dhe lartësia rrisin të dy sezonet', () => {
     const r = calculateBtu(base);
-    for (const change of [
-      { walls: 2 as const },
-      { insulation: 'dobet' as const },
-      { floor: 'fundit' as const },
-    ]) {
+    for (const change of [{ walls: 2 as const }, { area: 30 }, { height: 3.2 }]) {
       const c = calculateBtu({ ...base, ...change });
       expect(c.heating).toBeGreaterThan(r.heating);
       expect(c.cooling).toBeGreaterThan(r.cooling);
     }
   });
 
-  it('kati përdhe rrit vetëm dimrin (dyshemeja mbi tokë)', () => {
-    const r = calculateBtu(base);
-    const ground = calculateBtu({ ...base, floor: 'perdhe' });
-    expect(ground.heating).toBeGreaterThan(r.heating);
-    expect(ground.cooling).toBe(r.cooling);
-  });
-
   it('tregon kushtet e llogaritjes', () => {
     expect(calculateBtu({ ...base, city: 'korce' }).factors).toEqual([
       'Dimri deri −7,2\u00a0°C, vera deri 32,1\u00a0°C',
       '1 mur i jashtëm',
-      'Izolim mesatar',
-      'Kat i ndërmjetëm',
     ]);
   });
 
   it('mbi madhësinë më të madhe nuk jep aparat të vetëm', () => {
-    expect(calculateBtu({ ...base, area: 150, walls: 3 }).size).toBeNull();
+    expect(calculateBtu({ ...base, area: 120 }).size).toBeNull();
   });
 });
 
@@ -155,20 +122,15 @@ describe('normalizeInput', () => {
 
 describe('summarize', () => {
   it('përmbledh të dhënat dhe sezonin vendimtar', () => {
-    const input: BtuInput = { ...base, city: 'korce', area: 28, floor: 'fundit' };
+    const input: BtuInput = { ...base, city: 'korce', area: 28 };
     expect(summarize(input, calculateBtu(input), 'Korçë')).toBe(
-      'Kalkulatori: Korçë, 28 m², 1 mur i jashtëm, izolim mesatar, kati i fundit → 9000 BTU (sipas verës)',
+      'Kalkulatori: Korçë, 28 m², 1 mur i jashtëm → 9000 BTU (sipas verës)',
     );
   });
 
-  it('shënon kur e përcakton dimri', () => {
-    const input: BtuInput = {
-      ...base,
-      city: 'korce',
-      walls: 3,
-      insulation: 'dobet',
-      floor: 'fundit',
-    };
-    expect(summarize(input, calculateBtu(input), 'Korçë')).toContain('(sipas dimrit)');
+  it('shënon tavanin jo standard dhe kur e përcakton dimri', () => {
+    expect(summarize(coldCorner, calculateBtu(coldCorner), 'Korçë')).toBe(
+      'Kalkulatori: Korçë, 30 m², tavan 3.5 m, 3 mure të jashtme → 12000 BTU (sipas dimrit)',
+    );
   });
 });

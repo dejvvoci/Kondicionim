@@ -69,44 +69,6 @@
       </div>
       <span class="field__help" id="btu-walls-help">{{ t.wallsHelp }}</span>
     </fieldset>
-
-    <fieldset class="choice" aria-describedby="btu-insulation-help">
-      <legend class="field__label">Izolimi</legend>
-      <div class="choice__options">
-        @for (o of insulationOptions; track o.value) {
-          <label class="choice__option">
-            <input
-              type="radio"
-              name="btu-insulation"
-              [value]="o.value"
-              [checked]="insulation() === o.value"
-              (change)="setChoice(insulation, o.value)"
-            />
-            <span>{{ o.label }}</span>
-          </label>
-        }
-      </div>
-      <span class="field__help" id="btu-insulation-help">{{ t.insulationHelp }}</span>
-    </fieldset>
-
-    <fieldset class="choice" aria-describedby="btu-floor-help">
-      <legend class="field__label">Kati</legend>
-      <div class="choice__options">
-        @for (o of floorOptions; track o.value) {
-          <label class="choice__option">
-            <input
-              type="radio"
-              name="btu-floor"
-              [value]="o.value"
-              [checked]="floor() === o.value"
-              (change)="setChoice(floor, o.value)"
-            />
-            <span>{{ o.label }}</span>
-          </label>
-        }
-      </div>
-      <span class="field__help" id="btu-floor-help">{{ t.floorHelp }}</span>
-    </fieldset>
   </form>
 
   <section class="result" aria-labelledby="btu-result-label">
