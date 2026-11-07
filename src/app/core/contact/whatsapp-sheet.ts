@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { BUSINESS, WHATSAPP_TEMPLATE } from '../../data/business';
 import { activeCities } from '../../data/cities';
-import { SERVICES } from '../../data/services';
+import { SERVICES, SERVICE_CATEGORIES, servicesIn } from '../../data/services';
 import { UI_TEXT } from '../../i18n';
 import { Button } from '../../shared/ui/button/button';
 import { Icon } from '../../shared/ui/icon/icon';
@@ -48,7 +48,8 @@ export class WhatsAppSheet {
 
   protected readonly OFFER = OFFER;
   protected readonly OTHER = OTHER;
-  protected readonly services = SERVICES;
+  protected readonly categories = SERVICE_CATEGORIES;
+  protected readonly servicesIn = servicesIn;
   protected readonly cities = activeCities();
   protected readonly number = BUSINESS.whatsapp;
   protected readonly showTodo = isDevMode();

@@ -88,11 +88,11 @@ describe('SeoService', () => {
 
   it('JSON-LD: HVACBusiness në çdo faqe dhe JSON-LD i faqes nga rruga', async () => {
     await router.navigateByUrl('/sherbimet');
-    expect(ld('business')?.['@type']).toBe('HVACBusiness');
+    expect(ld('business')?.['@type']).toEqual(['HVACBusiness', 'Electrician']);
     expect(ld('page')).toEqual({ '@type': 'Service', name: 'Montim' });
 
     await router.navigateByUrl('/keshilla/artikull');
-    expect(ld('business')?.['@type']).toBe('HVACBusiness');
+    expect(ld('business')?.['@type']).toEqual(['HVACBusiness', 'Electrician']);
     expect(ld('page')).toBeNull();
     expect(doc.head.querySelectorAll('script[data-ld="business"]').length).toBe(1);
   });

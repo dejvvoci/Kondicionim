@@ -19,7 +19,7 @@ export interface BtuResult {
   season: Season;
   /** Vlera më e lartë e dy sezoneve, e rrumbullakuar në 100. */
   btu: number;
-  /** Madhësia standarde e rekomanduar; null = mbi aparatin më të madh (multi-split/kanal/inspektim). */
+  /** Madhësia standarde e rekomanduar; null = mbi aparatin më të madh (multi-split/VRF/inspektim). */
   size: number | null;
   /** Kushtet e llogaritjes, për shpjegimin. */
   factors: string[];

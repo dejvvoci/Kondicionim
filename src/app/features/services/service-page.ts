@@ -77,8 +77,10 @@ export class ServicePage {
   ]);
   /** Tre shërbimet që vijnë pas këtij në listë (lidhje të brendshme). */
   protected readonly others = computed(() => {
-    const i = SERVICES.findIndex((s) => s.slug === this.slug());
-    return [1, 2, 3].map((n) => SERVICES[(i + n) % SERVICES.length]);
+    const same = SERVICES.filter((s) => s.category === this.service()?.category);
+    const i = same.findIndex((s) => s.slug === this.slug());
+    const count = Math.min(3, same.length - 1);
+    return Array.from({ length: count }, (_, n) => same[(i + n + 1) % same.length]);
   });
 
   protected openWhatsApp(): void {

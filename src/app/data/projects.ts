@@ -90,16 +90,6 @@ function exampleProjects(): Project[] {
       before: 'dhoma para montimit',
       after: 'kondicioneri i montuar mbi derë',
     }),
-    example(3, {
-      title: 'zyrë me sistem me kanale',
-      city: 'tirane',
-      system: 'kanal',
-      services: ['sisteme-me-kanale-dhe-dysheme-tavan'],
-      featured: true,
-      place: 'zyra',
-      before: 'tavani i hapur para kanaleve',
-      after: 'grilat e ajrit në tavanin e mbyllur',
-    }),
     example(4, {
       title: 'hotel me VRF',
       city: 'shkoder',
@@ -110,35 +100,12 @@ function exampleProjects(): Project[] {
       before: 'tarraca ku vendosen njësitë e jashtme',
       after: 'njësitë e jashtme VRF të montuara',
     }),
-    example(5, {
-      title: 'dyqan me kasetë',
-      city: 'elbasan',
-      system: 'kasete',
-      services: ['sisteme-me-kanale-dhe-dysheme-tavan'],
-      featured: false,
-      place: 'dyqani',
-      before: 'tavani i dyqanit',
-      after: 'kaseta e montuar në tavan',
-    }),
-    example(6, {
-      title: 'restorant me dysheme-tavan',
-      city: 'lezhe',
-      system: 'dysheme-tavan',
-      services: ['sisteme-me-kanale-dhe-dysheme-tavan'],
-      featured: false,
-      place: 'restoranti',
-      before: 'salla e restorantit para montimit',
-      after: 'njësia dysheme-tavan e montuar në sallë',
-    }),
   ];
 }
 
 export const SYSTEM_LABELS: Record<SystemKind, string> = {
   split: 'Split',
   'multi-split': 'Multi-split',
-  kanal: 'Me kanale',
-  kasete: 'Kasetë',
-  'dysheme-tavan': 'Dysheme-tavan',
   vrf: 'VRF/VRV',
 };
 

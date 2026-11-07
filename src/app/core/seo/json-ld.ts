@@ -10,6 +10,9 @@ export type JsonLd = Record<string, unknown>;
 
 const CONTEXT = 'https://schema.org';
 
+/** Llojet schema.org të biznesit: kondicionim dhe punime elektrike. */
+const BUSINESS_TYPES = ['HVACBusiness', 'Electrician'];
+
 /** URL-ja e imazhit OG (public/og-image.png, 1200×630; ndërtohet me `npm run build:og`). */
 export const OG_IMAGE: Photo = {
   src: '/og-image.png',
@@ -45,7 +48,7 @@ export interface BusinessJsonLdInput {
   image?: Photo | null;
 }
 
-/** HVACBusiness, në çdo faqe. */
+/** HVACBusiness dhe Electrician (kondicionim dhe punime elektrike), në çdo faqe. */
 export function businessJsonLd({ business: b, name, cities, image }: BusinessJsonLdInput): JsonLd {
   // Vetëm profile të vërteta (me path), jo faqja kryesore e rrjetit (p.sh. facebook.com/).
   const sameAs = Object.values(b.social).filter(
@@ -53,7 +56,7 @@ export function businessJsonLd({ business: b, name, cities, image }: BusinessJso
   );
   return compact({
     '@context': CONTEXT,
-    '@type': 'HVACBusiness',
+    '@type': BUSINESS_TYPES,
     '@id': businessId(b.siteUrl),
     name,
     url: `${b.siteUrl}/`,
@@ -142,7 +145,7 @@ export function articleJsonLd({
   image = OG_IMAGE,
 }: ArticleJsonLdInput) {
   const business = {
-    '@type': 'HVACBusiness',
+    '@type': BUSINESS_TYPES,
     '@id': businessId(siteUrl),
     name,
     url: `${siteUrl}/`,

@@ -13,8 +13,12 @@
       <select id="wa-service" class="input" (change)="service.set(value($event))">
         <option value="">–</option>
         <option [value]="OFFER" [selected]="service() === OFFER">{{ t.serviceOffer }}</option>
-        @for (s of services; track s.slug) {
-          <option [value]="s.slug" [selected]="service() === s.slug">{{ s.title }}</option>
+        @for (c of categories; track c.key) {
+          <optgroup [label]="c.title">
+            @for (s of servicesIn(c.key); track s.slug) {
+              <option [value]="s.slug" [selected]="service() === s.slug">{{ s.title }}</option>
+            }
+          </optgroup>
         }
         <option [value]="OTHER" [selected]="service() === OTHER">{{ t.serviceOther }}</option>
       </select>

@@ -4,6 +4,8 @@
 
 @if (level() === 2) {
   <h2 class="card__title">{{ title() }}</h2>
+} @else if (level() === 4) {
+  <h4 class="card__title">{{ title() }}</h4>
 } @else {
   <h3 class="card__title">{{ title() }}</h3>
 }

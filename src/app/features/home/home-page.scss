@@ -213,3 +213,13 @@
 .projects-placeholder {
   min-height: 420px;
 }
+
+// Shërbimet: titulli i çdo grupi (kondicionim, punime elektrike)
+.service-group {
+  margin: 0 0 var(--sp-4);
+  font-size: var(--fs-h3);
+
+  &:not(:first-child) {
+    margin-top: var(--sp-7);
+  }
+}

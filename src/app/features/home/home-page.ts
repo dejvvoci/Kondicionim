@@ -9,6 +9,7 @@ import { activeCities } from '../../data/cities';
 import { homeFaq } from '../../data/faq';
 import { HOME } from '../../data/home';
 import { PROCESS } from '../../data/process';
+import { SERVICE_CATEGORIES, servicesIn } from '../../data/services';
 import { PROJECTS_ENABLED } from '../../data/features';
 import { featuredProjects } from '../../data/projects';
 import { STANDARDS } from '../../data/standards';
@@ -58,6 +59,8 @@ export class HomePage {
   protected readonly heroPhoto = HERO_PHOTO;
   protected readonly badges = TRUST_BADGES;
   protected readonly cities = activeCities();
+  protected readonly serviceCategories = SERVICE_CATEGORIES;
+  protected readonly servicesIn = servicesIn;
   protected readonly mapRatio = `${ALBANIA_MAP_SIZE.width} / ${ALBANIA_MAP_SIZE.height}`;
   protected readonly standards = STANDARDS.filter((s) => s.featured);
   protected readonly process = PROCESS;

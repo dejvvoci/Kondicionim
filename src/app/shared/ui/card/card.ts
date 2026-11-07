@@ -22,5 +22,5 @@ export class Card {
   readonly link = input<string>();
   readonly linkLabel = input<string>(UI_TEXT.common.more);
   /** Niveli i titullit, sipas hierarkisë së faqes. */
-  readonly level = input<2 | 3>(3);
+  readonly level = input<2 | 3 | 4>(3);
 }
