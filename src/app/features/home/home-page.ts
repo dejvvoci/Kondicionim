@@ -18,6 +18,7 @@ import { UI_TEXT } from '../../i18n';
 import { AccordionItem } from '../../shared/ui/accordion/accordion-item';
 import { Accordion } from '../../shared/ui/accordion/accordion';
 import { Badge } from '../../shared/ui/badge/badge';
+import { BrandList } from '../../shared/ui/brands/brand-list';
 import { Button } from '../../shared/ui/button/button';
 import { Icon } from '../../shared/ui/icon/icon';
 import { Photo } from '../../shared/ui/photo/photo';
@@ -31,6 +32,7 @@ import { ServiceGrid } from '../services/service-grid';
 @Component({
   selector: 'app-home-page',
   imports: [
+    BrandList,
     RouterLink,
     TrackPhone,
     Accordion,

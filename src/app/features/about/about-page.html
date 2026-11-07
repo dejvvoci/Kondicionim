@@ -17,32 +17,9 @@
 @defer (on immediate; hydrate on interaction) {
   <ui-stats />
 
-  @if (photos.length || showTodo) {
-    <ui-section tone="soft" [title]="a.photosTitle">
-      <div class="photos">
-        @for (p of photos; track p.src) {
-          <ui-photo [photo]="p" sizes="(min-width: 768px) 33vw, 100vw" class="photos__item" />
-        } @empty {
-          @for (n of [1, 2, 3]; track n) {
-            <ui-photo label="Ustai / ekipi në punë" class="photos__item" />
-          }
-        }
-      </div>
-    </ui-section>
-  }
-
   @if (brands.length) {
     <ui-section tone="soft" [title]="a.brandsTitle">
-      <ul class="brands">
-        @for (b of brands; track b.name) {
-          <li>
-            {{ b.name }}
-            @if (b.authorized) {
-              <small>{{ a.authorized }}</small>
-            }
-          </li>
-        }
-      </ul>
+      <ui-brand-list />
     </ui-section>
   } @else if (showTodo) {
     <ui-section tone="soft" [title]="a.brandsTitle">
